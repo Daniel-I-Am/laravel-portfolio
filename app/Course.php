@@ -9,4 +9,12 @@ class Course extends Model
     protected $fillable = [
         'name', 'term'
     ];
+
+    public function subjects() {
+        return $this->hasMany(Subject::class);
+    }
+
+    public function grades() {
+        return $this->with(['subjects.grades']);
+    }
 }

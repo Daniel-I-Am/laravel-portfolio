@@ -25,13 +25,13 @@ class CreateGradesTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
 
-            $table->unsignedBigInteger('test_id');
+            $table->unsignedBigInteger('subject_id');
             $table->double('grade');
 
-            $table->index(["test_id"], 'fk_grades_1_idx');
+            $table->index(["subject_id"], 'fk_grades_1_idx');
 
 
-            $table->foreign('test_id', 'fk_grades_1_idx')
+            $table->foreign('subject_id', 'fk_grades_1_idx')
                 ->references('id')->on('subjects')
                 ->onDelete('no action')
                 ->onUpdate('no action');

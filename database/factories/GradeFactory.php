@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Grade::class, function (Faker $faker) {
     return [
-        'test_id' => \App\Subject::all('id')->random()->id,
+        'subject_id' => \App\Subject::all('id')->random()->id,
         'grade' => $faker->randomNumber(3)/100,
     ];
 });
