@@ -11,11 +11,19 @@ class PageController extends Controller
         return view('index');
     }
 
-    public function profile() {}
+    public function profile() {
+        return view('profile');
+    }
 
-    public function dashboard() {}
+    public function dashboard() {
+        return view('dashboard');
+    }
 
-    public function motivation() {}
+    public function motivation() {
+        return view('motivation');
+    }
 
-    public function vision() {}
+    public function vision() {
+        return view('vision');
+    }
 }
