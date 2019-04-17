@@ -15,6 +15,6 @@ class Course extends Model
     }
 
     public function grades() {
-        return $this->with(['subjects.grades']);
+        return $this->with(['subjects', 'subjects.grades']);
     }
 }
