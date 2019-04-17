@@ -8,4 +8,8 @@ return [
     'dashboard' => 'Dashboard',
     'motivation' => 'Motivatie',
     'vision' => 'Beroepsbeeld',
+
+    'author' => [
+        'name' => 'Daniel de Cloet'
+    ],
 ];
