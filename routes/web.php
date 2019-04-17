@@ -11,4 +11,8 @@
 |
 */
 
-Route::get('/', 'PageController@index');
+Route::get('/', 'PageController@index')->name('index');
+Route::get('/profiel', 'PageController@profile')->name('profile');
+Route::get('/dashboard', 'PageController@dashboard')->name('dashboard');
+Route::get('/motivatie', 'PageController@motivation')->name('motivation');
+Route::get('/beroepsbeeld', 'PageController@vision')->name('vision');
