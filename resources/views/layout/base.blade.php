@@ -12,7 +12,9 @@
 </head>
 <body>
     @include('layout.header')
-    @yield('body')
+    <div id="app">
+        @yield('body')
+    </div>
     @include('layout.footer')
 </body>
 <script src="{{ asset('js/app.js') }}"></script>
