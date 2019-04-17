@@ -16,3 +16,13 @@ Route::get('/profiel', 'PageController@profile')->name('profile');
 Route::get('/dashboard', 'PageController@dashboard')->name('dashboard');
 Route::get('/motivatie', 'PageController@motivation')->name('motivation');
 Route::get('/beroepsbeeld', 'PageController@vision')->name('vision');
+
+Route::resource('/api/courses', 'CourseController')->except([
+    'create', 'edit',
+]);
+Route::resource('/api/subjects', 'SubjectController')->except([
+    'create', 'edit',
+]);
+Route::resource('/api/grades', 'GradeController')->except([
+    'create', 'edit',
+]);
