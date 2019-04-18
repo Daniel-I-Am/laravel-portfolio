@@ -16,7 +16,16 @@
                         <td v-if="subject.id === course.subjects[0].id" :rowspan="course.subjects.length">{{ course.term }}</td>
                         <td :class="getSubjectClass(subject)">{{ subject.name }}</td>
                         <td :class="getSubjectClass(subject)">{{ subject.ec_value }}</td>
-                        <td v-if="subject.grades.length > 0" :class="getSubjectClass(subject)">{{ subject.grades.map(e => e.grade).join(', ') }}</td>
+                        <td v-if="subject.grades.length > 0" :class="getSubjectClass(subject)">
+                            {{ subject.grades.map(e => e.grade).filter(e => e != null).join(', ') }}
+                            <span class="badge badge-secondary"
+                                  v-if="subject.grades
+                                  .map(e => e.grade)
+                                  .filter(e => e == null)
+                                  .length > 0">
+                                {{ subject.grades.map(e => e.grade).filter(e => e == null).length }} {{ subject.grades.map(e => e.grade).filter(e => e == null).length === 1 ? 'cijfer' : 'cijfers' }} te gaan.
+                            </span>
+                        </td>
                         <td v-else>Geen</td>
                     </tr>
                 </template>
@@ -56,18 +65,17 @@
             },
             getSubjectClass: function(subject) {
                 if (subject.grades.length === 0) return null;
-                let result = subject.grades.map(e => e.grade).filter(e => e != null).reduce((s, e) => s + e)/subject.grades.length;
-                if (subject.grades.reduce(e => e.grade == null).length > 0) {
-                    if (result / subject.grades.filter(e => e != null).length < 5.5) {
+                let result = subject.grades.map(e => e.grade).filter(e => e != null).reduce((s, e) => s + e);
+                if (subject.grades.filter(e => e.grade == null).length > 0) {
+                    if (result / subject.grades.filter(e => e.grade != null).length < 5.5) {
                         return 'table-warning';
                     }
                     return null;
-                };
-                if (result >= 5.5) {
-                    return 'table-success'
-                } else if (result < 5.5) {
-                    return 'table-danger'
                 }
+                if (result/subject.grades.length >= 5.5) {
+                    return 'table-success';
+                }
+                return 'table-danger';
             }
         },
     }

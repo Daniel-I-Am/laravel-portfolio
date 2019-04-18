@@ -1790,6 +1790,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.fetchCourses();
@@ -1823,13 +1832,13 @@ __webpack_require__.r(__webpack_exports__);
         return e != null;
       }).reduce(function (s, e) {
         return s + e;
-      }) / subject.grades.length;
+      });
 
-      if (subject.grades.reduce(function (e) {
+      if (subject.grades.filter(function (e) {
         return e.grade == null;
       }).length > 0) {
         if (result / subject.grades.filter(function (e) {
-          return e != null;
+          return e.grade != null;
         }).length < 5.5) {
           return 'table-warning';
         }
@@ -1837,13 +1846,11 @@ __webpack_require__.r(__webpack_exports__);
         return null;
       }
 
-      ;
-
-      if (result >= 5.5) {
+      if (result / subject.grades.length >= 5.5) {
         return 'table-success';
-      } else if (result < 5.5) {
-        return 'table-danger';
       }
+
+      return 'table-danger';
     }
   }
 });
@@ -37140,7 +37147,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
-    _c("h1", [_vm._v("Woot, my own component!")]),
+    _c("h1", [_vm._v("Studievoortgang dashboard")]),
     _vm._v(" "),
     _c("table", { staticClass: "table" }, [
       _vm._m(0),
@@ -37174,14 +37181,54 @@ var render = function() {
                 subject.grades.length > 0
                   ? _c("td", { class: _vm.getSubjectClass(subject) }, [
                       _vm._v(
-                        _vm._s(
-                          subject.grades
-                            .map(function(e) {
-                              return e.grade
-                            })
-                            .join(", ")
-                        )
-                      )
+                        "\n                        " +
+                          _vm._s(
+                            subject.grades
+                              .map(function(e) {
+                                return e.grade
+                              })
+                              .filter(function(e) {
+                                return e != null
+                              })
+                              .join(", ")
+                          ) +
+                          "\n                        "
+                      ),
+                      subject.grades
+                        .map(function(e) {
+                          return e.grade
+                        })
+                        .filter(function(e) {
+                          return e == null
+                        }).length > 0
+                        ? _c("span", { staticClass: "badge badge-secondary" }, [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(
+                                  subject.grades
+                                    .map(function(e) {
+                                      return e.grade
+                                    })
+                                    .filter(function(e) {
+                                      return e == null
+                                    }).length
+                                ) +
+                                " " +
+                                _vm._s(
+                                  subject.grades
+                                    .map(function(e) {
+                                      return e.grade
+                                    })
+                                    .filter(function(e) {
+                                      return e == null
+                                    }).length === 1
+                                    ? "cijfer"
+                                    : "cijfers"
+                                ) +
+                                " te gaan.\n                        "
+                            )
+                          ])
+                        : _vm._e()
                     ])
                   : _c("td", [_vm._v("Geen")])
               ])
