@@ -1807,7 +1807,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      courses: {}
+      courses: {},
+      current_ec: 0,
+      total_ec: 0
     };
   },
   methods: {
@@ -1819,7 +1821,16 @@ __webpack_require__.r(__webpack_exports__);
         return res.json();
       }).then(function (data) {
         _this.courses = data;
-        console.log(_this.courses);
+        _this.current_ec = data.map(function (e) {
+          return e.credit_obtained_count;
+        }).reduce(function (s, e) {
+          return s + e;
+        });
+        _this.total_ec = data.map(function (e) {
+          return e.credit_count;
+        }).reduce(function (s, e) {
+          return s + e;
+        });
       })["catch"](console.log);
     },
     getSubjectClass: function getSubjectClass(subject) {
@@ -1849,7 +1860,11 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return 'table-danger';
-    }
+    },
+    getProgress: function getProgress() {
+      return this.current_ec / this.total_ec * 100;
+    },
+    editCourse: function editCourse(course) {}
   }
 });
 
@@ -37147,26 +37162,29 @@ var render = function() {
   return _c("div", { staticClass: "container-fluid" }, [
     _c("h1", [_vm._v("Studievoortgang dashboard")]),
     _vm._v(" "),
-    _c("div", [
+    _c("div", { staticClass: "mb-2" }, [
       _c("h2", [
         _vm._v(
-          "Propedeuse voortgang: (" +
-            _vm._s(this.courses) +
+          "Studievoortgang: (" +
+            _vm._s(this.current_ec) +
             " / " +
-            _vm._s(
-              this.courses
-                .map(function(e) {
-                  return e.credit_count
-                })
-                .reduce(function(s, e) {
-                  return s + e
-                })
-            ) +
+            _vm._s(this.total_ec) +
             ")"
         )
       ]),
       _vm._v(" "),
-      _vm._m(0)
+      _c("div", { staticClass: "progress" }, [
+        _c("div", {
+          staticClass: "progress-bar progress-bar-striped",
+          style: "width: " + _vm.getProgress() + "%",
+          attrs: {
+            role: "progressbar",
+            "aria-valuenow": _vm.getProgress(),
+            "aria-valuemin": "0",
+            "aria-valuemax": "100"
+          }
+        })
+      ])
     ]),
     _vm._v(" "),
     _c("table", { staticClass: "table" }, [
@@ -37175,11 +37193,22 @@ var render = function() {
         [
           _vm._l(_vm.courses, function(course) {
             return [
-              _c("tr", { staticClass: "table-info" }, [
-                _c("td", { attrs: { colspan: "3" } }, [
-                  _vm._v(_vm._s(course.name))
-                ])
-              ]),
+              _c(
+                "tr",
+                {
+                  staticClass: "table-info",
+                  on: {
+                    click: function($event) {
+                      return _vm.editCourse(course)
+                    }
+                  }
+                },
+                [
+                  _c("td", { attrs: { colspan: "3" } }, [
+                    _vm._v(_vm._s(course.name))
+                  ])
+                ]
+              ),
               _vm._v(" "),
               _vm._l(course.subjects, function(subject) {
                 return [
@@ -37256,25 +37285,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progress" }, [
-      _c("div", {
-        staticClass: "progress-bar progress-bar-striped",
-        staticStyle: { width: "30%" },
-        attrs: {
-          role: "progressbar",
-          "aria-valuenow": "30",
-          "aria-valuemin": "0",
-          "aria-valuemax": "100"
-        }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

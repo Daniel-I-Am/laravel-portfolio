@@ -1,16 +1,16 @@
 <template>
     <div class="container-fluid">
         <h1>Studievoortgang dashboard</h1>
-        <div>
-            <h2>Propedeuse voortgang: ({{ this.courses}} / {{ this.courses.map(e => e.credit_count).reduce((s, e) => s + e) }})</h2>
+        <div class="mb-2">
+            <h2>Studievoortgang: ({{ this.current_ec }} / {{ this.total_ec }})</h2>
             <div class="progress">
-                <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar progress-bar-striped" role="progressbar" :style="`width: ${getProgress()}%`" :aria-valuenow="getProgress()" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
         </div>
         <table class="table">
             <tbody>
                 <template v-for="course in courses">
-                    <tr class="table-info">
+                    <tr class="table-info" v-on:click="editCourse(course)">
                         <td colspan="3">{{ course.name }}</td>
                     </tr>
                     <template v-for="subject in course.subjects">
@@ -45,6 +45,8 @@
         data: function() {
             return {
                 courses: {},
+                current_ec: 0,
+                total_ec: 0,
             }
         },
 
@@ -55,8 +57,8 @@
                     .then(res => res.json())
                     .then(data => {
                         this.courses = data;
-
-                        console.log(this.courses);
+                        this.current_ec = data.map(e => e.credit_obtained_count).reduce((s, e) => s + e);
+                        this.total_ec = data.map(e => e.credit_count).reduce((s, e) => s + e);
                     })
                     .catch(console.log);
             },
@@ -73,6 +75,11 @@
                     return 'table-success';
                 }
                 return 'table-danger';
+            },
+            getProgress: function() {
+                return this.current_ec/this.total_ec * 100;
+            },
+            editCourse: function(course) {
             }
         },
     }
