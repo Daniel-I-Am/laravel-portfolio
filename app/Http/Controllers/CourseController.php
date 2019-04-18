@@ -14,17 +14,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Course::with(['subjects', 'subjects.grades'])->paginate(10);
     }
 
     /**
@@ -35,7 +25,17 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:45',
+            'term' => 'required|integer',
+        ]);
+
+        $course = new Course();
+
+        $course->name = $validatedData['name'];
+        $course->term = $validatedData['term'];
+
+        $course->save();
     }
 
     /**
@@ -44,20 +44,9 @@ class CourseController extends Controller
      * @param  \App\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function show(Course $course)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Course  $course
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Course $course)
-    {
-        //
+        return Course::with(['subjects', 'subjects.grades'])->find($id);
     }
 
     /**
@@ -75,11 +64,12 @@ class CourseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Course  $course
+     * @param \App\Course $course
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Course $course)
     {
-        //
+        $course->delete();
     }
 }

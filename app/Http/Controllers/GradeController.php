@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Grade;
+use App\Subject;
 use Illuminate\Http\Request;
 
 class GradeController extends Controller
@@ -14,17 +15,7 @@ class GradeController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Grade::with(['subject', 'subject.course'])->paginate(10);
     }
 
     /**
@@ -35,7 +26,17 @@ class GradeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'grade' => 'required|numeric',
+            'subject_id' => 'required|integer',
+        ]);
+
+        $grade = new Grade();
+
+        $grade->grade = $validatedData['grade'];
+        $grade->subject()->associate(Subject::find($validatedData['subject_id']));
+
+        $grade->save();
     }
 
     /**
@@ -44,20 +45,9 @@ class GradeController extends Controller
      * @param  \App\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function show(Grade $grade)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Grade  $grade
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Grade $grade)
-    {
-        //
+        return Grade::with(['subject', 'subject.course'])->find($id);
     }
 
     /**
@@ -69,17 +59,26 @@ class GradeController extends Controller
      */
     public function update(Request $request, Grade $grade)
     {
-        //
+        $validatedData = $request->validate([
+            'grade' => 'required|numeric',
+            'subject_id' => 'required|integer',
+        ]);
+
+        $grade->grade = $validatedData['grade'];
+        $grade->subject()->associate(Subject::find($validatedData['subject_id']));
+
+        $grade->save();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Grade  $grade
+     * @param \App\Grade $grade
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Grade $grade)
     {
-        //
+        $grade->delete();
     }
 }
