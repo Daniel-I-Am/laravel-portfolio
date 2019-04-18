@@ -8,4 +8,8 @@ return [
         ['route' => 'motivation', 'name' => 'portfolio.motivation'],
         ['route' => 'vision', 'name' => 'portfolio.vision'],
     ],
+
+    'social' => [
+        ['link' => 'https://www.github.com/Daniel-I-Am', 'icon' => 'fab fa-github'],
+    ],
 ];

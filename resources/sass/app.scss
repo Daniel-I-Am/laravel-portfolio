@@ -11,7 +11,13 @@
 // Font-awesome
 @import url('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+$primary-color:         #0f0;
+$secondary-color:       #000;
+
+.social-button {
+    transition: color ease-in-out 250ms;
+
+    & :hover {
+        color: $secondary-color;
+    }
 }
