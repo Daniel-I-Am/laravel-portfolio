@@ -34,7 +34,7 @@ class CreateSubjectsTable extends Migration
 
             $table->foreign('course_id', 'fk_tests_1_idx')
                 ->references('id')->on('courses')
-                ->onDelete('no action')
+                ->onDelete('cascade')
                 ->onUpdate('no action');
         });
     }

@@ -33,7 +33,7 @@ class CreateGradesTable extends Migration
 
             $table->foreign('subject_id', 'fk_grades_1_idx')
                 ->references('id')->on('subjects')
-                ->onDelete('no action')
+                ->onDelete('cascade')
                 ->onUpdate('no action');
         });
     }
