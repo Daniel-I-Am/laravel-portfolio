@@ -10,7 +10,7 @@ class CourseController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return Course[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
     public function index()
     {
@@ -24,7 +24,7 @@ class CourseController extends Controller
         ])
             ->orderBy('term', 'ASC')
             ->orderBy('created_at', 'ASC')
-            ->paginate(4);
+            ->get();
     }
 
     /**

@@ -1,23 +1,6 @@
 <template>
     <div class="container-fluid">
         <h1>Studievoortgang dashboard</h1>
-        <nav>
-            <ul class="pagination">
-                <li class="page-item">
-                    <button class="page-link" @click="fetchCourses(pagination.prev_page_url)" aria-label="Vorige Pagina">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Vorige Pagina</span>
-                    </button>
-                </li>
-                <li class="page-item"><span class="page-link">Pagina {{ this.pagination.current_page }} van {{ this.pagination.last_page}}</span></li>
-                <li class="page-item">
-                    <button class="page-link" @click="fetchCourses(pagination.next_page_url)" aria-label="Volgende Pagina">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Volgende Pagina</span>
-                    </button>
-                </li>
-            </ul>
-        </nav>
         <div>
             <h2>Propedeuse voortgang: ({{ this.courses }})</h2>
             <div class="progress">
@@ -62,7 +45,6 @@
         data: function() {
             return {
                 courses: {},
-                pagination: {},
             }
         },
 
@@ -72,12 +54,7 @@
                 fetch(page_url)
                     .then(res => res.json())
                     .then(data => {
-                        this.pagination.current_page = data.current_page;
-                        this.pagination.last_page = data.last_page;
-                        this.pagination.next_page_url = data.next_page_url;
-                        this.pagination.prev_page_url = data.prev_page_url;
-
-                        this.courses = data.data;
+                        this.courses = data;
 
                         console.log(this.courses);
                     })

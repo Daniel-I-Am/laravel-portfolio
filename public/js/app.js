@@ -1801,31 +1801,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.fetchCourses();
   },
   data: function data() {
     return {
-      courses: {},
-      pagination: {}
+      courses: {}
     };
   },
   methods: {
@@ -1836,11 +1818,7 @@ __webpack_require__.r(__webpack_exports__);
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (data) {
-        _this.pagination.current_page = data.current_page;
-        _this.pagination.last_page = data.last_page;
-        _this.pagination.next_page_url = data.next_page_url;
-        _this.pagination.prev_page_url = data.prev_page_url;
-        _this.courses = data.data;
+        _this.courses = data;
         console.log(_this.courses);
       })["catch"](console.log);
     },
@@ -37168,63 +37146,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
     _c("h1", [_vm._v("Studievoortgang dashboard")]),
-    _vm._v(" "),
-    _c("nav", [
-      _c("ul", { staticClass: "pagination" }, [
-        _c("li", { staticClass: "page-item" }, [
-          _c(
-            "button",
-            {
-              staticClass: "page-link",
-              attrs: { "aria-label": "Vorige Pagina" },
-              on: {
-                click: function($event) {
-                  return _vm.fetchCourses(_vm.pagination.prev_page_url)
-                }
-              }
-            },
-            [
-              _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("«")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "sr-only" }, [_vm._v("Vorige Pagina")])
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "page-item" }, [
-          _c("span", { staticClass: "page-link" }, [
-            _vm._v(
-              "Pagina " +
-                _vm._s(this.pagination.current_page) +
-                " van " +
-                _vm._s(this.pagination.last_page)
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "page-item" }, [
-          _c(
-            "button",
-            {
-              staticClass: "page-link",
-              attrs: { "aria-label": "Volgende Pagina" },
-              on: {
-                click: function($event) {
-                  return _vm.fetchCourses(_vm.pagination.next_page_url)
-                }
-              }
-            },
-            [
-              _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("»")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "sr-only" }, [
-                _vm._v("Volgende Pagina")
-              ])
-            ]
-          )
-        ])
-      ])
-    ]),
     _vm._v(" "),
     _c("div", [
       _c("h2", [
