@@ -14,7 +14,17 @@ class CourseController extends Controller
      */
     public function index()
     {
-        return Course::with(['subjects', 'subjects.grades'])->paginate(4);
+        return Course::with([
+            'subjects' => function($query) {
+                $query->orderBy('name', 'ASC');
+            },
+            'subjects.grades' => function($query) {
+                $query->latest();
+            },
+        ])
+            ->orderBy('term', 'ASC')
+            ->orderBy('created_at', 'ASC')
+            ->paginate(4);
     }
 
     /**
