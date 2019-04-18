@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <h1>Woot, my own component!</h1>
+        <h1>Studievoortgang dashboard</h1>
         <table class="table">
             <thead>
                 <th>Naam</th>
