@@ -32,7 +32,7 @@
                         Veel dingen van het Job Event kwamen hier ook weer terug. Zo werkt Syntess met Agile/Scrum. De ZLM werkte met de waterval methode, maar wisselt ook over naar Agile.
                         <br>
                         De culturen binnen de bedrijven variëren wel behoorlijk. Zo is Your Surprise een bedrijf dat enorm aan het uitbreiden is; wat over aan het gaan is van klein naar groot bedrijf.
-                        <img src="./assets/omoda.jpg">
+                        <img src="{{ asset('images/omoda.jpg') }}">
                         Op 19 december bedrijfsbezoek aan Elloro/Recranet, Damen en Conneqtech te Vlissingen.
                         <br>
                         Deze bedrijven hebben we bezocht om een <i>real life</i> implementatie te kunnen zien van een aantal van de technieken die we nu in de lessen leren.

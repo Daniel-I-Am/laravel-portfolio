@@ -56,8 +56,8 @@
                 <div class="card-item">
                     <h2 class="title">Foto's</h2>
                     <div class="content content-image">
-                        <img alt="Afbeelding Muziek" title="Afbeelding Muziek" src="./assets/muziek.jpg">
-                        <img alt="Afbeelding Paarden" title="Afbeelding Paarden" src="./assets/paardjes.jpg">
+                        <img class="col-6" alt="Afbeelding Muziek" title="Afbeelding Muziek" src="{{ asset('images/muziek.jpg') }}">
+                        <img class="col-6" alt="Afbeelding Paarden" title="Afbeelding Paarden" src="{{ asset('images/paardjes.jpg') }}">
                     </div>
                 </div>
         </div>
