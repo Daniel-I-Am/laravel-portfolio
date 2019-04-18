@@ -21,3 +21,19 @@ $secondary-color:       #000;
         color: $secondary-color;
     }
 }
+
+.card-item {
+    height: 100%;
+
+    .title {
+        margin: .5em 2rem 0 2rem;
+        border: solid black .2rem;
+    }
+
+    .content {
+        margin: 0 2rem;
+        border: solid black .2rem;
+        border-top: solid 0;
+        border-radius: 0 0 1em 1em;
+    }
+}
