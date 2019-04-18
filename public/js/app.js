@@ -1799,6 +1799,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.fetchCourses();
@@ -1810,10 +1829,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    fetchCourses: function fetchCourses() {
+    fetchCourses: function fetchCourses(page_url) {
       var _this = this;
 
-      fetch('/api/courses').then(function (res) {
+      page_url = page_url || '/api/courses';
+      fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (data) {
         _this.pagination.current_page = data.current_page;
@@ -37149,90 +37169,151 @@ var render = function() {
   return _c("div", { staticClass: "container-fluid" }, [
     _c("h1", [_vm._v("Studievoortgang dashboard")]),
     _vm._v(" "),
-    _c("table", { staticClass: "table" }, [
-      _vm._m(0),
+    _c("nav", [
+      _c("ul", { staticClass: "pagination" }, [
+        _c("li", { staticClass: "page-item" }, [
+          _c(
+            "button",
+            {
+              staticClass: "page-link",
+              attrs: { "aria-label": "Vorige Pagina" },
+              on: {
+                click: function($event) {
+                  return _vm.fetchCourses(_vm.pagination.prev_page_url)
+                }
+              }
+            },
+            [
+              _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("«")]),
+              _vm._v(" "),
+              _c("span", { staticClass: "sr-only" }, [_vm._v("Vorige Pagina")])
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "page-item" }, [
+          _c("span", { staticClass: "page-link" }, [
+            _vm._v(
+              "Pagina " +
+                _vm._s(this.pagination.current_page) +
+                " van " +
+                _vm._s(this.pagination.last_page)
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "page-item" }, [
+          _c(
+            "button",
+            {
+              staticClass: "page-link",
+              attrs: { "aria-label": "Volgende Pagina" },
+              on: {
+                click: function($event) {
+                  return _vm.fetchCourses(_vm.pagination.next_page_url)
+                }
+              }
+            },
+            [
+              _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("»")]),
+              _vm._v(" "),
+              _c("span", { staticClass: "sr-only" }, [
+                _vm._v("Volgende Pagina")
+              ])
+            ]
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", [
+      _c("h2", [
+        _vm._v("Propedeuse voortgang: (" + _vm._s(this.courses) + ")")
+      ]),
       _vm._v(" "),
+      _vm._m(0)
+    ]),
+    _vm._v(" "),
+    _c("table", { staticClass: "table" }, [
       _c(
         "tbody",
         [
           _vm._l(_vm.courses, function(course) {
-            return _vm._l(course.subjects, function(subject) {
-              return _c("tr", [
-                subject.id === course.subjects[0].id
-                  ? _c("td", { attrs: { rowspan: course.subjects.length } }, [
-                      _vm._v(_vm._s(course.name))
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                subject.id === course.subjects[0].id
-                  ? _c("td", { attrs: { rowspan: course.subjects.length } }, [
-                      _vm._v(_vm._s(course.term))
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("td", { class: _vm.getSubjectClass(subject) }, [
-                  _vm._v(_vm._s(subject.name))
-                ]),
-                _vm._v(" "),
-                _c("td", { class: _vm.getSubjectClass(subject) }, [
-                  _vm._v(_vm._s(subject.ec_value))
-                ]),
-                _vm._v(" "),
-                subject.grades.length > 0
-                  ? _c("td", { class: _vm.getSubjectClass(subject) }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(
-                            subject.grades
-                              .map(function(e) {
-                                return e.grade
-                              })
-                              .filter(function(e) {
-                                return e != null
-                              })
-                              .join(", ")
-                          ) +
-                          "\n                        "
-                      ),
-                      subject.grades
-                        .map(function(e) {
-                          return e.grade
-                        })
-                        .filter(function(e) {
-                          return e == null
-                        }).length > 0
-                        ? _c("span", { staticClass: "badge badge-secondary" }, [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(
-                                  subject.grades
-                                    .map(function(e) {
-                                      return e.grade
-                                    })
-                                    .filter(function(e) {
-                                      return e == null
-                                    }).length
-                                ) +
-                                " " +
-                                _vm._s(
-                                  subject.grades
-                                    .map(function(e) {
-                                      return e.grade
-                                    })
-                                    .filter(function(e) {
-                                      return e == null
-                                    }).length === 1
-                                    ? "cijfer"
-                                    : "cijfers"
-                                ) +
-                                " te gaan.\n                        "
-                            )
-                          ])
-                        : _vm._e()
-                    ])
-                  : _c("td", [_vm._v("Geen")])
-              ])
-            })
+            return [
+              _c("tr", { staticClass: "table-info" }, [
+                _c("td", { attrs: { colspan: "3" } }, [
+                  _vm._v(_vm._s(course.name))
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._l(course.subjects, function(subject) {
+                return [
+                  _c("tr", { class: _vm.getSubjectClass(subject) }, [
+                    _c("td", [_vm._v(_vm._s(subject.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(subject.ec_value) + " EC")]),
+                    _vm._v(" "),
+                    subject.grades.length > 0
+                      ? _c("td", [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(
+                                subject.grades
+                                  .map(function(e) {
+                                    return e.grade
+                                  })
+                                  .filter(function(e) {
+                                    return e != null
+                                  })
+                                  .join(", ")
+                              ) +
+                              "\n                            "
+                          ),
+                          subject.grades
+                            .map(function(e) {
+                              return e.grade
+                            })
+                            .filter(function(e) {
+                              return e == null
+                            }).length > 0
+                            ? _c(
+                                "span",
+                                { staticClass: "badge badge-secondary" },
+                                [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(
+                                        subject.grades
+                                          .map(function(e) {
+                                            return e.grade
+                                          })
+                                          .filter(function(e) {
+                                            return e == null
+                                          }).length
+                                      ) +
+                                      " " +
+                                      _vm._s(
+                                        subject.grades
+                                          .map(function(e) {
+                                            return e.grade
+                                          })
+                                          .filter(function(e) {
+                                            return e == null
+                                          }).length === 1
+                                          ? "cijfer"
+                                          : "cijfers"
+                                      ) +
+                                      " te gaan.\n                            "
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ])
+                      : _c("td", [_vm._v("Geen")])
+                  ])
+                ]
+              })
+            ]
           })
         ],
         2
@@ -37245,16 +37326,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("th", [_vm._v("Naam")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Blok")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Vaknaam")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("EC Waarde")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Cijfers")])
+    return _c("div", { staticClass: "progress" }, [
+      _c("div", {
+        staticClass: "progress-bar progress-bar-striped",
+        staticStyle: { width: "30%" },
+        attrs: {
+          role: "progressbar",
+          "aria-valuenow": "30",
+          "aria-valuemin": "0",
+          "aria-valuemax": "100"
+        }
+      })
     ])
   }
 ]
