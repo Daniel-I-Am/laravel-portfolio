@@ -13,7 +13,7 @@ $factory->define(Grade::class, function (Faker $faker) {
     ];
     if ($object['grade'] < 1)
         $object['grade'] = null;
-    if ($object['lowest_passing'] < 1)
+    if ($object['lowest_passing'] > 5 || $object['lowest_passing'] < 2)
         $object['lowest_passing'] = null;
     return $object;
 });
