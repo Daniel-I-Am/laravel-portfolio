@@ -37149,7 +37149,21 @@ var render = function() {
     _vm._v(" "),
     _c("div", [
       _c("h2", [
-        _vm._v("Propedeuse voortgang: (" + _vm._s(this.courses) + ")")
+        _vm._v(
+          "Propedeuse voortgang: (" +
+            _vm._s(this.courses) +
+            " / " +
+            _vm._s(
+              this.courses
+                .map(function(e) {
+                  return e.credit_count
+                })
+                .reduce(function(s, e) {
+                  return s + e
+                })
+            ) +
+            ")"
+        )
       ]),
       _vm._v(" "),
       _vm._m(0)

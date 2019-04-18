@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <h1>Studievoortgang dashboard</h1>
         <div>
-            <h2>Propedeuse voortgang: ({{ this.courses }})</h2>
+            <h2>Propedeuse voortgang: ({{ this.courses}} / {{ this.courses.map(e => e.credit_count).reduce((s, e) => s + e) }})</h2>
             <div class="progress">
                 <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
