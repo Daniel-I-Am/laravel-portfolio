@@ -1814,6 +1814,36 @@ __webpack_require__.r(__webpack_exports__);
         _this.courses = data.data;
         console.log(_this.courses);
       })["catch"](console.log);
+    },
+    getSubjectClass: function getSubjectClass(subject) {
+      if (subject.grades.length === 0) return null;
+      var result = subject.grades.map(function (e) {
+        return e.grade;
+      }).filter(function (e) {
+        return e != null;
+      }).reduce(function (s, e) {
+        return s + e;
+      }) / subject.grades.length;
+
+      if (subject.grades.reduce(function (e) {
+        return e.grade == null;
+      }).length > 0) {
+        if (result / subject.grades.filter(function (e) {
+          return e != null;
+        }).length < 5.5) {
+          return 'table-warning';
+        }
+
+        return null;
+      }
+
+      ;
+
+      if (result >= 5.5) {
+        return 'table-success';
+      } else if (result < 5.5) {
+        return 'table-danger';
+      }
     }
   }
 });
@@ -37133,12 +37163,16 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(subject.name))]),
+                _c("td", { class: _vm.getSubjectClass(subject) }, [
+                  _vm._v(_vm._s(subject.name))
+                ]),
                 _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(subject.ec_value))]),
+                _c("td", { class: _vm.getSubjectClass(subject) }, [
+                  _vm._v(_vm._s(subject.ec_value))
+                ]),
                 _vm._v(" "),
                 subject.grades.length > 0
-                  ? _c("td", [
+                  ? _c("td", { class: _vm.getSubjectClass(subject) }, [
                       _vm._v(
                         _vm._s(
                           subject.grades
