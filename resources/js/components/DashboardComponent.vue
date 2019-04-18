@@ -1,33 +1,52 @@
 <template>
     <div class="container-fluid">
         <h1>Studievoortgang dashboard</h1>
+        <nav>
+            <ul class="pagination">
+                <li class="page-item">
+                    <button class="page-link" @click="fetchCourses(pagination.prev_page_url)" aria-label="Vorige Pagina">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Vorige Pagina</span>
+                    </button>
+                </li>
+                <li class="page-item"><span class="page-link">Pagina {{ this.pagination.current_page }} van {{ this.pagination.last_page}}</span></li>
+                <li class="page-item">
+                    <button class="page-link" @click="fetchCourses(pagination.next_page_url)" aria-label="Volgende Pagina">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Volgende Pagina</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+        <div>
+            <h2>Propedeuse voortgang: ({{ this.courses }})</h2>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
         <table class="table">
-            <thead>
-                <th>Naam</th>
-                <th>Blok</th>
-                <th>Vaknaam</th>
-                <th>EC Waarde</th>
-                <th>Cijfers</th>
-            </thead>
             <tbody>
                 <template v-for="course in courses">
-                    <tr v-for="subject in course.subjects">
-                        <td v-if="subject.id === course.subjects[0].id" :rowspan="course.subjects.length">{{ course.name }}</td>
-                        <td v-if="subject.id === course.subjects[0].id" :rowspan="course.subjects.length">{{ course.term }}</td>
-                        <td :class="getSubjectClass(subject)">{{ subject.name }}</td>
-                        <td :class="getSubjectClass(subject)">{{ subject.ec_value }}</td>
-                        <td v-if="subject.grades.length > 0" :class="getSubjectClass(subject)">
-                            {{ subject.grades.map(e => e.grade).filter(e => e != null).join(', ') }}
-                            <span class="badge badge-secondary"
-                                  v-if="subject.grades
-                                  .map(e => e.grade)
-                                  .filter(e => e == null)
-                                  .length > 0">
-                                {{ subject.grades.map(e => e.grade).filter(e => e == null).length }} {{ subject.grades.map(e => e.grade).filter(e => e == null).length === 1 ? 'cijfer' : 'cijfers' }} te gaan.
-                            </span>
-                        </td>
-                        <td v-else>Geen</td>
+                    <tr class="table-info">
+                        <td colspan="3">{{ course.name }}</td>
                     </tr>
+                    <template v-for="subject in course.subjects">
+                        <tr :class="getSubjectClass(subject)">
+                            <td>{{ subject.name }}</td>
+                            <td>{{ subject.ec_value }} EC</td>
+                            <td v-if="subject.grades.length > 0">
+                                {{ subject.grades.map(e => e.grade).filter(e => e != null).join(', ') }}
+                                <span class="badge badge-secondary"
+                                      v-if="subject.grades
+                                      .map(e => e.grade)
+                                      .filter(e => e == null)
+                                      .length > 0">
+                                    {{ subject.grades.map(e => e.grade).filter(e => e == null).length }} {{ subject.grades.map(e => e.grade).filter(e => e == null).length === 1 ? 'cijfer' : 'cijfers' }} te gaan.
+                                </span>
+                            </td>
+                            <td v-else>Geen</td>
+                        </tr>
+                    </template>
                 </template>
             </tbody>
         </table>
@@ -48,8 +67,9 @@
         },
 
         methods: {
-            fetchCourses: function() {
-                fetch('/api/courses')
+            fetchCourses: function(page_url) {
+                page_url = page_url || '/api/courses';
+                fetch(page_url)
                     .then(res => res.json())
                     .then(data => {
                         this.pagination.current_page = data.current_page;
