@@ -26,7 +26,8 @@ class CreateGradesTable extends Migration
             $table->timestamps();
 
             $table->unsignedBigInteger('subject_id');
-            $table->double('grade');
+            $table->double('grade')->nullable();
+            $table->double('lowest_passing')->nullable();
 
             $table->index(["subject_id"], 'fk_grades_1_idx');
 
