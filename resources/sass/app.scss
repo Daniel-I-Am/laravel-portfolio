@@ -22,18 +22,20 @@ $secondary-color:       #000;
     }
 }
 
-.card-item {
-    height: 100%;
+.card-item-outer {
+    margin-bottom: 2em;
 
-    .title {
-        margin: .5em 2rem 0 2rem;
+    .card-item {
+        height: 100%;
         border: solid black .2rem;
-    }
-
-    .content {
-        margin: 0 2rem;
-        border: solid black .2rem;
-        border-top: solid 0;
         border-radius: 0 0 1em 1em;
+
+        .title {
+            border-bottom: solid black .2rem;
+        }
+
+        .content-image img {
+            border-radius: 0 0 1em 1em;
+        }
     }
 }

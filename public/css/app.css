@@ -10670,19 +10670,21 @@ a.text-dark:focus {
   color: #000;
 }
 
-.card-item {
+.card-item-outer {
+  margin-bottom: 2em;
+}
+
+.card-item-outer .card-item {
   height: 100%;
+  border: solid black 0.2rem;
+  border-radius: 0 0 1em 1em;
 }
 
-.card-item .title {
-  margin: 0.5em 2rem 0 2rem;
-  border: solid black 0.2rem;
+.card-item-outer .card-item .title {
+  border-bottom: solid black 0.2rem;
 }
 
-.card-item .content {
-  margin: 0 2rem;
-  border: solid black 0.2rem;
-  border-top: solid 0;
+.card-item-outer .card-item .content-image img {
   border-radius: 0 0 1em 1em;
 }
 
