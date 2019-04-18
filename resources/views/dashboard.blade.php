@@ -1,5 +1,5 @@
 @extends('layout.base')
 
 @section('body')
-    <p>asdasd</p>
+    <dashboard></dashboard>
 @endsection
