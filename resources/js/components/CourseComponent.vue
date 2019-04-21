@@ -11,6 +11,10 @@
                 'id': Number,
                 'name': String,
                 'term': Number,
+            },
+            'editor-methods': {
+                'edit': Function,
+                'close': Function,
             }
         },
 
@@ -27,7 +31,9 @@
                         this.course.term = data.term;
                     })
                     .catch(console.log);
-            }
+            },
+            editObject: function() {},
+            closeEditor: function() {},
         },
     }
 </script>

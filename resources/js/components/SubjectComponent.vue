@@ -26,6 +26,10 @@
                 'ec_value': Number,
                 'course_id': Number,
                 'grades': Array,
+            },
+            'editor-methods': {
+                'edit': Function,
+                'close': Function,
             }
         },
 
@@ -57,6 +61,8 @@
                 }
                 return 'table-danger';
             },
+            editObject: function() {},
+            closeEditor: function() {},
         },
     }
 </script>

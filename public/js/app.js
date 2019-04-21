@@ -1775,6 +1775,10 @@ __webpack_require__.r(__webpack_exports__);
       'id': Number,
       'name': String,
       'term': Number
+    },
+    'editor-methods': {
+      'edit': Function,
+      'close': Function
     }
   },
   data: function data() {
@@ -1790,7 +1794,9 @@ __webpack_require__.r(__webpack_exports__);
         _this.course.name = data.name;
         _this.course.term = data.term;
       })["catch"](console.log);
-    }
+    },
+    editObject: function editObject() {},
+    closeEditor: function closeEditor() {}
   }
 });
 
@@ -1834,9 +1840,10 @@ __webpack_require__.r(__webpack_exports__);
       courses: {},
       current_ec: 0,
       total_ec: 0,
-      editing: {
-        isSubject: false,
-        object: null
+      editing: null,
+      editorMethods: {
+        edit: this.editObject,
+        close: this.closeEditor
       },
       token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
@@ -1864,6 +1871,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     getProgress: function getProgress() {
       return this.current_ec / this.total_ec * 100;
+    },
+    editObject: function editObject() {
+      this.editing.editObject();
+    },
+    closeEditor: function closeEditor() {
+      this.editing.closeEditor();
     }
   }
 });
@@ -1906,6 +1919,10 @@ __webpack_require__.r(__webpack_exports__);
       'ec_value': Number,
       'course_id': Number,
       'grades': Array
+    },
+    'editor-methods': {
+      'edit': Function,
+      'close': Function
     }
   },
   data: function data() {
@@ -1949,7 +1966,9 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return 'table-danger';
-    }
+    },
+    editObject: function editObject() {},
+    closeEditor: function closeEditor() {}
   }
 });
 
@@ -37306,12 +37325,17 @@ var render = function() {
         [
           _vm._l(_vm.courses, function(course) {
             return [
-              _c("course", { attrs: { course: course } }),
+              _c("course", {
+                attrs: { course: course, "editor-methods": this.editorMethods }
+              }),
               _vm._v(" "),
               _vm._l(course.subjects, function(subject) {
                 return _c("subject", {
                   key: subject.id,
-                  attrs: { subject: subject }
+                  attrs: {
+                    subject: subject,
+                    "editor-methods": this.editorMethods
+                  }
                 })
               })
             ]

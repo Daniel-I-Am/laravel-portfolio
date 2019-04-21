@@ -10,8 +10,8 @@
         <table class="table">
             <tbody>
                 <template v-for="course in courses">
-                    <course :course="course"></course>
-                    <subject v-for="subject in course.subjects" v-bind:key="subject.id" :subject="subject"></subject>
+                    <course :course="course" :editor-methods="this.editorMethods"></course>
+                    <subject v-for="subject in course.subjects" v-bind:key="subject.id" :subject="subject" :editor-methods="this.editorMethods"></subject>
                 </template>
             </tbody>
         </table>
@@ -29,9 +29,10 @@
                 courses: {},
                 current_ec: 0,
                 total_ec: 0,
-                editing: {
-                    isSubject: false,
-                    object: null,
+                editing: null,
+                editorMethods: {
+                    edit: this.editObject,
+                    close: this.closeEditor,
                 },
 
                 token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -52,6 +53,12 @@
             },
             getProgress: function() {
                 return this.current_ec/this.total_ec * 100;
+            },
+            editObject: function() {
+                this.editing.editObject();
+            },
+            closeEditor: function() {
+                this.editing.closeEditor();
             },
         },
     }
