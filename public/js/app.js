@@ -37268,7 +37268,9 @@ var render = function() {
     { staticClass: "table-info", attrs: { id: "course-" + _vm.course.id } },
     [
       _c("td", { staticClass: "h4", attrs: { colspan: "3" } }, [
-        _vm._v(_vm._s(_vm.course.name))
+        _vm._v(
+          "Blok " + _vm._s(_vm.course.term) + " | " + _vm._s(_vm.course.name)
+        )
       ])
     ]
   )
