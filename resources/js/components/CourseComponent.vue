@@ -1,6 +1,6 @@
 <template>
     <tr :id="`course-${course.id}`" class="table-info">
-        <td colspan="3">{{ course.name }}</td>
+        <td colspan="3" class="h4">{{ course.name }}</td>
     </tr>
 </template>
 
