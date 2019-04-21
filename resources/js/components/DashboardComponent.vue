@@ -10,8 +10,8 @@
         <table class="table">
             <tbody>
                 <template v-for="course in courses">
-                    <course :course="course" :editor-methods="this.editorMethods"></course>
-                    <subject v-for="subject in course.subjects" v-bind:key="subject.id" :subject="subject" :editor-methods="this.editorMethods"></subject>
+                    <course :course="course" :editor-methods="editorMethods"></course>
+                    <subject v-for="subject in course.subjects" v-bind:key="subject.id" :subject="subject" :editor-methods="editorMethods"></subject>
                 </template>
             </tbody>
         </table>

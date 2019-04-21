@@ -37326,7 +37326,7 @@ var render = function() {
           _vm._l(_vm.courses, function(course) {
             return [
               _c("course", {
-                attrs: { course: course, "editor-methods": this.editorMethods }
+                attrs: { course: course, "editor-methods": _vm.editorMethods }
               }),
               _vm._v(" "),
               _vm._l(course.subjects, function(subject) {
@@ -37334,7 +37334,7 @@ var render = function() {
                   key: subject.id,
                   attrs: {
                     subject: subject,
-                    "editor-methods": this.editorMethods
+                    "editor-methods": _vm.editorMethods
                   }
                 })
               })
