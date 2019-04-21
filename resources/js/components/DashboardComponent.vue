@@ -10,11 +10,11 @@
         <table class="table">
             <tbody>
                 <template v-for="course in courses">
-                    <tr class="table-info" v-on:click="editCourse(course)">
+                    <tr :id="`course-${course.id}`" class="table-info" v-on:click="editCourse(course)">
                         <td colspan="3">{{ course.name }}</td>
                     </tr>
                     <template v-for="subject in course.subjects">
-                        <tr :class="getSubjectClass(subject)">
+                        <tr :id="`subject-${subject.id}`" :class="getSubjectClass(subject)" v-on:click="editSubject(subject)">
                             <td>{{ subject.name }}</td>
                             <td>{{ subject.ec_value }} EC</td>
                             <td v-if="subject.grades.length > 0">
@@ -47,6 +47,12 @@
                 courses: {},
                 current_ec: 0,
                 total_ec: 0,
+                editing: {
+                    isSubject: false,
+                    object: null,
+                },
+
+                token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         },
 
@@ -80,7 +86,123 @@
                 return this.current_ec/this.total_ec * 100;
             },
             editCourse: function(course) {
-            }
+                if (this.editing.object != null && this.editing.object.id === course.id && this.editing.isSubject === false) {
+                    return;
+                } else {
+                    this.closeEditor();
+                }
+                this.editing.isSubject = false;
+                this.editing.object = course;
+
+                let td = document.getElementById(`course-${course.id}`).firstChild;
+                let input = document.createElement('input');
+                input.type = 'text';
+                input.value = td.innerText;
+                let submit = document.createElement('input');
+                submit.type = 'submit';
+                submit.value = "Aanpassen";
+                submit.addEventListener('click', (e) => {
+                    this.updateCourse(e.target.previousElementSibling.value);
+                });
+                td.removeChild(td.firstChild);
+                td.appendChild(input);
+                td.appendChild(submit);
+            },
+            updateCourse: function(updateText) {
+                fetch(`/api/courses/${this.editing.object.id}/`, {
+                    method: 'PATCH',
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        'name': updateText,
+                        'term': this.editing.object.term,
+                        '_token': this.token,
+                    }),
+                })
+                    .then((res) => {
+                        if (res.status !== 200) {
+                            throw new Error(res.statusText);
+                        }
+                        this.editing.object.name = updateText;
+                        this.fetchCourses();
+                        this.closeEditor();
+                    })
+                    .catch(console.log);
+            },
+            editSubject: function(subject) {
+                if (this.editing.object != null && this.editing.object.id === subject.id && this.editing.isSubject === true) {
+                    return;
+                } else {
+                    this.closeEditor();
+                }
+                this.editing.isSubject = true;
+                this.editing.object = subject;
+
+                let td = document.getElementById(`subject-${subject.id}`).firstChild;
+                let inputs = [];
+                let input = document.createElement('input');
+                input.type = 'text';
+                input.value = td.innerText;
+                td.appendChild(input);
+                input = document.createElement('input');
+                input.type = 'text';
+                input.value = td.nextElementSibling.innerText;
+                td.appendChild(input);
+                input = document.createElement('input');
+                input.type = 'text';
+                input.value = td.nextElementSibling.nextElementSibling.innerText;
+                td.appendChild(input);
+                let submit = document.createElement('input');
+                submit.type = 'submit';
+                submit.value = "Aanpassen";
+                submit.addEventListener('click', (e) => {
+                    this.updateSubject(e.parentNode);
+                });
+                td.removeChild(td.firstChild);
+                td.nextElementSibling.hidden = true;
+                td.nextElementSibling.nextElementSibling.hidden = true;
+                td.colSpan = '3';
+                td.appendChild(submit);
+            },
+            updateSubject: function(updateText) {
+                fetch(`/api/courses/${this.editing.object.id}/`, {
+                    method: 'PATCH',
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        'name': updateText,
+                        'term': this.editing.object.term,
+                        '_token': this.token,
+                    }),
+                })
+                    .then((res) => {
+                        if (res.status !== 200) {
+                            throw new Error(res.statusText);
+                        }
+                        this.editing.object.name = updateText;
+                        this.fetchCourses();
+                        this.closeEditor();
+                    })
+                    .catch(console.log);
+            },
+            closeEditor: function() {
+                if (this.editing.object == null) return;
+                if (this.editing.isSubject) {
+                    let td = document.getElementById(`subject-${this.editing.object.id}`).firstChild;
+
+                    td.innerText = this.editing.object.name;
+                    td.colSpan = '1';
+                    td.nextElementSibling.hidden = false;
+                    td.nextElementSibling.nextElementSibling.hidden = false;
+                } else {
+                    let td = document.getElementById(`course-${this.editing.object.id}`).firstChild;
+
+                    td.innerText = this.editing.object.name;
+                }
+                this.editing.object = null;
+            },
         },
     }
 </script>

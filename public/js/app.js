@@ -1809,7 +1809,12 @@ __webpack_require__.r(__webpack_exports__);
     return {
       courses: {},
       current_ec: 0,
-      total_ec: 0
+      total_ec: 0,
+      editing: {
+        isSubject: false,
+        object: null
+      },
+      token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
   methods: {
@@ -1864,7 +1869,134 @@ __webpack_require__.r(__webpack_exports__);
     getProgress: function getProgress() {
       return this.current_ec / this.total_ec * 100;
     },
-    editCourse: function editCourse(course) {}
+    editCourse: function editCourse(course) {
+      var _this2 = this;
+
+      if (this.editing.object != null && this.editing.object.id === course.id && this.editing.isSubject === false) {
+        return;
+      } else {
+        this.closeEditor();
+      }
+
+      this.editing.isSubject = false;
+      this.editing.object = course;
+      var td = document.getElementById("course-".concat(course.id)).firstChild;
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.value = td.innerText;
+      var submit = document.createElement('input');
+      submit.type = 'submit';
+      submit.value = "Aanpassen";
+      submit.addEventListener('click', function (e) {
+        _this2.updateCourse(e.target.previousElementSibling.value);
+      });
+      td.removeChild(td.firstChild);
+      td.appendChild(input);
+      td.appendChild(submit);
+    },
+    updateCourse: function updateCourse(updateText) {
+      var _this3 = this;
+
+      fetch("/api/courses/".concat(this.editing.object.id, "/"), {
+        method: 'PATCH',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          'name': updateText,
+          'term': this.editing.object.term,
+          '_token': this.token
+        })
+      }).then(function (res) {
+        if (res.status !== 200) {
+          throw new Error(res.statusText);
+        }
+
+        _this3.editing.object.name = updateText;
+
+        _this3.fetchCourses();
+
+        _this3.closeEditor();
+      })["catch"](console.log);
+    },
+    editSubject: function editSubject(subject) {
+      var _this4 = this;
+
+      if (this.editing.object != null && this.editing.object.id === subject.id && this.editing.isSubject === true) {
+        return;
+      } else {
+        this.closeEditor();
+      }
+
+      this.editing.isSubject = true;
+      this.editing.object = subject;
+      var td = document.getElementById("subject-".concat(subject.id)).firstChild;
+      var inputs = [];
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.value = td.innerText;
+      td.appendChild(input);
+      input = document.createElement('input');
+      input.type = 'text';
+      input.value = td.nextElementSibling.innerText;
+      td.appendChild(input);
+      input = document.createElement('input');
+      input.type = 'text';
+      input.value = td.nextElementSibling.nextElementSibling.innerText;
+      td.appendChild(input);
+      var submit = document.createElement('input');
+      submit.type = 'submit';
+      submit.value = "Aanpassen";
+      submit.addEventListener('click', function (e) {
+        _this4.updateCourse(e.target.previousElementSibling.value);
+      });
+      td.removeChild(td.firstChild);
+      td.nextElementSibling.hidden = true;
+      td.nextElementSibling.nextElementSibling.hidden = true;
+      td.colSpan = '3';
+      td.appendChild(submit);
+    },
+    updateSubject: function updateSubject(updateText) {
+      var _this5 = this;
+
+      fetch("/api/courses/".concat(this.editing.object.id, "/"), {
+        method: 'PATCH',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          'name': updateText,
+          'term': this.editing.object.term,
+          '_token': this.token
+        })
+      }).then(function (res) {
+        if (res.status !== 200) {
+          throw new Error(res.statusText);
+        }
+
+        _this5.editing.object.name = updateText;
+
+        _this5.fetchCourses();
+
+        _this5.closeEditor();
+      })["catch"](console.log);
+    },
+    closeEditor: function closeEditor() {
+      if (this.editing.object == null) return;
+
+      if (this.editing.isSubject) {
+        var td = document.getElementById("subject-".concat(this.editing.object.id)).firstChild;
+        td.innerText = this.editing.object.name;
+        td.colSpan = '1';
+        td.nextElementSibling.hidden = false;
+        td.nextElementSibling.nextElementSibling.hidden = false;
+      } else {
+        var _td = document.getElementById("course-".concat(this.editing.object.id)).firstChild;
+        _td.innerText = this.editing.object.name;
+      }
+
+      this.editing.object = null;
+    }
   }
 });
 
@@ -37197,6 +37329,7 @@ var render = function() {
                 "tr",
                 {
                   staticClass: "table-info",
+                  attrs: { id: "course-" + course.id },
                   on: {
                     click: function($event) {
                       return _vm.editCourse(course)
@@ -37212,69 +37345,81 @@ var render = function() {
               _vm._v(" "),
               _vm._l(course.subjects, function(subject) {
                 return [
-                  _c("tr", { class: _vm.getSubjectClass(subject) }, [
-                    _c("td", [_vm._v(_vm._s(subject.name))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(subject.ec_value) + " EC")]),
-                    _vm._v(" "),
-                    subject.grades.length > 0
-                      ? _c("td", [
-                          _vm._v(
-                            "\n                            " +
-                              _vm._s(
-                                subject.grades
-                                  .map(function(e) {
-                                    return e.grade
-                                  })
-                                  .filter(function(e) {
-                                    return e != null
-                                  })
-                                  .join(", ")
-                              ) +
-                              "\n                            "
-                          ),
-                          subject.grades
-                            .map(function(e) {
-                              return e.grade
-                            })
-                            .filter(function(e) {
-                              return e == null
-                            }).length > 0
-                            ? _c(
-                                "span",
-                                { staticClass: "badge badge-secondary" },
-                                [
-                                  _vm._v(
-                                    "\n                                " +
-                                      _vm._s(
-                                        subject.grades
-                                          .map(function(e) {
-                                            return e.grade
-                                          })
-                                          .filter(function(e) {
-                                            return e == null
-                                          }).length
-                                      ) +
-                                      " " +
-                                      _vm._s(
-                                        subject.grades
-                                          .map(function(e) {
-                                            return e.grade
-                                          })
-                                          .filter(function(e) {
-                                            return e == null
-                                          }).length === 1
-                                          ? "cijfer"
-                                          : "cijfers"
-                                      ) +
-                                      " te gaan.\n                            "
-                                  )
-                                ]
-                              )
-                            : _vm._e()
-                        ])
-                      : _c("td", [_vm._v("Geen")])
-                  ])
+                  _c(
+                    "tr",
+                    {
+                      class: _vm.getSubjectClass(subject),
+                      attrs: { id: "subject-" + subject.id },
+                      on: {
+                        click: function($event) {
+                          return _vm.editSubject(subject)
+                        }
+                      }
+                    },
+                    [
+                      _c("td", [_vm._v(_vm._s(subject.name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(subject.ec_value) + " EC")]),
+                      _vm._v(" "),
+                      subject.grades.length > 0
+                        ? _c("td", [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(
+                                  subject.grades
+                                    .map(function(e) {
+                                      return e.grade
+                                    })
+                                    .filter(function(e) {
+                                      return e != null
+                                    })
+                                    .join(", ")
+                                ) +
+                                "\n                            "
+                            ),
+                            subject.grades
+                              .map(function(e) {
+                                return e.grade
+                              })
+                              .filter(function(e) {
+                                return e == null
+                              }).length > 0
+                              ? _c(
+                                  "span",
+                                  { staticClass: "badge badge-secondary" },
+                                  [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(
+                                          subject.grades
+                                            .map(function(e) {
+                                              return e.grade
+                                            })
+                                            .filter(function(e) {
+                                              return e == null
+                                            }).length
+                                        ) +
+                                        " " +
+                                        _vm._s(
+                                          subject.grades
+                                            .map(function(e) {
+                                              return e.grade
+                                            })
+                                            .filter(function(e) {
+                                              return e == null
+                                            }).length === 1
+                                            ? "cijfer"
+                                            : "cijfers"
+                                        ) +
+                                        " te gaan.\n                            "
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
+                          ])
+                        : _c("td", [_vm._v("Geen")])
+                    ]
+                  )
                 ]
               })
             ]
