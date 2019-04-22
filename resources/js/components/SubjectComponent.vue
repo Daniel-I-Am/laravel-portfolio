@@ -1,8 +1,8 @@
 <template>
     <tr :id="`subject-${subject.id}`" :class="getSubjectClass(subject)">
         <template v-if="editing === false">
-            <td @click="editObject()">{{ subject.name }}</td>
-            <td @click="editObject()">{{ subject.ec_value }} EC</td>
+            <td class="w-50" @click="editObject()">{{ subject.name }}</td>
+            <td class="w-25" @click="editObject()">{{ subject.ec_value }} EC</td>
         </template>
         <td colspan="2" v-else>
             <form @submit.prevent="saveEditor()" class="form-inline">
@@ -14,7 +14,7 @@
                 <input class="btn btn-danger mb-2" type="reset" value="Annuleren" @click="cancelEditor()">
             </form>
         </td>
-        <td v-if="subject.grades.length > 0">
+        <td v-if="subject.grades.length > 0" class="w-25">
             {{ subject.grades.map(e => e.grade).filter(e => e != null).join(', ') }}
             <span class="badge badge-secondary"
                   v-if="subject.grades

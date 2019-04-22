@@ -37617,6 +37617,7 @@ var render = function() {
             _c(
               "td",
               {
+                staticClass: "w-50",
                 on: {
                   click: function($event) {
                     return _vm.editObject()
@@ -37629,6 +37630,7 @@ var render = function() {
             _c(
               "td",
               {
+                staticClass: "w-25",
                 on: {
                   click: function($event) {
                     return _vm.editObject()
@@ -37728,7 +37730,7 @@ var render = function() {
           ]),
       _vm._v(" "),
       _vm.subject.grades.length > 0
-        ? _c("td", [
+        ? _c("td", { staticClass: "w-25" }, [
             _vm._v(
               "\n        " +
                 _vm._s(
