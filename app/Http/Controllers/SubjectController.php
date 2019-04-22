@@ -22,7 +22,7 @@ class SubjectController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Subject
      */
     public function store(Request $request)
     {
@@ -39,17 +39,19 @@ class SubjectController extends Controller
         $subject->course()->associate(Course::find($validatedData['course_id']));
 
         $subject->save();
+
+        return Subject::with(['course', 'grades'])->find($subject->id);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Subject  $subject
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return Subject
      */
-    public function show(Subject $subject)
+    public function show($id)
     {
-        return $subject;
+        return Subject::with(['course', 'grades'])->find($id);
     }
 
     /**
@@ -57,7 +59,7 @@ class SubjectController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Subject  $subject
-     * @return \Illuminate\Http\Response
+     * @return Subject
      */
     public function update(Request $request, Subject $subject)
     {
@@ -72,17 +74,20 @@ class SubjectController extends Controller
         $subject->course()->associate(Course::find($validatedData['course_id']));
 
         $subject->save();
+
+        return Subject::with(['course', 'grades'])->find($subject->id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param \App\Subject $subject
-     * @return \Illuminate\Http\Response
+     * @return bool
      * @throws \Exception
      */
     public function destroy(Subject $subject)
     {
         $subject->delete();
+        return true;
     }
 }

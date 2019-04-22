@@ -22,7 +22,7 @@ class GradeController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \App\Grade
      */
     public function store(Request $request)
     {
@@ -37,13 +37,15 @@ class GradeController extends Controller
         $grade->subject()->associate(Subject::find($validatedData['subject_id']));
 
         $grade->save();
+
+        return Grade::with(['subject', 'subject.course'])->find($grade->id);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Grade  $grade
-     * @return \Illuminate\Http\Response
+     * @return \App\Grade
      */
     public function show($id)
     {
@@ -55,7 +57,7 @@ class GradeController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Grade  $grade
-     * @return \Illuminate\Http\Response
+     * @return \App\Grade
      */
     public function update(Request $request, Grade $grade)
     {
@@ -68,17 +70,20 @@ class GradeController extends Controller
         $grade->subject()->associate(Subject::find($validatedData['subject_id']));
 
         $grade->save();
+
+        return Grade::with(['subject', 'subject.course'])->find($grade->id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param \App\Grade $grade
-     * @return \Illuminate\Http\Response
+     * @return bool
      * @throws \Exception
      */
     public function destroy(Grade $grade)
     {
         $grade->delete();
+        return true;
     }
 }
