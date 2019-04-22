@@ -14,7 +14,7 @@
                 <input type="reset" value="Annuleren" @click="cancelEditor()">
             </form>
         </td>
-        <td v-if="subject.grades.length > 0" @click="editObject()">
+        <td v-if="subject.grades.length > 0">
             {{ subject.grades.map(e => e.grade).filter(e => e != null).join(', ') }}
             <span class="badge badge-secondary"
                   v-if="subject.grades

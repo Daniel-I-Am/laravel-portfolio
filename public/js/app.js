@@ -37714,67 +37714,57 @@ var render = function() {
           ]),
       _vm._v(" "),
       _vm.subject.grades.length > 0
-        ? _c(
-            "td",
-            {
-              on: {
-                click: function($event) {
-                  return _vm.editObject()
-                }
-              }
-            },
-            [
-              _vm._v(
-                "\n        " +
-                  _vm._s(
-                    _vm.subject.grades
-                      .map(function(e) {
-                        return e.grade
-                      })
-                      .filter(function(e) {
-                        return e != null
-                      })
-                      .join(", ")
-                  ) +
-                  "\n        "
-              ),
-              _vm.subject.grades
-                .map(function(e) {
-                  return e.grade
-                })
-                .filter(function(e) {
-                  return e == null
-                }).length > 0
-                ? _c("span", { staticClass: "badge badge-secondary" }, [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(
-                          _vm.subject.grades
-                            .map(function(e) {
-                              return e.grade
-                            })
-                            .filter(function(e) {
-                              return e == null
-                            }).length
-                        ) +
-                        " " +
-                        _vm._s(
-                          _vm.subject.grades
-                            .map(function(e) {
-                              return e.grade
-                            })
-                            .filter(function(e) {
-                              return e == null
-                            }).length === 1
-                            ? "cijfer"
-                            : "cijfers"
-                        ) +
-                        " te gaan.\n            "
-                    )
-                  ])
-                : _vm._e()
-            ]
-          )
+        ? _c("td", [
+            _vm._v(
+              "\n        " +
+                _vm._s(
+                  _vm.subject.grades
+                    .map(function(e) {
+                      return e.grade
+                    })
+                    .filter(function(e) {
+                      return e != null
+                    })
+                    .join(", ")
+                ) +
+                "\n        "
+            ),
+            _vm.subject.grades
+              .map(function(e) {
+                return e.grade
+              })
+              .filter(function(e) {
+                return e == null
+              }).length > 0
+              ? _c("span", { staticClass: "badge badge-secondary" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(
+                        _vm.subject.grades
+                          .map(function(e) {
+                            return e.grade
+                          })
+                          .filter(function(e) {
+                            return e == null
+                          }).length
+                      ) +
+                      " " +
+                      _vm._s(
+                        _vm.subject.grades
+                          .map(function(e) {
+                            return e.grade
+                          })
+                          .filter(function(e) {
+                            return e == null
+                          }).length === 1
+                          ? "cijfer"
+                          : "cijfers"
+                      ) +
+                      " te gaan.\n            "
+                  )
+                ])
+              : _vm._e()
+          ])
         : _c("td", [_vm._v("Geen")])
     ],
     2
