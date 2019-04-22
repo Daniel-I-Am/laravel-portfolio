@@ -70,7 +70,7 @@ class SubjectController extends Controller
         ]);
 
         $subject->name = $validatedData['name'];
-        $subject->ec_value = $validatedData['name'];
+        $subject->ec_value = $validatedData['ec_value'];
         $subject->course()->associate(Course::find($validatedData['course_id']));
 
         $subject->save();

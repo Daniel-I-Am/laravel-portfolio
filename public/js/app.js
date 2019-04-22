@@ -1777,6 +1777,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     'course': {
@@ -1787,7 +1789,8 @@ __webpack_require__.r(__webpack_exports__);
     'editor-methods': {
       'edit': Function,
       'close': Function
-    }
+    },
+    'token': String
   },
   data: function data() {
     return {
@@ -1810,7 +1813,25 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('editing', this);
     },
     saveEditor: function saveEditor() {
-      this.cancelEditor();
+      var _this2 = this;
+
+      fetch("/api/courses/".concat(this.course.id), {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          '_token': this.token,
+          'name': document.getElementById('name_input').value,
+          'term': document.getElementById('term_input').value
+        })
+      }).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        _this2.$emit('update_course', _this2.course.id, data);
+
+        _this2.cancelEditor();
+      })["catch"](console.log);
     },
     cancelEditor: function cancelEditor() {
       this.$emit('closing');
@@ -1874,7 +1895,7 @@ __webpack_require__.r(__webpack_exports__);
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (data) {
-        _this.courses = data;
+        Vue.set(_this, 'courses', data);
         _this.current_ec = data.map(function (e) {
           return e.credit_obtained_count;
         }).reduce(function (s, e) {
@@ -1900,6 +1921,25 @@ __webpack_require__.r(__webpack_exports__);
       if (this.editing == null) return;
       this.editing.closeEditor();
       this.editing = null;
+    },
+    updated_course: function updated_course(id, data) {
+      var index = 0;
+
+      for (var i = 0; i < this.courses.length; i++) {
+        if (this.courses[i].id != id) return;
+        index = i;
+        break;
+      }
+
+      Vue.set(this.courses, index, {
+        name: data.name,
+        term: data.term
+      });
+    },
+    updated_subject: function updated_subject(id, data) {
+      this.course.subjects.filter(function (e) {
+        return e.id === id;
+      })[0] = data;
     }
   }
 });
@@ -1945,6 +1985,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     'subject': {
@@ -1957,7 +1998,8 @@ __webpack_require__.r(__webpack_exports__);
     'editor-methods': {
       'edit': Function,
       'close': Function
-    }
+    },
+    'token': String
   },
   data: function data() {
     return {
@@ -2008,7 +2050,27 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('editing', this);
     },
     saveEditor: function saveEditor() {
-      this.cancelEditor();
+      var _this2 = this;
+
+      console.log("/api/subjects/".concat(this.subject.id));
+      fetch("/api/subjects/".concat(this.subject.id), {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          '_token': this.token,
+          'name': document.getElementById('name_input').value,
+          'ec_value': document.getElementById('ec_value_input').value,
+          'course_id': this.subject.course_id
+        })
+      }).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        _this2.$emit('update_subject', _this2.subject.id, data);
+
+        _this2.cancelEditor();
+      })["catch"](console.log);
     },
     cancelEditor: function cancelEditor() {
       this.$emit('closing');
@@ -37339,6 +37401,8 @@ var render = function() {
             _c(
               "form",
               {
+                staticClass: "form-inline",
+                attrs: { id: "editor_form" },
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
@@ -37347,13 +37411,25 @@ var render = function() {
                 }
               },
               [
+                _c(
+                  "label",
+                  { staticClass: "sr-only", attrs: { for: "term_input" } },
+                  [_vm._v("Term")]
+                ),
+                _vm._v(" "),
                 _c("input", {
-                  attrs: { type: "number" },
+                  attrs: { id: "term_input", type: "number" },
                   domProps: { value: this.course.term }
                 }),
                 _vm._v(" "),
+                _c(
+                  "label",
+                  { staticClass: "sr-only", attrs: { for: "name_input" } },
+                  [_vm._v("Name")]
+                ),
+                _vm._v(" "),
                 _c("input", {
-                  attrs: { type: "text" },
+                  attrs: { id: "name_input", type: "text" },
                   domProps: { value: this.course.name }
                 }),
                 _vm._v(" "),
@@ -37363,7 +37439,7 @@ var render = function() {
                   attrs: { type: "reset", value: "Annuleren" },
                   on: {
                     click: function($event) {
-                      return _vm.saveEditor()
+                      return _vm.cancelEditor()
                     }
                   }
                 })
@@ -37427,31 +37503,33 @@ var render = function() {
       _c(
         "tbody",
         [
-          _vm._l(_vm.courses, function(course) {
+          _vm._l(_vm.courses, function(course, index) {
             return [
               _c("course", {
-                attrs: { course: course },
+                attrs: { token: _vm.token, course: course },
                 on: {
                   editing: function(obj) {
                     _vm.editObject(obj, true)
                   },
                   closing: function($event) {
                     return _vm.closeEditor()
-                  }
+                  },
+                  updated_course: _vm.updated_course
                 }
               }),
               _vm._v(" "),
               _vm._l(course.subjects, function(subject) {
                 return _c("subject", {
                   key: subject.id,
-                  attrs: { subject: subject },
+                  attrs: { token: _vm.token, subject: subject },
                   on: {
                     editing: function(obj) {
                       _vm.editObject(obj, false)
                     },
                     closing: function($event) {
                       return _vm.closeEditor()
-                    }
+                    },
+                    updated_subject: _vm.updated_subject
                   }
                 })
               })
@@ -37516,73 +37594,9 @@ var render = function() {
                 }
               },
               [_vm._v(_vm._s(_vm.subject.ec_value) + " EC")]
-            ),
-            _vm._v(" "),
-            _vm.subject.grades.length > 0
-              ? _c(
-                  "td",
-                  {
-                    on: {
-                      click: function($event) {
-                        return _vm.editObject()
-                      }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n            " +
-                        _vm._s(
-                          _vm.subject.grades
-                            .map(function(e) {
-                              return e.grade
-                            })
-                            .filter(function(e) {
-                              return e != null
-                            })
-                            .join(", ")
-                        ) +
-                        "\n            "
-                    ),
-                    _vm.subject.grades
-                      .map(function(e) {
-                        return e.grade
-                      })
-                      .filter(function(e) {
-                        return e == null
-                      }).length > 0
-                      ? _c("span", { staticClass: "badge badge-secondary" }, [
-                          _vm._v(
-                            "\n                " +
-                              _vm._s(
-                                _vm.subject.grades
-                                  .map(function(e) {
-                                    return e.grade
-                                  })
-                                  .filter(function(e) {
-                                    return e == null
-                                  }).length
-                              ) +
-                              " " +
-                              _vm._s(
-                                _vm.subject.grades
-                                  .map(function(e) {
-                                    return e.grade
-                                  })
-                                  .filter(function(e) {
-                                    return e == null
-                                  }).length === 1
-                                  ? "cijfer"
-                                  : "cijfers"
-                              ) +
-                              " te gaan.\n            "
-                          )
-                        ])
-                      : _vm._e()
-                  ]
-                )
-              : _c("td", [_vm._v("Geen")])
+            )
           ]
-        : _c("td", { attrs: { colspan: "3" } }, [
+        : _c("td", { attrs: { colspan: "2" } }, [
             _c(
               "form",
               {
@@ -37594,28 +37608,26 @@ var render = function() {
                 }
               },
               [
+                _c(
+                  "label",
+                  { staticClass: "sr-only", attrs: { for: "name_input" } },
+                  [_vm._v("Name")]
+                ),
+                _vm._v(" "),
                 _c("input", {
-                  attrs: { type: "text" },
+                  attrs: { id: "name_input", type: "text" },
                   domProps: { value: this.subject.name }
                 }),
                 _vm._v(" "),
-                _c("input", {
-                  attrs: { type: "number" },
-                  domProps: { value: this.subject.ec_value }
-                }),
+                _c(
+                  "label",
+                  { staticClass: "sr-only", attrs: { for: "ec_value_input" } },
+                  [_vm._v("Name")]
+                ),
                 _vm._v(" "),
                 _c("input", {
-                  attrs: { type: "text" },
-                  domProps: {
-                    value: this.subject.grades
-                      .map(function(e) {
-                        return e.grade
-                      })
-                      .map(function(e) {
-                        return e == null ? "null" : e
-                      })
-                      .join(", ")
-                  }
+                  attrs: { id: "ec_value_input", type: "number" },
+                  domProps: { value: this.subject.ec_value }
                 }),
                 _vm._v(" "),
                 _c("input", { attrs: { type: "submit", value: "Aanpassen" } }),
@@ -37624,13 +37636,77 @@ var render = function() {
                   attrs: { type: "reset", value: "Annuleren" },
                   on: {
                     click: function($event) {
-                      return _vm.saveEditor()
+                      return _vm.cancelEditor()
                     }
                   }
                 })
               ]
             )
-          ])
+          ]),
+      _vm._v(" "),
+      _vm.subject.grades.length > 0
+        ? _c(
+            "td",
+            {
+              on: {
+                click: function($event) {
+                  return _vm.editObject()
+                }
+              }
+            },
+            [
+              _vm._v(
+                "\n        " +
+                  _vm._s(
+                    _vm.subject.grades
+                      .map(function(e) {
+                        return e.grade
+                      })
+                      .filter(function(e) {
+                        return e != null
+                      })
+                      .join(", ")
+                  ) +
+                  "\n        "
+              ),
+              _vm.subject.grades
+                .map(function(e) {
+                  return e.grade
+                })
+                .filter(function(e) {
+                  return e == null
+                }).length > 0
+                ? _c("span", { staticClass: "badge badge-secondary" }, [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(
+                          _vm.subject.grades
+                            .map(function(e) {
+                              return e.grade
+                            })
+                            .filter(function(e) {
+                              return e == null
+                            }).length
+                        ) +
+                        " " +
+                        _vm._s(
+                          _vm.subject.grades
+                            .map(function(e) {
+                              return e.grade
+                            })
+                            .filter(function(e) {
+                              return e == null
+                            }).length === 1
+                            ? "cijfer"
+                            : "cijfers"
+                        ) +
+                        " te gaan.\n            "
+                    )
+                  ])
+                : _vm._e()
+            ]
+          )
+        : _c("td", [_vm._v("Geen")])
     ],
     2
   )

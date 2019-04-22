@@ -3,28 +3,29 @@
         <template v-if="editing === false">
             <td @click="editObject()">{{ subject.name }}</td>
             <td @click="editObject()">{{ subject.ec_value }} EC</td>
-            <td v-if="subject.grades.length > 0" @click="editObject()">
-                {{ subject.grades.map(e => e.grade).filter(e => e != null).join(', ') }}
-                <span class="badge badge-secondary"
-                      v-if="subject.grades
+        </template>
+        <td colspan="2" v-else>
+            <form @submit.prevent="saveEditor()">
+                <label class="sr-only" for="name_input">Name</label>
+                <input id="name_input" type="text" :value="this.subject.name">
+                <label class="sr-only" for="ec_value_input">Name</label>
+                <input id="ec_value_input" type="number" :value="this.subject.ec_value">
+                <input type="submit" value="Aanpassen">
+                <input type="reset" value="Annuleren" @click="cancelEditor()">
+            </form>
+        </td>
+        <td v-if="subject.grades.length > 0" @click="editObject()">
+            {{ subject.grades.map(e => e.grade).filter(e => e != null).join(', ') }}
+            <span class="badge badge-secondary"
+                  v-if="subject.grades
                           .map(e => e.grade)
                           .filter(e => e == null)
                           .length > 0"
-                >
+            >
                     {{ subject.grades.map(e => e.grade).filter(e => e == null).length }} {{ subject.grades.map(e => e.grade).filter(e => e == null).length === 1 ? 'cijfer' : 'cijfers' }} te gaan.
                 </span>
-            </td>
-            <td v-else>Geen</td>
-        </template>
-        <td colspan="3" v-else>
-            <form @submit.prevent="saveEditor()">
-                <input type="text" :value="this.subject.name">
-                <input type="number" :value="this.subject.ec_value">
-                <input type="text" :value="this.subject.grades.map(e => e.grade).map(e => {return e == null ? 'null' : e; }).join(', ')">
-                <input type="submit" value="Aanpassen">
-                <input type="reset" value="Annuleren" @click="saveEditor()">
-            </form>
         </td>
+        <td v-else>Geen</td>
     </tr>
 </template>
 
@@ -41,7 +42,8 @@
             'editor-methods': {
                 'edit': Function,
                 'close': Function,
-            }
+            },
+            'token': String,
         },
 
         data: function() {
@@ -79,7 +81,25 @@
                 this.$emit('editing', this);
             },
             saveEditor: function() {
-                this.cancelEditor();
+                console.log(`/api/subjects/${this.subject.id}`);
+                fetch(`/api/subjects/${this.subject.id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        '_token': this.token,
+                        'name': document.getElementById('name_input').value,
+                        'ec_value': document.getElementById('ec_value_input').value,
+                        'course_id': this.subject.course_id,
+                    }),
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        this.$emit('update_subject', this.subject.id, data);
+                        this.cancelEditor();
+                    })
+                    .catch(console.log);
             },
             cancelEditor: function() {
                 this.$emit('closing');

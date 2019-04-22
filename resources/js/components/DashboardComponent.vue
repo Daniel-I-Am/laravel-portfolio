@@ -9,9 +9,9 @@
         </div>
         <table class="table">
             <tbody>
-                <template v-for="course in courses">
-                    <course :course="course" @editing="obj => {editObject(obj, true)}" @closing="closeEditor()"></course>
-                    <subject v-for="subject in course.subjects" v-bind:key="subject.id" :subject="subject" @editing="obj => {editObject(obj, false)}" @closing="closeEditor()"></subject>
+                <template v-for="(course, index) in courses">
+                    <course :token="token" :course="course" @editing="obj => {editObject(obj, true)}" @closing="closeEditor()" @updated_course="updated_course"></course>
+                    <subject :token="token" v-for="subject in course.subjects" v-bind:key="subject.id" :subject="subject" @editing="obj => {editObject(obj, false)}" @closing="closeEditor()" @updated_subject="updated_subject"></subject>
                 </template>
             </tbody>
         </table>
@@ -42,7 +42,7 @@
                 fetch(page_url)
                     .then(res => res.json())
                     .then(data => {
-                        this.courses = data;
+                        Vue.set(this, 'courses', data);
                         this.current_ec = data.map(e => e.credit_obtained_count).reduce((s, e) => s + e);
                         this.total_ec = data.map(e => e.credit_count).reduce((s, e) => s + e);
                     })
@@ -61,6 +61,21 @@
                 if (this.editing == null) return;
                 this.editing.closeEditor();
                 this.editing = null;
+            },
+            updated_course: function(id, data) {
+                let index = 0;
+                for (let i = 0; i < this.courses.length; i++) {
+                    if (this.courses[i].id != id) return;
+                    index = i;
+                    break;
+                }
+                Vue.set(this.courses, index, {
+                    name: data.name,
+                    term: data.term,
+                });
+            },
+            updated_subject: function(id, data) {
+                this.course.subjects.filter(e => e.id === id)[0] = data;
             },
         },
     }

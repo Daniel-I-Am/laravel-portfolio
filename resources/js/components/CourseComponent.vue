@@ -2,11 +2,13 @@
     <tr :id="`course-${course.id}`" class="table-info">
         <td colspan="3" class="h4" v-if="editing === false" @click="editObject()">Blok {{course.term}} | {{ course.name }}</td>
         <td colspan="3" v-else>
-            <form @submit.prevent="saveEditor()">
-                <input type="number" :value="this.course.term">
-                <input type="text" :value="this.course.name">
+            <form id="editor_form" class="form-inline" @submit.prevent="saveEditor()">
+                <label class="sr-only" for="term_input">Term</label>
+                <input id="term_input" type="number" :value="this.course.term">
+                <label class="sr-only" for="name_input">Name</label>
+                <input id="name_input" type="text" :value="this.course.name">
                 <input type="submit" value="Aanpassen">
-                <input type="reset" value="Annuleren" @click="saveEditor()">
+                <input type="reset" value="Annuleren" @click="cancelEditor()">
             </form>
         </td>
     </tr>
@@ -23,7 +25,8 @@
             'editor-methods': {
                 'edit': Function,
                 'close': Function,
-            }
+            },
+            'token': String,
         },
 
         data: function() {
@@ -47,7 +50,23 @@
                 this.$emit('editing', this);
             },
             saveEditor: function() {
-                this.cancelEditor();
+                fetch(`/api/courses/${this.course.id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        '_token': this.token,
+                        'name': document.getElementById('name_input').value,
+                        'term': document.getElementById('term_input').value,
+                    }),
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        this.$emit('update_course', this.course.id, data);
+                        this.cancelEditor();
+                    })
+                    .catch(console.log);
             },
             cancelEditor: function() {
                 this.$emit('closing');
