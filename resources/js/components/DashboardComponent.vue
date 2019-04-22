@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <h1>Studievoortgang dashboard</h1>
         <div class="mb-2">
-            <h2>Studievoortgang: ({{ this.current_ec }} / {{ this.total_ec }})</h2>
+            <h2>Studievoortgang: ({{ this.current_ec }}&nbsp;/&nbsp;{{ this.total_ec }})</h2>
             <div class="progress">
                 <div class="progress-bar progress-bar-striped" role="progressbar" :style="`width: ${getProgress()}%`" :aria-valuenow="getProgress()" aria-valuemin="0" aria-valuemax="100"></div>
             </div>

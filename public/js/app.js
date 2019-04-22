@@ -37403,7 +37403,7 @@ var render = function() {
         _vm._v(
           "Studievoortgang: (" +
             _vm._s(this.current_ec) +
-            " / " +
+            " / " +
             _vm._s(this.total_ec) +
             ")"
         )
