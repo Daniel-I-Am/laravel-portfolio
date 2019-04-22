@@ -1987,6 +1987,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     'subject': {
@@ -37748,7 +37749,7 @@ var render = function() {
                             return e == null
                           }).length
                       ) +
-                      " " +
+                      "\n                " +
                       _vm._s(
                         _vm.subject.grades
                           .map(function(e) {
@@ -37760,7 +37761,7 @@ var render = function() {
                           ? "cijfer"
                           : "cijfers"
                       ) +
-                      " te gaan.\n            "
+                      " te gaan.\n        "
                   )
                 ])
               : _vm._e()

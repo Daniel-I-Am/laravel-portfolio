@@ -22,8 +22,9 @@
                           .filter(e => e == null)
                           .length > 0"
             >
-                    {{ subject.grades.map(e => e.grade).filter(e => e == null).length }} {{ subject.grades.map(e => e.grade).filter(e => e == null).length === 1 ? 'cijfer' : 'cijfers' }} te gaan.
-                </span>
+                    {{ subject.grades.map(e => e.grade).filter(e => e == null).length }}
+                    {{ subject.grades.map(e => e.grade).filter(e => e == null).length === 1 ? 'cijfer' : 'cijfers' }} te gaan.
+            </span>
         </td>
         <td v-else>Geen</td>
     </tr>
