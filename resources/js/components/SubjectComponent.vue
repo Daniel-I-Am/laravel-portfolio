@@ -14,19 +14,7 @@
                 <input class="btn btn-danger mb-2" type="reset" value="Annuleren" @click="cancelEditor()">
             </form>
         </td>
-        <td v-if="subject.grades.length > 0" class="w-25">
-            {{ subject.grades.map(e => e.grade).filter(e => e != null).join(', ') }}
-            <span class="badge badge-secondary"
-                  v-if="subject.grades
-                          .map(e => e.grade)
-                          .filter(e => e == null)
-                          .length > 0"
-            >
-                    {{ subject.grades.map(e => e.grade).filter(e => e == null).length }}
-                    {{ subject.grades.map(e => e.grade).filter(e => e == null).length === 1 ? 'cijfer' : 'cijfers' }} te gaan.
-            </span>
-        </td>
-        <td v-else>Geen</td>
+        <grade :grades="subject.grades" :subject_id="subject.id" @editing="(data) => {this.$emit('grade_editing', data)}" @closing="(data) => {this.$emit('grade_closing', data)}"></grade>
     </tr>
 </template>
 

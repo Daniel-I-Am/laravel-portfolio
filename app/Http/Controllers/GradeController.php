@@ -27,7 +27,7 @@ class GradeController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'grade' => 'required|numeric',
+            'grade' => 'nullable|numeric',
             'subject_id' => 'required|integer',
         ]);
 

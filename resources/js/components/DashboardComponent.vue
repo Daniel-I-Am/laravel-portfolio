@@ -11,10 +11,32 @@
             <tbody>
                 <template v-for="(course, index) in courses">
                     <course :token="token" :course="course" @editing="obj => {editObject(obj, true)}" @closing="closeEditor()" @updated_course="updated_course"></course>
-                    <subject :token="token" v-for="subject in course.subjects" v-bind:key="subject.id" :subject="subject" @editing="obj => {editObject(obj, false)}" @closing="closeEditor()" @updated_subject="updated_subject"></subject>
+                    <subject :token="token" v-for="subject in course.subjects" v-bind:key="subject.id" :subject="subject" @editing="obj => {editObject(obj, false)}" @closing="closeEditor()" @updated_subject="updated_subject" @grade_editing="edit_grade" @grade_closing="close_grade"></subject>
                 </template>
             </tbody>
         </table>
+
+        <div class="modal fade" id="gradeModal" tabindex="-1" role="dialog" aria-labelledby="gradeModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="gradeModalLabel">Edit grades</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form">
+                            <div class="form-group" v-for="grade in grades">
+                                <label class="sr-only" :for="grade-`grade.id`">Grade</label>
+                                <input type="number" step=".01" class="form-control" :id="grade-`grade.id`" placeholder="Grade, leave empty for not yet obtained" v-model:value="grade.grade">
+                            </div>
+                            <button type="button" class="btn btn-primary" @click="add_grade()">asdasd</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="editing.cancelEditor()">Done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -31,6 +53,7 @@
                 total_ec: 0,
                 editingCourse: true,
                 editing: null,
+                grades: [],
 
                 token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
@@ -78,6 +101,37 @@
             updated_subject: function(id, data) {
                 this.course.subjects.filter(e => e.id === id)[0] = data;
             },
+            edit_grade: function([obj, data]) {
+                if (this.editing) this.closeEditor();
+                this.editing = obj;
+                this.grades = data;
+                $('#gradeModal').modal();
+            },
+            close_grade: function() {
+                if (this.editing == null) return;
+                this.editing.closeEditor();
+                this.grades = [];
+                this.editing = null;
+                this.fetchCourses();
+            },
+            add_grade: function() {
+                this.grades.push({
+                    grade: null,
+                    subject_id: this.editing.subject_id,
+                });
+                fetch('/api/grades', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        grade: null,
+                        subject_id: this.editing.subject_id,
+                        _token: this.token,
+                    }),
+                })
+                    .catch(() => {this.grades.pop()});
+            }
         },
     }
 </script>

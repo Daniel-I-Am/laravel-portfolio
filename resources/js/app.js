@@ -23,6 +23,7 @@ window.Vue = require('vue');
 Vue.component('dashboard', require('./components/DashboardComponent.vue').default);
 Vue.component('course', require('./components/CourseComponent.vue').default);
 Vue.component('subject', require('./components/SubjectComponent.vue').default);
+Vue.component('grade', require('./components/GradeComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
