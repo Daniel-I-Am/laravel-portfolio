@@ -53,7 +53,9 @@
             },
             getSubjectClass: function(subject) {
                 if (subject.grades.length === 0) return null;
-                let result = subject.grades.map(e => e.grade).filter(e => e != null).reduce((s, e) => s + e);
+                let grades_not_null = subject.grades.map(e => e.grade).filter(e => e != null);
+                if (grades_not_null.length === 0) return null;
+                let result = grades_not_null.reduce((s, e) => s + e);
                 if (subject.grades.filter(e => e.grade == null).length > 0) {
                     if (result / subject.grades.filter(e => e.grade != null).length < 5.5) {
                         return 'table-warning';

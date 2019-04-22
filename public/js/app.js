@@ -2130,11 +2130,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     getSubjectClass: function getSubjectClass(subject) {
       if (subject.grades.length === 0) return null;
-      var result = subject.grades.map(function (e) {
+      var grades_not_null = subject.grades.map(function (e) {
         return e.grade;
       }).filter(function (e) {
         return e != null;
-      }).reduce(function (s, e) {
+      });
+      if (grades_not_null.length === 0) return null;
+      var result = grades_not_null.reduce(function (s, e) {
         return s + e;
       });
 
