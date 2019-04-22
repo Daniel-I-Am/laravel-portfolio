@@ -1903,6 +1903,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.fetchCourses();
@@ -1993,10 +1996,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     add_grade: function add_grade() {
       var _this2 = this;
 
-      this.grades.push({
-        grade: null,
-        subject_id: this.editing.subject_id
-      });
       fetch('/api/grades', {
         method: 'post',
         headers: {
@@ -2007,8 +2006,43 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
           subject_id: this.editing.subject_id,
           _token: this.token
         })
+      }).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        _this2.grades.push(data);
       })["catch"](function () {
         _this2.grades.pop();
+      });
+    },
+    update_grade: function update_grade(e, grade) {
+      var value = e.target.value === "" ? null : e.target.value;
+      fetch("/api/grades/".concat(grade.id), {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          grade: value,
+          subject_id: grade.subject_id,
+          _token: this.token
+        })
+      })["catch"](function () {
+        e.target.value = grade.grade;
+      });
+    },
+    remove_grade: function remove_grade(grade) {
+      var _this3 = this;
+
+      fetch("/api/grades/".concat(grade.id), {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          _token: this.token
+        })
+      }).then(function () {
+        _this3.grades.splice(_this3.grades.indexOf(grade), 1);
       });
     }
   }
@@ -37721,45 +37755,68 @@ var render = function() {
                   { staticClass: "form" },
                   [
                     _vm._l(_vm.grades, function(grade) {
-                      return _c("div", { staticClass: "form-group" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass: "sr-only",
-                            attrs: { for: grade - "grade.id" }
-                          },
-                          [_vm._v("Grade")]
-                        ),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
+                      return _c(
+                        "div",
+                        { staticClass: "form-group input-group" },
+                        [
+                          _c(
+                            "label",
                             {
-                              name: "model",
-                              rawName: "v-model:value",
-                              value: grade.grade,
-                              expression: "grade.grade",
-                              arg: "value"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "number",
-                            step: ".01",
-                            id: grade - "grade.id",
-                            placeholder:
-                              "Grade, leave empty for not yet obtained"
-                          },
-                          domProps: { value: grade.grade },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                              staticClass: "sr-only",
+                              attrs: { for: grade - "grade.id" }
+                            },
+                            [_vm._v("Grade")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model:value",
+                                value: grade.grade,
+                                expression: "grade.grade",
+                                arg: "value"
                               }
-                              _vm.$set(grade, "grade", $event.target.value)
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "number",
+                              step: ".01",
+                              id: grade - "grade.id",
+                              placeholder:
+                                "Grade, leave empty or not yet obtained"
+                            },
+                            domProps: { value: grade.grade },
+                            on: {
+                              change: function(e) {
+                                return _vm.update_grade(e, grade)
+                              },
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(grade, "grade", $event.target.value)
+                              }
                             }
-                          }
-                        })
-                      ])
+                          }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "input-group-append" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "input-group-text btn btn-danger",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.remove_grade(grade)
+                                  }
+                                }
+                              },
+                              [_vm._v("X")]
+                            )
+                          ])
+                        ]
+                      )
                     }),
                     _vm._v(" "),
                     _c(
@@ -37773,7 +37830,7 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("asdasd")]
+                      [_vm._v("Toevoegen...")]
                     )
                   ],
                   2

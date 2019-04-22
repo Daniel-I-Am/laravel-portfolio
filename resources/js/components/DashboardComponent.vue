@@ -24,11 +24,14 @@
                     </div>
                     <div class="modal-body">
                         <form class="form">
-                            <div class="form-group" v-for="grade in grades">
+                            <div class="form-group input-group" v-for="grade in grades">
                                 <label class="sr-only" :for="grade-`grade.id`">Grade</label>
-                                <input type="number" step=".01" class="form-control" :id="grade-`grade.id`" placeholder="Grade, leave empty for not yet obtained" v-model:value="grade.grade">
+                                <input type="number" step=".01" class="form-control" :id="grade-`grade.id`" placeholder="Grade, leave empty or not yet obtained" v-model:value="grade.grade" @change="e => update_grade(e, grade)">
+                                <div class="input-group-append">
+                                    <button type="button" class="input-group-text btn btn-danger" @click="remove_grade(grade)">X</button>
+                                </div>
                             </div>
-                            <button type="button" class="btn btn-primary" @click="add_grade()">asdasd</button>
+                            <button type="button" class="btn btn-primary" @click="add_grade()">Toevoegen...</button>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -115,10 +118,6 @@
                 this.fetchCourses();
             },
             add_grade: function() {
-                this.grades.push({
-                    grade: null,
-                    subject_id: this.editing.subject_id,
-                });
                 fetch('/api/grades', {
                     method: 'post',
                     headers: {
@@ -130,7 +129,42 @@
                         _token: this.token,
                     }),
                 })
+                    .then(res => res.json())
+                    .then(data => {
+                        this.grades.push(data);
+                    })
                     .catch(() => {this.grades.pop()});
+            },
+            update_grade: function(e, grade) {
+                let value = e.target.value === "" ? null : e.target.value;
+                fetch(`/api/grades/${grade.id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        grade: value,
+                        subject_id: grade.subject_id,
+                        _token: this.token,
+                    }),
+                })
+                    .catch(() => {
+                        e.target.value = grade.grade;
+                    });
+            },
+            remove_grade: function(grade) {
+                fetch(`/api/grades/${grade.id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        _token: this.token,
+                    }),
+                })
+                    .then(() => {
+                        this.grades.splice(this.grades.indexOf(grade), 1);
+                    })
             }
         },
     }
