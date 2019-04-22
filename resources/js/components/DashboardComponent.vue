@@ -10,8 +10,8 @@
         <table class="table">
             <tbody>
                 <template v-for="course in courses">
-                    <course :course="course" @editing="obj => {editObject(obj, true)}"></course>
-                    <subject v-for="subject in course.subjects" v-bind:key="subject.id" :subject="subject" @editing="obj => {editObject(obj, false)}"></subject>
+                    <course :course="course" @editing="obj => {editObject(obj, true)}" @closing="closeEditor()"></course>
+                    <subject v-for="subject in course.subjects" v-bind:key="subject.id" :subject="subject" @editing="obj => {editObject(obj, false)}" @closing="closeEditor()"></subject>
                 </template>
             </tbody>
         </table>
@@ -55,11 +55,6 @@
                 if (editingCourse === undefined) editingCourse = true;
                 this.editingCourse = editingCourse;
                 this.closeEditor();
-                if (this.editingCourse) {
-                    console.log(object.course.name);
-                } else {
-                    console.log(object.subject.name);
-                }
                 this.editing = object;
             },
             closeEditor: function() {

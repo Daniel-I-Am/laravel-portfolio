@@ -1769,6 +1769,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     'course': {
@@ -1800,6 +1808,12 @@ __webpack_require__.r(__webpack_exports__);
     editObject: function editObject() {
       this.editing = true;
       this.$emit('editing', this);
+    },
+    saveEditor: function saveEditor() {
+      this.cancelEditor();
+    },
+    cancelEditor: function cancelEditor() {
+      this.$emit('closing');
     },
     closeEditor: function closeEditor() {
       this.editing = false;
@@ -1880,13 +1894,6 @@ __webpack_require__.r(__webpack_exports__);
       if (editingCourse === undefined) editingCourse = true;
       this.editingCourse = editingCourse;
       this.closeEditor();
-
-      if (this.editingCourse) {
-        console.log(object.course.name);
-      } else {
-        console.log(object.subject.name);
-      }
-
       this.editing = object;
     },
     closeEditor: function closeEditor() {
@@ -1908,6 +1915,17 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1988,6 +2006,12 @@ __webpack_require__.r(__webpack_exports__);
     editObject: function editObject() {
       this.editing = true;
       this.$emit('editing', this);
+    },
+    saveEditor: function saveEditor() {
+      this.cancelEditor();
+    },
+    cancelEditor: function cancelEditor() {
+      this.$emit('closing');
     },
     closeEditor: function closeEditor() {
       this.editing = false;
@@ -37288,21 +37312,64 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "tr",
-    {
-      staticClass: "table-info",
-      attrs: { id: "course-" + _vm.course.id },
-      on: {
-        click: function($event) {
-          return _vm.editObject()
-        }
-      }
-    },
+    { staticClass: "table-info", attrs: { id: "course-" + _vm.course.id } },
     [
-      _c("td", { staticClass: "h4", attrs: { colspan: "3" } }, [
-        _vm._v(
-          "Blok " + _vm._s(_vm.course.term) + " | " + _vm._s(_vm.course.name)
-        )
-      ])
+      _vm.editing === false
+        ? _c(
+            "td",
+            {
+              staticClass: "h4",
+              attrs: { colspan: "3" },
+              on: {
+                click: function($event) {
+                  return _vm.editObject()
+                }
+              }
+            },
+            [
+              _vm._v(
+                "Blok " +
+                  _vm._s(_vm.course.term) +
+                  " | " +
+                  _vm._s(_vm.course.name)
+              )
+            ]
+          )
+        : _c("td", { attrs: { colspan: "3" } }, [
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.saveEditor()
+                  }
+                }
+              },
+              [
+                _c("input", {
+                  attrs: { type: "number" },
+                  domProps: { value: this.course.term }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: { type: "text" },
+                  domProps: { value: this.course.name }
+                }),
+                _vm._v(" "),
+                _c("input", { attrs: { type: "submit", value: "Aanpassen" } }),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: { type: "reset", value: "Annuleren" },
+                  on: {
+                    click: function($event) {
+                      return _vm.saveEditor()
+                    }
+                  }
+                })
+              ]
+            )
+          ])
     ]
   )
 }
@@ -37367,6 +37434,9 @@ var render = function() {
                 on: {
                   editing: function(obj) {
                     _vm.editObject(obj, true)
+                  },
+                  closing: function($event) {
+                    return _vm.closeEditor()
                   }
                 }
               }),
@@ -37378,6 +37448,9 @@ var render = function() {
                   on: {
                     editing: function(obj) {
                       _vm.editObject(obj, false)
+                    },
+                    closing: function($event) {
+                      return _vm.closeEditor()
                     }
                   }
                 })
@@ -37416,72 +37489,150 @@ var render = function() {
     "tr",
     {
       class: _vm.getSubjectClass(_vm.subject),
-      attrs: { id: "subject-" + _vm.subject.id },
-      on: {
-        click: function($event) {
-          return _vm.editObject()
-        }
-      }
+      attrs: { id: "subject-" + _vm.subject.id }
     },
     [
-      _c("td", [_vm._v(_vm._s(_vm.subject.name))]),
-      _vm._v(" "),
-      _c("td", [_vm._v(_vm._s(_vm.subject.ec_value) + " EC")]),
-      _vm._v(" "),
-      _vm.subject.grades.length > 0
-        ? _c("td", [
-            _vm._v(
-              "\n        " +
-                _vm._s(
-                  _vm.subject.grades
-                    .map(function(e) {
-                      return e.grade
-                    })
-                    .filter(function(e) {
-                      return e != null
-                    })
-                    .join(", ")
-                ) +
-                "\n        "
+      _vm.editing === false
+        ? [
+            _c(
+              "td",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.editObject()
+                  }
+                }
+              },
+              [_vm._v(_vm._s(_vm.subject.name))]
             ),
-            _vm.subject.grades
-              .map(function(e) {
-                return e.grade
-              })
-              .filter(function(e) {
-                return e == null
-              }).length > 0
-              ? _c("span", { staticClass: "badge badge-secondary" }, [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(
-                        _vm.subject.grades
-                          .map(function(e) {
-                            return e.grade
-                          })
-                          .filter(function(e) {
-                            return e == null
-                          }).length
-                      ) +
-                      " " +
-                      _vm._s(
-                        _vm.subject.grades
-                          .map(function(e) {
-                            return e.grade
-                          })
-                          .filter(function(e) {
-                            return e == null
-                          }).length === 1
-                          ? "cijfer"
-                          : "cijfers"
-                      ) +
-                      " te gaan.\n        "
-                  )
-                ])
-              : _vm._e()
+            _vm._v(" "),
+            _c(
+              "td",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.editObject()
+                  }
+                }
+              },
+              [_vm._v(_vm._s(_vm.subject.ec_value) + " EC")]
+            ),
+            _vm._v(" "),
+            _vm.subject.grades.length > 0
+              ? _c(
+                  "td",
+                  {
+                    on: {
+                      click: function($event) {
+                        return _vm.editObject()
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(
+                          _vm.subject.grades
+                            .map(function(e) {
+                              return e.grade
+                            })
+                            .filter(function(e) {
+                              return e != null
+                            })
+                            .join(", ")
+                        ) +
+                        "\n            "
+                    ),
+                    _vm.subject.grades
+                      .map(function(e) {
+                        return e.grade
+                      })
+                      .filter(function(e) {
+                        return e == null
+                      }).length > 0
+                      ? _c("span", { staticClass: "badge badge-secondary" }, [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(
+                                _vm.subject.grades
+                                  .map(function(e) {
+                                    return e.grade
+                                  })
+                                  .filter(function(e) {
+                                    return e == null
+                                  }).length
+                              ) +
+                              " " +
+                              _vm._s(
+                                _vm.subject.grades
+                                  .map(function(e) {
+                                    return e.grade
+                                  })
+                                  .filter(function(e) {
+                                    return e == null
+                                  }).length === 1
+                                  ? "cijfer"
+                                  : "cijfers"
+                              ) +
+                              " te gaan.\n            "
+                          )
+                        ])
+                      : _vm._e()
+                  ]
+                )
+              : _c("td", [_vm._v("Geen")])
+          ]
+        : _c("td", { attrs: { colspan: "3" } }, [
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.saveEditor()
+                  }
+                }
+              },
+              [
+                _c("input", {
+                  attrs: { type: "text" },
+                  domProps: { value: this.subject.name }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: { type: "number" },
+                  domProps: { value: this.subject.ec_value }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: { type: "text" },
+                  domProps: {
+                    value: this.subject.grades
+                      .map(function(e) {
+                        return e.grade
+                      })
+                      .map(function(e) {
+                        return e == null ? "null" : e
+                      })
+                      .join(", ")
+                  }
+                }),
+                _vm._v(" "),
+                _c("input", { attrs: { type: "submit", value: "Aanpassen" } }),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: { type: "reset", value: "Annuleren" },
+                  on: {
+                    click: function($event) {
+                      return _vm.saveEditor()
+                    }
+                  }
+                })
+              ]
+            )
           ])
-        : _c("td", [_vm._v("Geen")])
-    ]
+    ],
+    2
   )
 }
 var staticRenderFns = []
