@@ -1782,7 +1782,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   data: function data() {
-    return {};
+    return {
+      editing: false
+    };
   },
   methods: {
     fetchCourse: function fetchCourse() {
@@ -1796,10 +1798,11 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](console.log);
     },
     editObject: function editObject() {
+      this.editing = true;
       this.$emit('editing', this);
     },
     closeEditor: function closeEditor() {
-      console.log("closing");
+      this.editing = false;
     }
   }
 });
@@ -1939,7 +1942,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   data: function data() {
-    return {};
+    return {
+      editing: false
+    };
   },
   methods: {
     fetchSubject: function fetchSubject() {
@@ -1981,10 +1986,11 @@ __webpack_require__.r(__webpack_exports__);
       return 'table-danger';
     },
     editObject: function editObject() {
+      this.editing = true;
       this.$emit('editing', this);
     },
     closeEditor: function closeEditor() {
-      console.log("closing");
+      this.editing = false;
     }
   }
 });

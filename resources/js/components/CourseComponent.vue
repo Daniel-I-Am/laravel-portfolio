@@ -19,7 +19,9 @@
         },
 
         data: function() {
-            return {}
+            return {
+                editing: false,
+            }
         },
 
         methods: {
@@ -33,10 +35,11 @@
                     .catch(console.log);
             },
             editObject: function() {
+                this.editing = true;
                 this.$emit('editing', this)
             },
             closeEditor: function() {
-                console.log("closing");
+                this.editing = false;
             },
         },
     }
