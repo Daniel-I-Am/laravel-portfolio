@@ -1921,6 +1921,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.editing == null) return;
       this.editing.closeEditor();
       this.editing = null;
+      this.fetchCourses();
     },
     updated_course: function updated_course(id, data) {
       var index = 0;
@@ -37418,8 +37419,25 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model:value",
+                      value: _vm.course.term,
+                      expression: "course.term",
+                      arg: "value"
+                    }
+                  ],
                   attrs: { id: "term_input", type: "number" },
-                  domProps: { value: this.course.term }
+                  domProps: { value: _vm.course.term },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.course, "term", $event.target.value)
+                    }
+                  }
                 }),
                 _vm._v(" "),
                 _c(
@@ -37429,8 +37447,25 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model:value",
+                      value: _vm.course.name,
+                      expression: "course.name",
+                      arg: "value"
+                    }
+                  ],
                   attrs: { id: "name_input", type: "text" },
-                  domProps: { value: this.course.name }
+                  domProps: { value: _vm.course.name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.course, "name", $event.target.value)
+                    }
+                  }
                 }),
                 _vm._v(" "),
                 _c("input", { attrs: { type: "submit", value: "Aanpassen" } }),
@@ -37615,8 +37650,25 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model:value",
+                      value: _vm.subject.name,
+                      expression: "subject.name",
+                      arg: "value"
+                    }
+                  ],
                   attrs: { id: "name_input", type: "text" },
-                  domProps: { value: this.subject.name }
+                  domProps: { value: _vm.subject.name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.subject, "name", $event.target.value)
+                    }
+                  }
                 }),
                 _vm._v(" "),
                 _c(
@@ -37626,8 +37678,25 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model:value",
+                      value: _vm.subject.ec_value,
+                      expression: "subject.ec_value",
+                      arg: "value"
+                    }
+                  ],
                   attrs: { id: "ec_value_input", type: "number" },
-                  domProps: { value: this.subject.ec_value }
+                  domProps: { value: _vm.subject.ec_value },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.subject, "ec_value", $event.target.value)
+                    }
+                  }
                 }),
                 _vm._v(" "),
                 _c("input", { attrs: { type: "submit", value: "Aanpassen" } }),

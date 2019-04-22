@@ -4,9 +4,9 @@
         <td colspan="3" v-else>
             <form id="editor_form" class="form-inline" @submit.prevent="saveEditor()">
                 <label class="sr-only" for="term_input">Term</label>
-                <input id="term_input" type="number" :value="this.course.term">
+                <input id="term_input" type="number" v-model:value="course.term">
                 <label class="sr-only" for="name_input">Name</label>
-                <input id="name_input" type="text" :value="this.course.name">
+                <input id="name_input" type="text" v-model:value="course.name">
                 <input type="submit" value="Aanpassen">
                 <input type="reset" value="Annuleren" @click="cancelEditor()">
             </form>

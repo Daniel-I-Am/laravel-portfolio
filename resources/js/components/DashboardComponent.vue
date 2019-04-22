@@ -61,6 +61,7 @@
                 if (this.editing == null) return;
                 this.editing.closeEditor();
                 this.editing = null;
+                this.fetchCourses();
             },
             updated_course: function(id, data) {
                 let index = 0;

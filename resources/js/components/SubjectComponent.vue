@@ -7,9 +7,9 @@
         <td colspan="2" v-else>
             <form @submit.prevent="saveEditor()">
                 <label class="sr-only" for="name_input">Name</label>
-                <input id="name_input" type="text" :value="this.subject.name">
+                <input id="name_input" type="text" v-model:value="subject.name">
                 <label class="sr-only" for="ec_value_input">Name</label>
-                <input id="ec_value_input" type="number" :value="this.subject.ec_value">
+                <input id="ec_value_input" type="number" v-model:value="subject.ec_value">
                 <input type="submit" value="Aanpassen">
                 <input type="reset" value="Annuleren" @click="cancelEditor()">
             </form>
