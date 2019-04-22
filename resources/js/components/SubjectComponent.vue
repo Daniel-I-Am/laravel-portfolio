@@ -1,5 +1,5 @@
 <template>
-    <tr :id="`subject-${subject.id}`" :class="getSubjectClass(subject)" v-on:click="editSubject(subject)">
+    <tr :id="`subject-${subject.id}`" :class="getSubjectClass(subject)" @click="editObject()">
         <td>{{ subject.name }}</td>
         <td>{{ subject.ec_value }} EC</td>
         <td v-if="subject.grades.length > 0">
@@ -61,8 +61,12 @@
                 }
                 return 'table-danger';
             },
-            editObject: function() {},
-            closeEditor: function() {},
+            editObject: function() {
+                this.$emit('editing', this)
+            },
+            closeEditor: function() {
+                console.log("closing");
+            },
         },
     }
 </script>

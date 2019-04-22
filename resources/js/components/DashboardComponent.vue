@@ -10,8 +10,8 @@
         <table class="table">
             <tbody>
                 <template v-for="course in courses">
-                    <course :course="course" :editor-methods="editorMethods"></course>
-                    <subject v-for="subject in course.subjects" v-bind:key="subject.id" :subject="subject" :editor-methods="editorMethods"></subject>
+                    <course :course="course" @editing="obj => {editObject(obj, true)}"></course>
+                    <subject v-for="subject in course.subjects" v-bind:key="subject.id" :subject="subject" @editing="obj => {editObject(obj, false)}"></subject>
                 </template>
             </tbody>
         </table>
@@ -29,11 +29,8 @@
                 courses: {},
                 current_ec: 0,
                 total_ec: 0,
+                editingCourse: true,
                 editing: null,
-                editorMethods: {
-                    edit: this.editObject,
-                    close: this.closeEditor,
-                },
 
                 token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
@@ -54,11 +51,21 @@
             getProgress: function() {
                 return this.current_ec/this.total_ec * 100;
             },
-            editObject: function() {
-                this.editing.editObject();
+            editObject: function(object, editingCourse) {
+                if (editingCourse === undefined) editingCourse = true;
+                this.editingCourse = editingCourse;
+                this.closeEditor();
+                if (this.editingCourse) {
+                    console.log(object.course.name);
+                } else {
+                    console.log(object.subject.name);
+                }
+                this.editing = object;
             },
             closeEditor: function() {
+                if (this.editing == null) return;
                 this.editing.closeEditor();
+                this.editing = null;
             },
         },
     }

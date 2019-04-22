@@ -1,5 +1,5 @@
 <template>
-    <tr :id="`course-${course.id}`" class="table-info">
+    <tr :id="`course-${course.id}`" class="table-info" @click="editObject()">
         <td colspan="3" class="h4">Blok {{course.term}} | {{ course.name }}</td>
     </tr>
 </template>
@@ -32,8 +32,12 @@
                     })
                     .catch(console.log);
             },
-            editObject: function() {},
-            closeEditor: function() {},
+            editObject: function() {
+                this.$emit('editing', this)
+            },
+            closeEditor: function() {
+                console.log("closing");
+            },
         },
     }
 </script>

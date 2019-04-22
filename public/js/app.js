@@ -1795,8 +1795,12 @@ __webpack_require__.r(__webpack_exports__);
         _this.course.term = data.term;
       })["catch"](console.log);
     },
-    editObject: function editObject() {},
-    closeEditor: function closeEditor() {}
+    editObject: function editObject() {
+      this.$emit('editing', this);
+    },
+    closeEditor: function closeEditor() {
+      console.log("closing");
+    }
   }
 });
 
@@ -1840,11 +1844,8 @@ __webpack_require__.r(__webpack_exports__);
       courses: {},
       current_ec: 0,
       total_ec: 0,
+      editingCourse: true,
       editing: null,
-      editorMethods: {
-        edit: this.editObject,
-        close: this.closeEditor
-      },
       token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
@@ -1872,11 +1873,23 @@ __webpack_require__.r(__webpack_exports__);
     getProgress: function getProgress() {
       return this.current_ec / this.total_ec * 100;
     },
-    editObject: function editObject() {
-      this.editing.editObject();
+    editObject: function editObject(object, editingCourse) {
+      if (editingCourse === undefined) editingCourse = true;
+      this.editingCourse = editingCourse;
+      this.closeEditor();
+
+      if (this.editingCourse) {
+        console.log(object.course.name);
+      } else {
+        console.log(object.subject.name);
+      }
+
+      this.editing = object;
     },
     closeEditor: function closeEditor() {
+      if (this.editing == null) return;
       this.editing.closeEditor();
+      this.editing = null;
     }
   }
 });
@@ -1967,8 +1980,12 @@ __webpack_require__.r(__webpack_exports__);
 
       return 'table-danger';
     },
-    editObject: function editObject() {},
-    closeEditor: function closeEditor() {}
+    editObject: function editObject() {
+      this.$emit('editing', this);
+    },
+    closeEditor: function closeEditor() {
+      console.log("closing");
+    }
   }
 });
 
@@ -37265,7 +37282,15 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "tr",
-    { staticClass: "table-info", attrs: { id: "course-" + _vm.course.id } },
+    {
+      staticClass: "table-info",
+      attrs: { id: "course-" + _vm.course.id },
+      on: {
+        click: function($event) {
+          return _vm.editObject()
+        }
+      }
+    },
     [
       _c("td", { staticClass: "h4", attrs: { colspan: "3" } }, [
         _vm._v(
@@ -37332,15 +37357,22 @@ var render = function() {
           _vm._l(_vm.courses, function(course) {
             return [
               _c("course", {
-                attrs: { course: course, "editor-methods": _vm.editorMethods }
+                attrs: { course: course },
+                on: {
+                  editing: function(obj) {
+                    _vm.editObject(obj, true)
+                  }
+                }
               }),
               _vm._v(" "),
               _vm._l(course.subjects, function(subject) {
                 return _c("subject", {
                   key: subject.id,
-                  attrs: {
-                    subject: subject,
-                    "editor-methods": _vm.editorMethods
+                  attrs: { subject: subject },
+                  on: {
+                    editing: function(obj) {
+                      _vm.editObject(obj, false)
+                    }
                   }
                 })
               })
@@ -37381,7 +37413,7 @@ var render = function() {
       attrs: { id: "subject-" + _vm.subject.id },
       on: {
         click: function($event) {
-          return _vm.editSubject(_vm.subject)
+          return _vm.editObject()
         }
       }
     },
