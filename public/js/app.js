@@ -37429,6 +37429,7 @@ var render = function() {
                       arg: "value"
                     }
                   ],
+                  staticClass: "form-control mb-2 mr-sm-2",
                   attrs: { id: "term_input", type: "number" },
                   domProps: { value: _vm.course.term },
                   on: {
@@ -37457,6 +37458,7 @@ var render = function() {
                       arg: "value"
                     }
                   ],
+                  staticClass: "form-control mb-2 mr-sm-2",
                   attrs: { id: "name_input", type: "text" },
                   domProps: { value: _vm.course.name },
                   on: {
@@ -37469,9 +37471,13 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("input", { attrs: { type: "submit", value: "Aanpassen" } }),
+                _c("input", {
+                  staticClass: "btn btn-primary mb-2 mr-sm-2",
+                  attrs: { type: "submit", value: "Aanpassen" }
+                }),
                 _vm._v(" "),
                 _c("input", {
+                  staticClass: "btn btn-danger mb-2",
                   attrs: { type: "reset", value: "Annuleren" },
                   on: {
                     click: function($event) {
@@ -37636,6 +37642,7 @@ var render = function() {
             _c(
               "form",
               {
+                staticClass: "form-inline",
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
@@ -37660,6 +37667,7 @@ var render = function() {
                       arg: "value"
                     }
                   ],
+                  staticClass: "form-control mb-2 mr-sm-2",
                   attrs: { id: "name_input", type: "text" },
                   domProps: { value: _vm.subject.name },
                   on: {
@@ -37688,6 +37696,7 @@ var render = function() {
                       arg: "value"
                     }
                   ],
+                  staticClass: "form-control mb-2 mr-sm-2",
                   attrs: { id: "ec_value_input", type: "number" },
                   domProps: { value: _vm.subject.ec_value },
                   on: {
@@ -37700,9 +37709,13 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("input", { attrs: { type: "submit", value: "Aanpassen" } }),
+                _c("input", {
+                  staticClass: "btn btn-primary mb-2 mr-sm-2",
+                  attrs: { type: "submit", value: "Aanpassen" }
+                }),
                 _vm._v(" "),
                 _c("input", {
+                  staticClass: "btn btn-danger mb-2",
                   attrs: { type: "reset", value: "Annuleren" },
                   on: {
                     click: function($event) {

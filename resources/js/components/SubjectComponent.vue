@@ -5,13 +5,13 @@
             <td @click="editObject()">{{ subject.ec_value }} EC</td>
         </template>
         <td colspan="2" v-else>
-            <form @submit.prevent="saveEditor()">
+            <form @submit.prevent="saveEditor()" class="form-inline">
                 <label class="sr-only" for="name_input">Name</label>
-                <input id="name_input" type="text" v-model:value="subject.name">
+                <input class="form-control mb-2 mr-sm-2" id="name_input" type="text" v-model:value="subject.name">
                 <label class="sr-only" for="ec_value_input">Name</label>
-                <input id="ec_value_input" type="number" v-model:value="subject.ec_value">
-                <input type="submit" value="Aanpassen">
-                <input type="reset" value="Annuleren" @click="cancelEditor()">
+                <input class="form-control mb-2 mr-sm-2" id="ec_value_input" type="number" v-model:value="subject.ec_value">
+                <input class="btn btn-primary mb-2 mr-sm-2" type="submit" value="Aanpassen">
+                <input class="btn btn-danger mb-2" type="reset" value="Annuleren" @click="cancelEditor()">
             </form>
         </td>
         <td v-if="subject.grades.length > 0">

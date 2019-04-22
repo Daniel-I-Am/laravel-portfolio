@@ -4,11 +4,11 @@
         <td colspan="3" v-else>
             <form id="editor_form" class="form-inline" @submit.prevent="saveEditor()">
                 <label class="sr-only" for="term_input">Term</label>
-                <input id="term_input" type="number" v-model:value="course.term">
+                <input class="form-control mb-2 mr-sm-2" id="term_input" type="number" v-model:value="course.term">
                 <label class="sr-only" for="name_input">Name</label>
-                <input id="name_input" type="text" v-model:value="course.name">
-                <input type="submit" value="Aanpassen">
-                <input type="reset" value="Annuleren" @click="cancelEditor()">
+                <input class="form-control mb-2 mr-sm-2" id="name_input" type="text" v-model:value="course.name">
+                <input class="btn btn-primary mb-2 mr-sm-2" type="submit" value="Aanpassen">
+                <input class="btn btn-danger mb-2" type="reset" value="Annuleren" @click="cancelEditor()">
             </form>
         </td>
     </tr>
