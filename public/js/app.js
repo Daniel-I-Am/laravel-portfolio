@@ -1906,6 +1906,30 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.fetchCourses();
@@ -1918,6 +1942,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       editingCourse: true,
       editing: null,
       grades: [],
+      new_subject: {
+        name: null,
+        ec_value: null,
+        course_id: null
+      },
       token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
@@ -2044,7 +2073,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       }).then(function () {
         _this3.grades.splice(_this3.grades.indexOf(grade), 1);
       });
-    }
+    },
+    open_add_subject: function open_add_subject() {},
+    submit_add_subject: function submit_add_subject() {}
   }
 });
 
@@ -37856,6 +37887,132 @@ var render = function() {
           ]
         )
       ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "subjectModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "subjectModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("form", { staticClass: "form" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "sr-only",
+                        attrs: { for: "subject_name_input" }
+                      },
+                      [_vm._v("Vaknaam")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model:value",
+                          value: _vm.new_subject.name,
+                          expression: "new_subject.name",
+                          arg: "value"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "subject_name_input",
+                        placeholder: "Vaknaam"
+                      },
+                      domProps: { value: _vm.new_subject.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.new_subject, "name", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "sr-only",
+                        attrs: { for: "subject_ec_value_input" }
+                      },
+                      [_vm._v("EC Waarde")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model:value",
+                          value: _vm.new_subject.ec_value,
+                          expression: "new_subject.ec_value",
+                          arg: "value"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "number",
+                        step: ".01",
+                        id: "subject_ec_value_input",
+                        placeholder: "EC Waarde"
+                      },
+                      domProps: { value: _vm.new_subject.ec_value },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.new_subject,
+                            "ec_value",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        return _vm.editing.cancelEditor()
+                      }
+                    }
+                  },
+                  [_vm._v("Done")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
     )
   ])
 }
@@ -37869,6 +38026,18 @@ var staticRenderFns = [
         "h5",
         { staticClass: "modal-title", attrs: { id: "gradeModalLabel" } },
         [_vm._v("Edit grades")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "subjectModalLabel" } },
+        [_vm._v("Voeg vak toe")]
       )
     ])
   }

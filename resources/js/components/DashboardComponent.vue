@@ -40,6 +40,30 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="subjectModal" tabindex="-1" role="dialog" aria-labelledby="subjectModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="subjectModalLabel">Voeg vak toe</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form">
+                            <div class="form-group">
+                                <label class="sr-only" for="subject_name_input">Vaknaam</label>
+                                <input type="text" id="subject_name_input" class="form-control" placeholder="Vaknaam" v-model:value="new_subject.name">
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="subject_ec_value_input">EC Waarde</label>
+                                <input type="number" step=".01" id="subject_ec_value_input" class="form-control" placeholder="EC Waarde" v-model:value="new_subject.ec_value">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="editing.cancelEditor()">Done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -57,6 +81,11 @@
                 editingCourse: true,
                 editing: null,
                 grades: [],
+                new_subject: {
+                    name: null,
+                    ec_value: null,
+                    course_id: null,
+                },
 
                 token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
@@ -165,7 +194,9 @@
                     .then(() => {
                         this.grades.splice(this.grades.indexOf(grade), 1);
                     })
-            }
+            },
+            open_add_subject: function() {},
+            submit_add_subject: function() {},
         },
     }
 </script>
