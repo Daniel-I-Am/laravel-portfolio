@@ -62,7 +62,7 @@ class GradeController extends Controller
     public function update(Request $request, Grade $grade)
     {
         $validatedData = $request->validate([
-            'grade' => 'required|numeric',
+            'grade' => 'nullable|numeric',
             'subject_id' => 'required|integer',
         ]);
 
