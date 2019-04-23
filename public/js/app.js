@@ -38680,7 +38680,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control mb-2 mr-sm-2",
-                  attrs: { id: "ec_value_input", type: "number" },
+                  attrs: { id: "ec_value_input", type: "number", step: ".1" },
                   domProps: { value: _vm.subject.ec_value },
                   on: {
                     input: function($event) {

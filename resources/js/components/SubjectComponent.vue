@@ -9,7 +9,7 @@
                 <label class="sr-only" for="name_input">Name</label>
                 <input class="form-control mb-2 mr-sm-2" id="name_input" type="text" v-model:value="subject.name">
                 <label class="sr-only" for="ec_value_input">Name</label>
-                <input class="form-control mb-2 mr-sm-2" id="ec_value_input" type="number" v-model:value="subject.ec_value">
+                <input class="form-control mb-2 mr-sm-2" id="ec_value_input" type="number" step=".1" v-model:value="subject.ec_value">
                 <input class="btn btn-primary mb-2 mr-sm-2" type="submit" value="Aanpassen">
                 <input class="btn btn-secondary mb-2 mr-sm-2" type="reset" value="Annuleren" @click="cancelEditor()">
                 <input class="btn btn-danger mb-2" type="reset" value="Verwijderen" @click="deleteSubject()">
