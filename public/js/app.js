@@ -1930,6 +1930,47 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.fetchCourses();
@@ -1942,6 +1983,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       editingCourse: true,
       editing: null,
       grades: [],
+      new_course: {
+        name: null,
+        term: null
+      },
       new_subject: {
         name: null,
         ec_value: null,
@@ -2074,8 +2119,73 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         _this3.grades.splice(_this3.grades.indexOf(grade), 1);
       });
     },
-    open_add_subject: function open_add_subject() {},
-    submit_add_subject: function submit_add_subject() {}
+    open_add_course: function open_add_course() {
+      $('#courseModal').modal();
+    },
+    submit_add_course: function submit_add_course() {
+      var _this4 = this;
+
+      fetch('/api/courses', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: this.new_course.name,
+          term: this.new_course.term,
+          _token: this.token
+        })
+      }).then(function (res) {
+        if (res.status === 200) {
+          _this4.new_course.name = null;
+          _this4.new_course.term = null;
+
+          _this4.fetchCourses();
+        } else {
+          throw Error("Failed to assert status code 200 is equal to ".concat(res.status));
+        }
+      })["catch"](function (e) {
+        console.log(e);
+
+        _this4.open_add_course();
+      });
+    },
+    close_add_course: function close_add_course() {},
+    open_add_subject: function open_add_subject() {
+      $('#subjectModal').modal();
+    },
+    submit_add_subject: function submit_add_subject() {
+      var _this5 = this;
+
+      console.log(this.new_subject);
+      fetch('/api/subjects', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        // redirect: 'error',
+        body: JSON.stringify({
+          name: this.new_subject.name,
+          ec_value: parseFloat(this.new_subject.ec_value),
+          course_id: parseInt(this.new_subject.course_id),
+          _token: this.token
+        })
+      }).then(function (res) {
+        if (res.status === 200) {
+          _this5.new_subject.name = null;
+          _this5.new_subject.ec_value = null;
+
+          _this5.fetchCourses();
+        } else {
+          throw new Error("Failed to assert status code 200 is equal to ".concat(res.status));
+        }
+      })["catch"](function (e) {
+        console.log(e);
+
+        _this5.open_add_subject();
+      });
+    },
+    close_add_subject: function close_add_subject() {}
   }
 });
 
@@ -37689,7 +37799,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-fluid" }, [
+  return _c("div", { staticClass: "container" }, [
     _c("h1", [_vm._v("Studievoortgang dashboard")]),
     _vm._v(" "),
     _c("div", { staticClass: "mb-2" }, [
@@ -37715,6 +37825,36 @@ var render = function() {
           }
         })
       ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row mb-2 ml-0" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary mr-2",
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              return _vm.open_add_course()
+            }
+          }
+        },
+        [_vm._v("Cursus toevoegen")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              return _vm.open_add_subject()
+            }
+          }
+        },
+        [_vm._v("Vak toevoegen")]
+      )
     ]),
     _vm._v(" "),
     _c("table", { staticClass: "table" }, [
@@ -37759,6 +37899,370 @@ var render = function() {
         2
       )
     ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "courseModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "courseModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "courseModalLabel" }
+                  },
+                  [_vm._v("Voeg cursus toe")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      "aria-label": "Close"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.close_add_course()
+                      }
+                    }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("form", { staticClass: "form" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "sr-only",
+                        attrs: { for: "course_name_input" }
+                      },
+                      [_vm._v("Cursusnaam")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model:value",
+                          value: _vm.new_course.name,
+                          expression: "new_course.name",
+                          arg: "value"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "course_name_input",
+                        placeholder: "Vaknaam"
+                      },
+                      domProps: { value: _vm.new_course.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.new_course, "name", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "label",
+                      { staticClass: "sr-only", attrs: { for: "term_input" } },
+                      [_vm._v("Blok")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model:value",
+                          value: _vm.new_course.term,
+                          expression: "new_course.term",
+                          arg: "value"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "number",
+                        step: "1",
+                        id: "term_input",
+                        placeholder: "Bloknummer"
+                      },
+                      domProps: { value: _vm.new_course.term },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.new_course, "term", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        return _vm.submit_add_course()
+                      }
+                    }
+                  },
+                  [_vm._v("Done")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "subjectModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "subjectModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "subjectModalLabel" }
+                  },
+                  [_vm._v("Voeg vak toe")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      "aria-label": "Close"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.close_add_subject()
+                      }
+                    }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("form", { staticClass: "form" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "sr-only",
+                        attrs: { for: "subject_name_input" }
+                      },
+                      [_vm._v("Vaknaam")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model:value",
+                          value: _vm.new_subject.name,
+                          expression: "new_subject.name",
+                          arg: "value"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "subject_name_input",
+                        placeholder: "Vaknaam"
+                      },
+                      domProps: { value: _vm.new_subject.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.new_subject, "name", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "sr-only",
+                        attrs: { for: "subject_ec_value_input" }
+                      },
+                      [_vm._v("EC Waarde")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model:value",
+                          value: _vm.new_subject.ec_value,
+                          expression: "new_subject.ec_value",
+                          arg: "value"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "number",
+                        step: ".01",
+                        id: "subject_ec_value_input",
+                        placeholder: "EC Waarde"
+                      },
+                      domProps: { value: _vm.new_subject.ec_value },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.new_subject,
+                            "ec_value",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "subject_course_input" } }, [
+                      _vm._v("Hoort bij cursus")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model:value",
+                            value: _vm.new_subject.course_id,
+                            expression: "new_subject.course_id",
+                            arg: "value"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "subject_course_input" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.new_subject,
+                              "course_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      _vm._l(_vm.courses, function(course) {
+                        return _c(
+                          "option",
+                          { domProps: { value: course.id } },
+                          [
+                            _vm._v(
+                              "Blok " +
+                                _vm._s(course.term) +
+                                " | " +
+                                _vm._s(course.name)
+                            )
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        return _vm.submit_add_subject()
+                      }
+                    }
+                  },
+                  [_vm._v("Add")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
     _vm._v(" "),
     _c(
       "div",
@@ -37887,132 +38391,6 @@ var render = function() {
           ]
         )
       ]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "subjectModal",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "subjectModalLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "modal-dialog", attrs: { role: "document" } },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _c("form", { staticClass: "form" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "sr-only",
-                        attrs: { for: "subject_name_input" }
-                      },
-                      [_vm._v("Vaknaam")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model:value",
-                          value: _vm.new_subject.name,
-                          expression: "new_subject.name",
-                          arg: "value"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "text",
-                        id: "subject_name_input",
-                        placeholder: "Vaknaam"
-                      },
-                      domProps: { value: _vm.new_subject.name },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.new_subject, "name", $event.target.value)
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "sr-only",
-                        attrs: { for: "subject_ec_value_input" }
-                      },
-                      [_vm._v("EC Waarde")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model:value",
-                          value: _vm.new_subject.ec_value,
-                          expression: "new_subject.ec_value",
-                          arg: "value"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "number",
-                        step: ".01",
-                        id: "subject_ec_value_input",
-                        placeholder: "EC Waarde"
-                      },
-                      domProps: { value: _vm.new_subject.ec_value },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.new_subject,
-                            "ec_value",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary",
-                    attrs: { type: "button", "data-dismiss": "modal" },
-                    on: {
-                      click: function($event) {
-                        return _vm.editing.cancelEditor()
-                      }
-                    }
-                  },
-                  [_vm._v("Done")]
-                )
-              ])
-            ])
-          ]
-        )
-      ]
     )
   ])
 }
@@ -38026,18 +38404,6 @@ var staticRenderFns = [
         "h5",
         { staticClass: "modal-title", attrs: { id: "gradeModalLabel" } },
         [_vm._v("Edit grades")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h5",
-        { staticClass: "modal-title", attrs: { id: "subjectModalLabel" } },
-        [_vm._v("Voeg vak toe")]
       )
     ])
   }

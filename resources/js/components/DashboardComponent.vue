@@ -1,11 +1,15 @@
 <template>
-    <div class="container-fluid">
+    <div class="container">
         <h1>Studievoortgang dashboard</h1>
         <div class="mb-2">
             <h2>Studievoortgang: ({{ this.current_ec }}&nbsp;/&nbsp;{{ this.total_ec }})</h2>
             <div class="progress">
                 <div class="progress-bar progress-bar-striped" role="progressbar" :style="`width: ${getProgress()}%`" :aria-valuenow="getProgress()" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
+        </div>
+        <div class="row mb-2 ml-0">
+            <button type="button" class="btn btn-primary mr-2" @click="open_add_course()">Cursus toevoegen</button>
+            <button type="button" class="btn btn-primary" @click="open_add_subject()">Vak toevoegen</button>
         </div>
         <table class="table">
             <tbody>
@@ -16,6 +20,67 @@
             </tbody>
         </table>
 
+        <!-- Modals -->
+        <div class="modal fade" id="courseModal" tabindex="-1" role="dialog" aria-labelledby="courseModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="courseModalLabel">Voeg cursus toe</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="close_add_course()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form">
+                            <div class="form-group">
+                                <label class="sr-only" for="course_name_input">Cursusnaam</label>
+                                <input type="text" id="course_name_input" class="form-control" placeholder="Vaknaam" v-model:value="new_course.name">
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="term_input">Blok</label>
+                                <input type="number" step="1" id="term_input" class="form-control" placeholder="Bloknummer" v-model:value="new_course.term">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="submit_add_course()">Done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="subjectModal" tabindex="-1" role="dialog" aria-labelledby="subjectModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="subjectModalLabel">Voeg vak toe</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="close_add_subject()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form">
+                            <div class="form-group">
+                                <label class="sr-only" for="subject_name_input">Vaknaam</label>
+                                <input type="text" id="subject_name_input" class="form-control" placeholder="Vaknaam" v-model:value="new_subject.name">
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="subject_ec_value_input">EC Waarde</label>
+                                <input type="number" step=".01" id="subject_ec_value_input" class="form-control" placeholder="EC Waarde" v-model:value="new_subject.ec_value">
+                            </div>
+                            <div class="form-group">
+                                <label for="subject_course_input">Hoort bij cursus</label>
+                                <select class="form-control" id="subject_course_input" v-model:value="new_subject.course_id">
+                                    <option v-for="course in courses" :value="course.id">Blok {{ course.term }} | {{ course.name}}</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="submit_add_subject()">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="gradeModal" tabindex="-1" role="dialog" aria-labelledby="gradeModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -32,30 +97,6 @@
                                 </div>
                             </div>
                             <button type="button" class="btn btn-primary" @click="add_grade()">Toevoegen...</button>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="editing.cancelEditor()">Done</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="subjectModal" tabindex="-1" role="dialog" aria-labelledby="subjectModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="subjectModalLabel">Voeg vak toe</h5>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form">
-                            <div class="form-group">
-                                <label class="sr-only" for="subject_name_input">Vaknaam</label>
-                                <input type="text" id="subject_name_input" class="form-control" placeholder="Vaknaam" v-model:value="new_subject.name">
-                            </div>
-                            <div class="form-group">
-                                <label class="sr-only" for="subject_ec_value_input">EC Waarde</label>
-                                <input type="number" step=".01" id="subject_ec_value_input" class="form-control" placeholder="EC Waarde" v-model:value="new_subject.ec_value">
-                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -81,6 +122,10 @@
                 editingCourse: true,
                 editing: null,
                 grades: [],
+                new_course: {
+                    name: null,
+                    term: null,
+                },
                 new_subject: {
                     name: null,
                     ec_value: null,
@@ -195,8 +240,69 @@
                         this.grades.splice(this.grades.indexOf(grade), 1);
                     })
             },
-            open_add_subject: function() {},
-            submit_add_subject: function() {},
+            open_add_course: function() {
+                $('#courseModal').modal();
+            },
+            submit_add_course: function() {
+                fetch('/api/courses', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: this.new_course.name,
+                        term: this.new_course.term,
+                        _token: this.token,
+                    }),
+                })
+                    .then(res => {
+                        if (res.status === 200) {
+                            this.new_course.name = null;
+                            this.new_course.term = null;
+                            this.fetchCourses();
+                        } else {
+                            throw Error(`Failed to assert status code 200 is equal to ${res.status}`);
+                        }
+                    })
+                    .catch(e => {
+                        console.log(e);
+                        this.open_add_course();
+                    });
+            },
+            close_add_course: function() {},
+            open_add_subject: function() {
+                $('#subjectModal').modal();
+            },
+            submit_add_subject: function() {
+                console.log(this.new_subject);
+                fetch('/api/subjects', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    // redirect: 'error',
+                    body: JSON.stringify({
+                        name: this.new_subject.name,
+                        ec_value: parseFloat(this.new_subject.ec_value),
+                        course_id: parseInt(this.new_subject.course_id),
+                        _token: this.token,
+                    }),
+                })
+                    .then(res => {
+                        if (res.status === 200) {
+                            this.new_subject.name = null;
+                            this.new_subject.ec_value = null;
+                            this.fetchCourses();
+                        } else {
+                            throw new Error(`Failed to assert status code 200 is equal to ${res.status}`);
+                        }
+                    })
+                    .catch(e => {
+                        console.log(e);
+                        this.open_add_subject();
+                    });
+            },
+            close_add_subject: function() {},
         },
     }
 </script>
