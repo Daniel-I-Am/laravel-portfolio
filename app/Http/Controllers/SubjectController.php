@@ -82,12 +82,12 @@ class SubjectController extends Controller
      * Remove the specified resource from storage.
      *
      * @param \App\Subject $subject
-     * @return bool
+     * @return array
      * @throws \Exception
      */
     public function destroy(Subject $subject)
     {
         $subject->delete();
-        return true;
+        return ['error' => false];
     }
 }

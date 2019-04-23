@@ -11,7 +11,8 @@
                 <label class="sr-only" for="ec_value_input">Name</label>
                 <input class="form-control mb-2 mr-sm-2" id="ec_value_input" type="number" v-model:value="subject.ec_value">
                 <input class="btn btn-primary mb-2 mr-sm-2" type="submit" value="Aanpassen">
-                <input class="btn btn-danger mb-2" type="reset" value="Annuleren" @click="cancelEditor()">
+                <input class="btn btn-secondary mb-2 mr-sm-2" type="reset" value="Annuleren" @click="cancelEditor()">
+                <input class="btn btn-danger mb-2" type="reset" value="Verwijderen" @click="deleteSubject()">
             </form>
         </td>
         <grade :grades="subject.grades" :subject_id="subject.id" @editing="(data) => {this.$emit('grade_editing', data)}" @closing="(data) => {this.$emit('grade_closing', data)}"></grade>
@@ -91,6 +92,26 @@
                         this.cancelEditor();
                     })
                     .catch(console.log);
+            },
+            deleteSubject: function() {
+                this.cancelEditor();
+                fetch(`/api/subjects/${this.subject.id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        '_token': this.token,
+                    }),
+                })
+                    .then(res => {
+                        if (res.status === 200) {
+                            this.$emit('deleted_subject');
+                        } else {
+                            throw new Error(`Failed to assert status code 200 is ${res.status}`);
+                        }
+                    })
+                    .catch(console.log)
             },
             cancelEditor: function() {
                 this.$emit('closing');

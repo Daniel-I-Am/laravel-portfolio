@@ -2272,6 +2272,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     'subject': {
@@ -2358,6 +2359,26 @@ __webpack_require__.r(__webpack_exports__);
         _this2.$emit('update_subject', _this2.subject.id, data);
 
         _this2.cancelEditor();
+      })["catch"](console.log);
+    },
+    deleteSubject: function deleteSubject() {
+      var _this3 = this;
+
+      this.cancelEditor();
+      fetch("/api/subjects/".concat(this.subject.id), {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          '_token': this.token
+        })
+      }).then(function (res) {
+        if (res.status === 200) {
+          _this3.$emit('deleted_subject');
+        } else {
+          throw new Error("Failed to assert status code 200 is ".concat(res.status));
+        }
       })["catch"](console.log);
     },
     cancelEditor: function cancelEditor() {
@@ -37888,6 +37909,9 @@ var render = function() {
                       return _vm.closeEditor()
                     },
                     updated_subject: _vm.updated_subject,
+                    deleted_subject: function($event) {
+                      return _vm.fetchCourses()
+                    },
                     grade_editing: _vm.edit_grade,
                     grade_closing: _vm.close_grade
                   }
@@ -38639,11 +38663,21 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c("input", {
-                  staticClass: "btn btn-danger mb-2",
+                  staticClass: "btn btn-secondary mb-2 mr-sm-2",
                   attrs: { type: "reset", value: "Annuleren" },
                   on: {
                     click: function($event) {
                       return _vm.cancelEditor()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "btn btn-danger mb-2",
+                  attrs: { type: "reset", value: "Verwijderen" },
+                  on: {
+                    click: function($event) {
+                      return _vm.deleteSubject()
                     }
                   }
                 })
@@ -51050,15 +51084,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!****************************************************!*\
   !*** ./resources/js/components/GradeComponent.vue ***!
   \****************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _GradeComponent_vue_vue_type_template_id_6cc7e711___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GradeComponent.vue?vue&type=template&id=6cc7e711& */ "./resources/js/components/GradeComponent.vue?vue&type=template&id=6cc7e711&");
 /* harmony import */ var _GradeComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GradeComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/GradeComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _GradeComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _GradeComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -51088,7 +51121,7 @@ component.options.__file = "resources/js/components/GradeComponent.vue"
 /*!*****************************************************************************!*\
   !*** ./resources/js/components/GradeComponent.vue?vue&type=script&lang=js& ***!
   \*****************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -51203,8 +51236,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/daniel/Programming/php/portfolio/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/daniel/Programming/php/portfolio/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/daniel/Programming/php/laravel/laravel-portfolio/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/daniel/Programming/php/laravel/laravel-portfolio/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
