@@ -8,7 +8,8 @@
                 <label class="sr-only" for="name_input">Name</label>
                 <input class="form-control mb-2 mr-sm-2" id="name_input" type="text" v-model:value="course.name">
                 <input class="btn btn-primary mb-2 mr-sm-2" type="submit" value="Aanpassen">
-                <input class="btn btn-danger mb-2" type="reset" value="Annuleren" @click="cancelEditor()">
+                <input class="btn btn-secondary mb-2 mr-sm-2" type="reset" value="Annuleren" @click="cancelEditor()">
+                <input type="reset" value="Verwijderen" class="btn btn-danger mb-2" @click="deleteCourse()">
             </form>
         </td>
     </tr>
@@ -63,8 +64,28 @@
                 })
                     .then(res => res.json())
                     .then(data => {
-                        this.$emit('update_course', this.course.id, data);
                         this.cancelEditor();
+                        this.$emit('update_course', this.course.id, data);
+                    })
+                    .catch(console.log);
+            },
+            deleteCourse: function() {
+                fetch(`/api/courses/${this.course.id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        '_token': this.token,
+                    }),
+                })
+                    .then(res => {
+                        if (res.status === 200) {
+                            this.$emit('deleted_course');
+                            this.cancelEditor();
+                        } else {
+                            throw new Error(`Failed to assert that status code 200 is ${res.status}`);
+                        }
                     })
                     .catch(console.log);
             },

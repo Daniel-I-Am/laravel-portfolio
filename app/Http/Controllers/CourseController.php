@@ -87,12 +87,12 @@ class CourseController extends Controller
      * Remove the specified resource from storage.
      *
      * @param \App\Course $course
-     * @return bool
+     * @return array
      * @throws \Exception
      */
     public function destroy(Course $course)
     {
         $course->delete();
-        return true;
+        return ['error' => false];
     }
 }

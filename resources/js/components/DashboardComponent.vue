@@ -14,7 +14,7 @@
         <table class="table">
             <tbody>
                 <template v-for="(course, index) in courses">
-                    <course :token="token" :course="course" @editing="obj => {editObject(obj, true)}" @closing="closeEditor()" @updated_course="updated_course"></course>
+                    <course :token="token" :course="course" @editing="obj => {editObject(obj, true)}" @closing="closeEditor()" @updated_course="updated_course" @deleted_course="fetchCourses()"></course>
                     <subject :token="token" v-for="subject in course.subjects" v-bind:key="subject.id" :subject="subject" @editing="obj => {editObject(obj, false)}" @closing="closeEditor()" @updated_subject="updated_subject" @deleted_subject="fetchCourses()" @grade_editing="edit_grade" @grade_closing="close_grade"></subject>
                 </template>
             </tbody>

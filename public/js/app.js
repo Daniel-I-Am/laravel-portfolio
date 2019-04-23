@@ -1779,6 +1779,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     'course': {
@@ -1828,9 +1829,30 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         return res.json();
       }).then(function (data) {
-        _this2.$emit('update_course', _this2.course.id, data);
-
         _this2.cancelEditor();
+
+        _this2.$emit('update_course', _this2.course.id, data);
+      })["catch"](console.log);
+    },
+    deleteCourse: function deleteCourse() {
+      var _this3 = this;
+
+      fetch("/api/courses/".concat(this.course.id), {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          '_token': this.token
+        })
+      }).then(function (res) {
+        if (res.status === 200) {
+          _this3.$emit('deleted_course');
+
+          _this3.cancelEditor();
+        } else {
+          throw new Error("Failed to assert that status code 200 is ".concat(res.status));
+        }
       })["catch"](console.log);
     },
     cancelEditor: function cancelEditor() {
@@ -37784,11 +37806,21 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c("input", {
-                  staticClass: "btn btn-danger mb-2",
+                  staticClass: "btn btn-secondary mb-2 mr-sm-2",
                   attrs: { type: "reset", value: "Annuleren" },
                   on: {
                     click: function($event) {
                       return _vm.cancelEditor()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "btn btn-danger mb-2",
+                  attrs: { type: "reset", value: "Verwijderen" },
+                  on: {
+                    click: function($event) {
+                      return _vm.deleteCourse()
                     }
                   }
                 })
@@ -37893,7 +37925,10 @@ var render = function() {
                   closing: function($event) {
                     return _vm.closeEditor()
                   },
-                  updated_course: _vm.updated_course
+                  updated_course: _vm.updated_course,
+                  deleted_course: function($event) {
+                    return _vm.fetchCourses()
+                  }
                 }
               }),
               _vm._v(" "),
