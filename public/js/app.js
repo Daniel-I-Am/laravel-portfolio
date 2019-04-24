@@ -1948,7 +1948,7 @@ __webpack_require__.r(__webpack_exports__);
       submit.type = 'submit';
       submit.value = "Aanpassen";
       submit.addEventListener('click', function (e) {
-        _this4.updateCourse(e.target.previousElementSibling.value);
+        _this4.updateSubject(e.parentNode);
       });
       td.removeChild(td.firstChild);
       td.nextElementSibling.hidden = true;
