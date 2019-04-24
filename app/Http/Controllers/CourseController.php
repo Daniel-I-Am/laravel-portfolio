@@ -31,7 +31,7 @@ class CourseController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Course
      */
     public function store(Request $request)
     {
@@ -46,13 +46,15 @@ class CourseController extends Controller
         $course->term = $validatedData['term'];
 
         $course->save();
+
+        return Course::with(['subjects', 'subjects.grades'])->find($course->id);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Course  $course
-     * @return \Illuminate\Http\Response
+     * @return \App\Course
      */
     public function show($id)
     {
@@ -64,7 +66,7 @@ class CourseController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Course  $course
-     * @return \Illuminate\Http\Response
+     * @return Course
      */
     public function update(Request $request, Course $course)
     {
@@ -77,17 +79,20 @@ class CourseController extends Controller
         $course->term = $validatedData['term'];
 
         $course->save();
+
+        return Course::with(['subjects', 'subjects.grades'])->find($course->id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param \App\Course $course
-     * @return \Illuminate\Http\Response
+     * @return array
      * @throws \Exception
      */
     public function destroy(Course $course)
     {
         $course->delete();
+        return ['error' => false];
     }
 }

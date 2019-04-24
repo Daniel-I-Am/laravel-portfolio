@@ -26,7 +26,7 @@ class CreateSubjectsTable extends Migration
             $table->timestamps();
 
             $table->string('name', 45);
-            $table->integer('ec_value');
+            $table->double('ec_value');
             $table->unsignedBigInteger('course_id');
 
             $table->index(["course_id"], 'fk_tests_1_idx');

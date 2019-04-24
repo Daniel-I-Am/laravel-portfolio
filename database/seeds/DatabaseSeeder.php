@@ -18,8 +18,7 @@ class DatabaseSeeder extends Seeder
         \App\Course::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        factory(\App\Course::class, 10)->create();
-        factory(\App\Subject::class, 25)->create();
-        factory(\App\Grade::class, 50)->create();
+        $this->call(CourseSeeder::class);
+        $this->call(SubjectSeeder::class);
     }
 }
