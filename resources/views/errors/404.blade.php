@@ -1,13 +1,16 @@
 @extends('errors.base_error')
 
 @section('error_message')
-    Helaas konden wij deze pagina niet vinden.
+    {{ __('portfolio.errors.404.error') }}
+@endsection
+
+@section('tips')
+    @if(__('portfolio.errors.404.tips') != 'portfolio.errors.404.tips')
+        <p>{!! __('portfolio.errors.404.tips') !!}</p>
+    @endif
 @endsection
 
 @section('what_now')
-    <p>
-        Snel naar:
-    </p>
     <ul>
         @if(url()->previous() != url()->current())
             <li><a href="{{ url()->previous() }}">{{ __('portfolio.page_previous') }}</a></li>
@@ -16,5 +19,5 @@
         <li><a href="{{ route('profile') }}">{{ __('portfolio.profile') }}</a></li>
         <li><a href="{{ route('dashboard') }}">{{ __('portfolio.dashboard') }}</a></li>
     </ul>
-    <p>Hulp nodig? <a href="{{ route('contact') }}">Neem contact op!</a></p>
+    <p>{{ __('portfolio.need_help') }}? <a href="{{ route('contact') }}">{{ __('portfolio.contact_us') }}!</a></p>
 @endsection

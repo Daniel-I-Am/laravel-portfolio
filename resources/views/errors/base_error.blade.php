@@ -8,7 +8,7 @@
                     <h2 class="title">Foutmelding</h2>
                     <div class="content">
                         <p class="content">
-                            @yield('error_message', 'Helaas konden wij deze pagina niet vinden.')
+                            @yield('error_message', __('portfolio.errors.default.error'))
                         </p>
                     </div>
                 </div>
@@ -19,6 +19,9 @@
                 <div class="card-item">
                     <h2 class="title">Wat nu?</h2>
                     <div class="content">
+                        @section('tips')
+                            {!! __('portfolio.errors.default.tips') !!}
+                        @show
                         @yield('what_now')
                     </div>
                 </div>
