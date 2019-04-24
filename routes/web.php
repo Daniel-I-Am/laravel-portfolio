@@ -28,7 +28,7 @@ Route::resource('/api/grades', 'GradeController')->except([
     'create', 'edit',
 ]);
 
-Route::resource('/contact-form', 'ContactFromController');
+Route::resource('/contact-form', 'ContactFormController');
 
 Route::get('/{code}/{msg?}', function($code, $msg = '') {
     abort($code, $msg);
