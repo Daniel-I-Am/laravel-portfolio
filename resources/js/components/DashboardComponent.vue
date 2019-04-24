@@ -91,7 +91,7 @@
                         <form class="form">
                             <div class="form-group input-group" v-for="grade in grades">
                                 <label class="sr-only" :for="grade-`grade.id`">Grade</label>
-                                <input type="number" step=".01" class="form-control" :id="grade-`grade.id`" placeholder="Grade, leave empty or not yet obtained" v-model:value="grade.grade" @change="e => update_grade(e, grade)">
+                                <input type="number" step=".01" class="form-control" :id="grade-`grade.id`" placeholder="Grade, leave empty for not yet obtained" v-model:value="grade.grade" @change="e => update_grade(e, grade)">
                                 <div class="input-group-append">
                                     <button type="button" class="input-group-text btn btn-danger" @click="remove_grade(grade)">X</button>
                                 </div>

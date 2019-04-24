@@ -38378,7 +38378,7 @@ var render = function() {
                               step: ".01",
                               id: grade - "grade.id",
                               placeholder:
-                                "Grade, leave empty or not yet obtained"
+                                "Grade, leave empty for not yet obtained"
                             },
                             domProps: { value: grade.grade },
                             on: {
