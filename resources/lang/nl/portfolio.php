@@ -17,7 +17,28 @@ return [
     'page_previous' => 'Vorige pagina',
 
     'contact_details' => 'Contactgegevens',
-    'contact_form' => 'Contactformulier',
+    'contact_form' => [
+        'title' => 'Contactformulier',
+        'email' => [
+            'label' => 'Voer het e-mail adres in waar wij u kunnen bereiken.',
+            'icon' => '<i class="fas fa-envelope"></i>',
+            'placeholder' => 'Voer een geldige e-mail in',
+        ],
+        'name' => [
+            'label' => 'Voer uw naam in',
+            'icon' => '<i class="fas fa-user"></i>',
+            'placeholder' => 'Voer uw naam in',
+        ],
+        'message' => [
+            'label' => 'Feedback',
+            'icon' => '<i class="fas fa-comment"></i>',
+            'placeholder' => 'Voer hier uw bericht in',
+        ],
+        'submit' => [
+            'value' => 'Verzenden',
+            'icon' => '<i class="fas fa-bullhorn"></i>',
+        ],
+    ],
     'need_help' => 'Hulp nodig',
     'contact_us' => 'Neem contact op',
 
