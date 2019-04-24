@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'navbar_brand' => 'Porfolio',
+    'navbar_brand' => 'Portfolio',
     
     'home' => 'Home',
     'profile' => 'Profiel',
