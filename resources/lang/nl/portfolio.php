@@ -48,16 +48,20 @@ return [
             'tips' => 'Probeer de pagina later nog eens te bezoeken of ga naar:',
         ],
         '403' => [
-            'error' => 'U heeft geen toegang tot deze pagina',
-            'tips' => 'Probeer de pagina later nog eens te bezoeken of ga naar:',
+            'error' => 'U heeft onvoldoende rechten om deze pagina te bezoeken.',
+            'tips' => 'Bent u ingelogd op het juiste account?<br>Is dit niet wat u verwacht? Vraag dan aan uw systeembeheerder om uw toegang te controleren.',
         ],
         '404' => [
             'error' => 'Helaas konden wij deze pagina niet vinden.',
             'tips' => 'Probeer de pagina later nog eens te bezoeken of ga naar: ',
         ],
+        '419' => [
+            'error' => 'Uw sessie is verlopen.',
+            'tips' => 'Ga terug naar de vorige pagina om het forulier opnieuw te verzenden.<br>Herhaalt dit probleem zich? <a href="/contact">Neem dan contact op.</a>',
+        ],
         '500' => [
-            'error' => '',
-            'tips' => null,
+            'error' => 'Er is een fout opgetreden in ons systeem.',
+            'tips' => 'We zullen deze foutmelding verwerken en oplossen.<br>Probeer de pagina later nog eens te bezoeken.',
         ],
     ],
 ];
