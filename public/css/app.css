@@ -10677,14 +10677,36 @@ a.text-dark:focus {
 .card-item-outer .card-item {
   height: 100%;
   border: solid black 0.2rem;
-  border-radius: 0 0 1em 1em;
+  border-radius: 0 0 1rem 1rem;
 }
 
 .card-item-outer .card-item .title {
   border-bottom: solid black 0.2rem;
+  margin-bottom: 0;
+}
+
+.card-item-outer .card-item .content:not(.content-image) {
+  margin: 1rem;
+}
+
+.card-item-outer .card-item .content:not(.content-image) img {
+  max-width: 100%;
+  height: auto;
+}
+
+.card-item-outer .card-item .content-image {
+  display: flex;
 }
 
 .card-item-outer .card-item .content-image img {
-  border-radius: 0 0 1em 1em;
+  padding: 0;
+}
+
+.card-item-outer .card-item .content-image img:first-of-type {
+  border-bottom-left-radius: 1rem;
+}
+
+.card-item-outer .card-item .content-image img:last-of-type {
+  border-bottom-right-radius: 1rem;
 }
 
