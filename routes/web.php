@@ -26,3 +26,7 @@ Route::resource('/api/subjects', 'SubjectController')->except([
 Route::resource('/api/grades', 'GradeController')->except([
     'create', 'edit',
 ]);
+
+Route::get('/{code}/{msg?}', function($code, $msg = '') {
+    abort($code, $msg);
+})->where('code', '[0-9]{3}');
