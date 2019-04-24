@@ -12,4 +12,6 @@ return [
     'author' => [
         'name' => 'Daniel de Cloet'
     ],
+
+    'page_previous' => 'Vorige pagina',
 ];
