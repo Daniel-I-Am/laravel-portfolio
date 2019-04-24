@@ -20,7 +20,7 @@ return [
     'contact_form' => [
         'title' => 'Contactformulier',
         'email' => [
-            'label' => 'Voer het e-mail adres in waar wij u kunnen bereiken.',
+            'label' => 'Voer het e-mailadres in waar wij u kunnen bereiken.',
             'icon' => '<i class="fas fa-envelope"></i>',
             'placeholder' => 'Voer een geldige e-mail in',
         ],
