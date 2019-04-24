@@ -17,6 +17,7 @@ return [
     'page_previous' => 'Vorige pagina',
 
     'contact_details' => 'Contactgegevens',
+    'contact_form' => 'Contactformulier',
     'need_help' => 'Hulp nodig',
     'contact_us' => 'Neem contact op',
 
