@@ -28,14 +28,34 @@ $secondary-color:       #000;
     .card-item {
         height: 100%;
         border: solid black .2rem;
-        border-radius: 0 0 1em 1em;
+        border-radius: 0 0 1rem 1rem;
 
         .title {
             border-bottom: solid black .2rem;
+            margin-bottom: 0;
         }
 
-        .content-image img {
-            border-radius: 0 0 1em 1em;
+        .content:not(.content-image){
+            margin: 1rem;
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+
+        .content-image {
+            display: flex;
+            img {
+                padding: 0;
+
+                &:first-of-type {
+                    border-bottom-left-radius: 1rem;
+                }
+
+                &:last-of-type {
+                    border-bottom-right-radius: 1rem;
+                }
+            }
         }
     }
 }
