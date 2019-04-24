@@ -49,7 +49,7 @@
                 <div class="card-item">
                     <h2 class=title>{{ __('portfolio.contact_details') }}</h2>
                     <div class="content">
-                        <ul class="list-unstyled ml-4">
+                        <ul class="list-unstyled">
                             <li>Daniel de Cloet</li>
                             <li><i class="fas fa-envelope"></i> <a href="mailto:{{ __('portfolio.author.email') }}">{{ __('portfolio.author.email') }}</a></li>
                         </ul>
