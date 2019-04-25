@@ -1,5 +1,7 @@
 @extends('errors.base_error')
 
+@section('status_code', 403)
+
 @section('error_message')
     {{ __('portfolio.errors.403.error') }}
 @endsection
