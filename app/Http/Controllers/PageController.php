@@ -26,4 +26,8 @@ class PageController extends Controller
     public function vision() {
         return view('vision');
     }
+
+    public function contact() {
+        return view('contact');
+    }
 }

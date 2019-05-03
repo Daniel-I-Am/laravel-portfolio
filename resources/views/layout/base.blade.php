@@ -17,6 +17,27 @@
     <div id="app">
         @yield('body')
     </div>
+    @if($errors->any() || session()->exists('success_message'))
+        <div class="position-fixed col-lg-4 col-6" style="right: 1em; bottom: 3em;">
+            @if($errors->any())
+                @foreach($errors->all() as $error)
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ $error }}
+                        <button class="close" type="button" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                @endforeach
+            @elseif(session()->exists('success_message'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session()->pull('success_message') }}
+                    <button class="close" type="button" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+            @endif
+        </div>
+    @endif
     @include('layout.footer')
 </body>
 <script src="{{ asset('js/app.js') }}"></script>
