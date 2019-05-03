@@ -60,6 +60,7 @@
                         <img class="col-6" alt="Afbeelding Paarden" title="Afbeelding Paarden" src="{{ asset('images/paardjes.jpg') }}">
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 @endsection
