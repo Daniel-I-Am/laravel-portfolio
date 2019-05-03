@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="card-item-outer col-xl-5 text-xl-left text-center">
-                <p style="font-size: 20em;">@yield('status_code', 721)</p>
+                <p style="font-size: 20vw;">@yield('status_code', 721)</p>
             </div>
         </div>
     </div>

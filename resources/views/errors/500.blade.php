@@ -3,12 +3,12 @@
 @section('status_code', 500)
 
 @section('error_message')
-    {!! __('portfolio.errors.404.error') !!}
+    {!! __('portfolio.errors.500.error') !!}
 @endsection
 
 @section('tips')
-    @if(__('portfolio.errors.404.tips') != 'portfolio.errors.404.tips')
-        <p>{!! __('portfolio.errors.404.tips') !!}</p>
+    @if(__('portfolio.errors.500.tips') != 'portfolio.errors.500.tips')
+        <p>{!! __('portfolio.errors.500.tips') !!}</p>
     @endif
 @endsection
 

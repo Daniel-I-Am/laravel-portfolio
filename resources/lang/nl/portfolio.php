@@ -44,20 +44,20 @@ return [
 
     'errors' => [
         'default' => [
-            'error' => 'Helaas konden wij deze pagina niet vinden.',
+            'error' => 'Helaas konden wij deze pagina niet vinden.<br>Misschien is deze pagina recentelijk verplaatst of tijdelijk niet toegankelijk.',
             'tips' => 'Probeer de pagina later nog eens te bezoeken of ga naar:',
         ],
         '403' => [
             'error' => 'U heeft onvoldoende rechten om deze pagina te bezoeken.',
-            'tips' => 'Bent u ingelogd op het juiste account?<br>Is dit niet wat u verwacht? Vraag dan aan uw systeembeheerder om uw toegang te controleren.',
+            'tips' => 'Bent u ingelogd op het juiste account?<br>Is dit niet wat u verwacht? Vraag dan aan uw systeembeheerder om uw toegang te controleren.<br>Ga snel naar:',
         ],
         '404' => [
-            'error' => 'Helaas konden wij deze pagina niet vinden.',
-            'tips' => 'Probeer de pagina later nog eens te bezoeken of ga naar: ',
+            'error' => 'Helaas konden wij deze pagina niet vinden.<br>Misschien is deze pagina recentelijk verplaatst of tijdelijk niet toegankelijk.',
+            'tips' => 'Probeer de pagina later nog eens te bezoeken of ga naar:',
         ],
         '419' => [
             'error' => 'Uw sessie is verlopen.',
-            'tips' => 'Ga terug naar de vorige pagina om het forulier opnieuw te verzenden.<br>Herhaalt dit probleem zich? <a href="/contact">Neem dan contact op.</a>',
+            'tips' => 'Ga terug naar de vorige pagina om het forulier opnieuw te verzenden.<br>Herhaalt dit probleem zich? <a href="/contact">Neem dan contact op.</a><br>Ga snel naar:',
         ],
         '500' => [
             'error' => 'Er is een fout opgetreden in ons systeem.',
