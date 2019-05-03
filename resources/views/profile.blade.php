@@ -28,7 +28,7 @@
                                         <li>Diablo III</li>
                                         <li>Elite Dangerous</li>
                                         <li>Overwatch</li>
-                                        <li>D&amp;D</li>
+                                        <li>D&#38;D</li>
                                     </ul>
                                 </li>
                                 <li>Singleplayer
