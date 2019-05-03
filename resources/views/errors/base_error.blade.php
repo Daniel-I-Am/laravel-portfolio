@@ -9,7 +9,9 @@
                         <h2 class="title">Foutmelding</h2>
                         <div class="content">
                             <p class="content">
-                                @yield('error_message', __('portfolio.errors.default.error'))
+                                @section('error_message')
+                                    {!! __('portfolio.errors.default.error') !!}
+                                @show
                             </p>
                         </div>
                     </div>

@@ -3,7 +3,7 @@
 @section('status_code', 419)
 
 @section('error_message')
-    {{ __('portfolio.errors.419.error') }}
+    {!! __('portfolio.errors.419.error') !!}
 @endsection
 
 @section('tips')
