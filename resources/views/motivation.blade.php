@@ -3,7 +3,7 @@
 @section('body')
     <div class="container">
         <div class="row">
-            <div class="card-item-outer col-6">
+            <div class="card-item-outer col-md-6 col-12">
                 <div class="card-item">
                     <h2 class=title>Theorie</h2>
                     <p class=content>
@@ -40,7 +40,7 @@
                     </p>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-md-6 col-12">
                 <div class="card-item-outer">
                     <div class="card-item">
                         <h2 class=title>Prestatie Motivatie</h2>
@@ -80,19 +80,20 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="card-item-outer col-12">
-                    <div class="card-item">
-                        <h2 class=title>Conclusie</h2>
-                        <p class=content>
-                            Ik ben een zeer gedreven student, zeer gemotiveerd. Dit is simpelweg omdat ik het ICT-veld, grote delen er van in ieder geval, zeer interessant vind.
-                            Mijn motivatie is niet zo zeer gedreven door <i>purpose</i>, zoals Dan Pink vertelde, maar wel heel erg door de andere twee aspecten die hij noemde, namelijk <i>autonomy</i> en <i>mastery</i>.
-                            <br />
-                            <i>Feedback ouders</i>
-                            Zij zijn het zeker eens met het feit dat ik behoorlijk gemotiveerd kan zijn. Zij geven zelfs aan dat ik me meestal heel erg vast bijt, als ik ergens aan begin. Soms zo erg dat ik me niet eens realiseer hoe lang ik ergens aan bezig ben, omdat ik alle andere dingen gewoon laat vallen.
-                        </p>
-                    </div>
+        </div>
+        <div class="row">
+            <div class="card-item-outer col-12">
+                <div class="card-item">
+                    <h2 class=title>Conclusie</h2>
+                    <p class=content>
+                        Ik ben een zeer gedreven student, zeer gemotiveerd. Dit is simpelweg omdat ik het ICT-veld, grote delen er van in ieder geval, zeer interessant vind.
+                        Mijn motivatie is niet zo zeer gedreven door <i>purpose</i>, zoals Dan Pink vertelde, maar wel heel erg door de andere twee aspecten die hij noemde, namelijk <i>autonomy</i> en <i>mastery</i>.
+                        <br />
+                        <i>Feedback ouders</i>
+                        Zij zijn het zeker eens met het feit dat ik behoorlijk gemotiveerd kan zijn. Zij geven zelfs aan dat ik me meestal heel erg vast bijt, als ik ergens aan begin. Soms zo erg dat ik me niet eens realiseer hoe lang ik ergens aan bezig ben, omdat ik alle andere dingen gewoon laat vallen.
+                    </p>
                 </div>
             </div>
         </div>
+    </div>
 @endsection
