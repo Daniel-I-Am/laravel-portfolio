@@ -8,7 +8,7 @@
                     <h2 class=title>{{ __('portfolio.contact_form.title') }}</h2>
                     <div class="content">
                         <form action="{{ route('contact-form.store') }}" method="post">
-{{--                            @csrf--}}
+                            @csrf
                             <div class="form-group">
                                 <label for="email_input">{{ __('portfolio.contact_form.email.label') }}</label>
                                 <div class="input-group mb-2">
