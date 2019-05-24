@@ -3,7 +3,7 @@
 @section('body')
     <div class="container">
         <div class="row">
-            <div class="card-item-outer col-9">
+            <div class="card-item-outer col-xl-9 col-12">
                 <div class="card-item">
                     <h2 class=title>{{ __('portfolio.contact_form.title') }}</h2>
                     <div class="content">
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card-item-outer col-3">
+            <div class="card-item-outer col-xl-3 col-12">
                 <div class="card-item">
                     <h2 class=title>{{ __('portfolio.contact_details') }}</h2>
                     <div class="content">
