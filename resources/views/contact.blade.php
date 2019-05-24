@@ -34,9 +34,9 @@
                                 placeholder="{{ __('portfolio.contact_form.message.placeholder') }}"
                                 label="{{ __('portfolio.contact_form.message.label') }}"
                                 icon-class="{{ __('portfolio.contact_form.message.icon') }}"
-                                is-text-area="true"
-                                text-area-cols="30"
-                                text-area-rows="10"
+                                v-bind:is-text-area="true"
+                                v-bind:text-area-cols="30"
+                                v-bind:text-area-rows="10"
                             ></input-field>
                             <div class="input-group">
                                 <div class="input-group-prepend">
