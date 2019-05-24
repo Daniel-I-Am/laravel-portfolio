@@ -7,8 +7,9 @@
                     <i :class="this.iconClass"></i>
                 </div>
             </div>
-            <input
+            <input v-if="!this.isTextArea"
                 :class="`form-control ${this.validationClass}`"
+
                 :id="this.id"
                 :name="this.name"
                 :type="this.type"
@@ -16,6 +17,17 @@
                 :placeholder="this.placeholder != null ? this.placeholder : null"
                 :value="this.currentValue"
             >
+            <textarea v-else
+                :class="`form-control ${this.validationClass}`"
+
+                :id="this.id"
+                :name="this.name"
+
+                :placeholder="this.placeholder != null ? this.placeholder : null"
+
+                :cols="this.textAreaCols"
+                :rows="this.textAreaRows"
+            >{{ this.currentValue }}</textarea>
             <div class="invalid-feedback" v-if="this.error_message">{{ this.error_message }}</div>
         </div>
     </div>
@@ -92,7 +104,14 @@
             validation: {
                 type: String,
                 default: "required"
-            }
+            },
+
+            isTextArea: {
+                type: Boolean,
+                default: false,
+            },
+            textAreaCols: Number,
+            textAreaRows: Number,
         },
         mounted: function() {
             this.currentValue = this.value;

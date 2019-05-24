@@ -14,7 +14,7 @@
                                 name="email"
                                 placeholder="user@example.com"
                                 popover-title="Voer een geldige email in"
-                                popover-content="Een e-mailadres moet een enkel @ teken hebben.<br>Example: user@example.com"
+                                popover-content="Een e-mailadres moet een enkel @ teken hebben en eindigen op een domein (example.com).<br>Example: user@example.com"
                                 label="Voer het e-mailadres in waar wij u kunnen bereiken."
                                 icon-class="fas fa-envelope"
                                 validation="email"
@@ -28,15 +28,16 @@
                                 label="Voer uw naam in"
                                 icon-class="fas fa-user"
                             ></input-field>
-                            <div class="form-group">
-                                <label for="message_input">{{ __('portfolio.contact_form.message.label') }}</label>
-                                <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">{!! __('portfolio.contact_form.message.icon') !!}</div>
-                                    </div>
-                                    <textarea name="message" id="message_input" cols="30" rows="10" class="form-control" placeholder="{{ __('portfolio.contact_form.message.placeholder')  }}"></textarea>
-                                </div>
-                            </div>
+                            <input-field
+                                id="message_input"
+                                name="message"
+                                placeholder="Voer hier uw bericht in"
+                                label="Feedback"
+                                icon-class="fas fa-comment"
+                                is-text-area="true"
+                                text-area-cols="30"
+                                text-area-rows="10"
+                            ></input-field>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">{!! __('portfolio.contact_form.submit.icon') !!}</div>

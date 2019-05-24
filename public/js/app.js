@@ -2297,6 +2297,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _this = this;
@@ -2368,7 +2380,13 @@ __webpack_require__.r(__webpack_exports__);
     validation: {
       type: String,
       "default": "required"
-    }
+    },
+    isTextArea: {
+      type: Boolean,
+      "default": false
+    },
+    textAreaCols: Number,
+    textAreaRows: Number
   },
   mounted: function mounted() {
     var _this2 = this;
@@ -38733,16 +38751,31 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _c("input", {
-        class: "form-control " + this.validationClass,
-        attrs: {
-          id: this.id,
-          name: this.name,
-          type: this.type,
-          placeholder: this.placeholder != null ? this.placeholder : null
-        },
-        domProps: { value: this.currentValue }
-      }),
+      !this.isTextArea
+        ? _c("input", {
+            class: "form-control " + this.validationClass,
+            attrs: {
+              id: this.id,
+              name: this.name,
+              type: this.type,
+              placeholder: this.placeholder != null ? this.placeholder : null
+            },
+            domProps: { value: this.currentValue }
+          })
+        : _c(
+            "textarea",
+            {
+              class: "form-control " + this.validationClass,
+              attrs: {
+                id: this.id,
+                name: this.name,
+                placeholder: this.placeholder != null ? this.placeholder : null,
+                cols: this.textAreaCols,
+                rows: this.textAreaRows
+              }
+            },
+            [_vm._v(_vm._s(this.currentValue))]
+          ),
       _vm._v(" "),
       this.error_message
         ? _c("div", { staticClass: "invalid-feedback" }, [
