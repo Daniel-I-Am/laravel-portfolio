@@ -2398,8 +2398,12 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this2 = this;
 
-    this.currentValue = this.value;
-    $("#".concat(this.id)).focus(function () {
+    // Grab the property and store as data, so we can edit it later on
+    this.currentValue = this.value; // Execute on element with id
+
+    $("#".concat(this.id)) // on focus
+    .focus(function () {
+      // if we have popup content, popup
       if (_this2.popoverTitle != null && _this2.popoverContent != null) {
         $("#".concat(_this2.id)).popover({
           title: _this2.popoverTitle,
@@ -2408,17 +2412,23 @@ __webpack_require__.r(__webpack_exports__);
           html: true
         });
       }
-    }).blur(function () {
+    }) // on blur (un-focus)
+    .blur(function () {
+      // if we have popup content, hide popup
       if (_this2.popoverTitle != null && _this2.popoverContent != null) {
         $("#".concat(_this2.id)).popover('hide');
-      }
+      } // Assign the new value (any info the user edited) into the currentValue data that we assigned before
 
-      _this2.currentValue = $("#".concat(_this2.id)).val();
+
+      _this2.currentValue = $("#".concat(_this2.id)).val(); // Check if we even have to validate
 
       if (_this2.shouldValidate) {
+        // If so, try to validate with the validation method stored in `this.validation`
         if (_this2.validationMethods[_this2.validation](_this2.currentValue)) {
+          // Validation succeeded (returned `true`)
           _this2.validationClass = 'is-valid';
         } else {
+          // Validation did not succeed (returned `false` or `null`)
           _this2.validationClass = 'is-invalid';
         }
       }

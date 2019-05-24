@@ -121,10 +121,14 @@
             textAreaRows: Number,
         },
         mounted: function() {
+            // Grab the property and store as data, so we can edit it later on
             this.currentValue = this.value;
 
+            // Execute on element with id
             $(`#${this.id}`)
+                // on focus
                 .focus(() => {
+                    // if we have popup content, popup
                     if (this.popoverTitle != null && this.popoverContent != null) {
                         $(`#${this.id}`).popover({
                             title: this.popoverTitle,
@@ -134,15 +138,22 @@
                         });
                     }
                 })
+                // on blur (un-focus)
                 .blur(() => {
+                    // if we have popup content, hide popup
                     if (this.popoverTitle != null && this.popoverContent != null) {
                         $(`#${this.id}`).popover('hide');
                     }
+                    // Assign the new value (any info the user edited) into the currentValue data that we assigned before
                     this.currentValue = $(`#${this.id}`).val();
+                    // Check if we even have to validate
                     if (this.shouldValidate) {
+                        // If so, try to validate with the validation method stored in `this.validation`
                         if (this.validationMethods[this.validation](this.currentValue)) {
+                            // Validation succeeded (returned `true`)
                             this.validationClass = 'is-valid';
                         } else {
+                            // Validation did not succeed (returned `false` or `null`)
                             this.validationClass = 'is-invalid';
                         }
                     }
