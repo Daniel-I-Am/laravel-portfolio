@@ -42,6 +42,9 @@
                 error_message: null,
 
                 validationMethods: {
+                    none: (value) => {
+                        return true;
+                    },
                     required: (value) => {
                         if (value)
                             return true;
@@ -101,6 +104,10 @@
                 default: "bottom",
             },
 
+            shouldValidate: {
+                type: Boolean,
+                default: true,
+            },
             validation: {
                 type: String,
                 default: "required"
@@ -132,10 +139,12 @@
                         $(`#${this.id}`).popover('hide');
                     }
                     this.currentValue = $(`#${this.id}`).val();
-                    if (this.validationMethods[this.validation](this.currentValue)) {
-                        this.validationClass = 'is-valid';
-                    } else {
-                        this.validationClass = 'is-invalid';
+                    if (this.shouldValidate) {
+                        if (this.validationMethods[this.validation](this.currentValue)) {
+                            this.validationClass = 'is-valid';
+                        } else {
+                            this.validationClass = 'is-invalid';
+                        }
                     }
                 });
         },

@@ -38,12 +38,14 @@
                                 v-bind:text-area-cols="30"
                                 v-bind:text-area-rows="10"
                             ></input-field>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">{!! __('portfolio.contact_form.submit.icon') !!}</div>
-                                </div>
-                                <input type="submit" class="form-control" id="name_input" value="{{ __('portfolio.contact_form.submit.value') }}">
-                            </div>
+                            <input-field
+                                id="submit_button"
+                                type="submit"
+                                value="{{ __('portfolio.contact_form.submit.value') }}"
+                                icon-class="{{ __('portfolio.contact_form.submit.icon') }}"
+                                validation="none"
+                                v-bind:should-validate="false"
+                            ></input-field>
                         </form>
                     </div>
                 </div>

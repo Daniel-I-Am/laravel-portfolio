@@ -2318,6 +2318,9 @@ __webpack_require__.r(__webpack_exports__);
       currentValue: null,
       error_message: null,
       validationMethods: {
+        none: function none(value) {
+          return true;
+        },
         required: function required(value) {
           if (value) return true;
           _this.error_message = "Veld is verplicht";
@@ -2377,6 +2380,10 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       "default": "bottom"
     },
+    shouldValidate: {
+      type: Boolean,
+      "default": true
+    },
     validation: {
       type: String,
       "default": "required"
@@ -2408,10 +2415,12 @@ __webpack_require__.r(__webpack_exports__);
 
       _this2.currentValue = $("#".concat(_this2.id)).val();
 
-      if (_this2.validationMethods[_this2.validation](_this2.currentValue)) {
-        _this2.validationClass = 'is-valid';
-      } else {
-        _this2.validationClass = 'is-invalid';
+      if (_this2.shouldValidate) {
+        if (_this2.validationMethods[_this2.validation](_this2.currentValue)) {
+          _this2.validationClass = 'is-valid';
+        } else {
+          _this2.validationClass = 'is-invalid';
+        }
       }
     });
   }

@@ -40,7 +40,7 @@ return [
         ],
         'submit' => [
             'value' => 'Verzenden',
-            'icon' => '<i class="fas fa-bullhorn"></i>',
+            'icon' => 'fas fa-bullhorn',
         ],
     ],
     'need_help' => 'Hulp nodig',
