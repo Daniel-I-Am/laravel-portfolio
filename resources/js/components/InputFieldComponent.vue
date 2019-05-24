@@ -37,10 +37,9 @@
                         return false;
                     },
                     email: (value) => {
-                        console.log("email triggered");
                         if (value) {
-                            // Default html `email` input type regex used by W3C
-                            const regex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                            // 'Basic' JS email validation. Source: https://emailregex.com/ | resource used @ 24-05-2019
+                            const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                             if (regex.test(value)) {
                                 return true;
                             }
