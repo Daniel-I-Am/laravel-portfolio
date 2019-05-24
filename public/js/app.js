@@ -2299,10 +2299,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
+    var _this = this;
+
     return {
       validationClass: '',
       currentValue: null,
-      error_message: null
+      error_message: null,
+      validationMethods: {
+        required: function required(value) {
+          if (value) return true;
+          _this.error_message = "Veld is verplicht";
+          return false;
+        },
+        email: function email(value) {
+          console.log("email triggered");
+
+          if (value) {
+            // Default html `email` input type regex used by W3C
+            var regex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+            if (regex.test(value)) {
+              return true;
+            }
+
+            _this.error_message = "E-mail voldoet niet aan formaat: user@example.com";
+            return false;
+          }
+
+          _this.error_message = "Veld is verplicht";
+          return false;
+        }
+      }
     };
   },
   props: {
@@ -2340,39 +2367,35 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       "default": "bottom"
     },
-    validationCallback: {
-      type: Function,
-      "default": function _default(value) {
-        if (value) return true;
-        this.error_message = "Veld is verplicht";
-        return false;
-      }
+    validation: {
+      type: String,
+      "default": "required"
     }
   },
   mounted: function mounted() {
-    var _this = this;
+    var _this2 = this;
 
     this.currentValue = this.value;
     $("#".concat(this.id)).focus(function () {
-      if (_this.popoverTitle != null && _this.popoverContent != null) {
-        $("#".concat(_this.id)).popover({
-          title: _this.popoverTitle,
-          content: _this.popoverContent,
-          placement: _this.popoverSide,
+      if (_this2.popoverTitle != null && _this2.popoverContent != null) {
+        $("#".concat(_this2.id)).popover({
+          title: _this2.popoverTitle,
+          content: _this2.popoverContent,
+          placement: _this2.popoverSide,
           html: true
         });
       }
     }).blur(function () {
-      if (_this.popoverTitle != null && _this.popoverContent != null) {
-        $("#".concat(_this.id)).popover('hide');
+      if (_this2.popoverTitle != null && _this2.popoverContent != null) {
+        $("#".concat(_this2.id)).popover('hide');
       }
 
-      _this.currentValue = $("#".concat(_this.id)).val();
+      _this2.currentValue = $("#".concat(_this2.id)).val();
 
-      if (_this.validationCallback(_this.currentValue)) {
-        _this.validationClass = 'is-valid';
+      if (_this2.validationMethods[_this2.validation](_this2.currentValue)) {
+        _this2.validationClass = 'is-valid';
       } else {
-        _this.validationClass = 'is-invalid';
+        _this2.validationClass = 'is-invalid';
       }
     });
   }

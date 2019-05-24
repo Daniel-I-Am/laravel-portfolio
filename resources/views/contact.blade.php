@@ -17,6 +17,7 @@
                                 popover-content="Een e-mailadres moet een enkel @ teken hebben.<br>Example: user@example.com"
                                 label="Voer het e-mailadres in waar wij u kunnen bereiken."
                                 icon-class="fas fa-envelope"
+                                validation="email"
                             ></input-field>
                             <input-field
                                 id="name_input"

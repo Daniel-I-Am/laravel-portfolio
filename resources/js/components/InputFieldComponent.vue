@@ -28,6 +28,29 @@
                 validationClass: '',
                 currentValue: null,
                 error_message: null,
+
+                validationMethods: {
+                    required: (value) => {
+                        if (value)
+                            return true;
+                        this.error_message = "Veld is verplicht";
+                        return false;
+                    },
+                    email: (value) => {
+                        console.log("email triggered");
+                        if (value) {
+                            // Default html `email` input type regex used by W3C
+                            const regex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                            if (regex.test(value)) {
+                                return true;
+                            }
+                            this.error_message = "E-mail voldoet niet aan formaat: user@example.com";
+                            return false;
+                        }
+                        this.error_message = "Veld is verplicht";
+                        return false;
+                    },
+                }
             }
         },
         props: {
@@ -67,14 +90,9 @@
                 default: "bottom",
             },
 
-            validationCallback: {
-                type: Function,
-                default: function(value) {
-                    if (value)
-                        return true;
-                    this.error_message = "Veld is verplicht";
-                    return false;
-                },
+            validation: {
+                type: String,
+                default: "required"
             }
         },
         mounted: function() {
@@ -96,7 +114,7 @@
                         $(`#${this.id}`).popover('hide');
                     }
                     this.currentValue = $(`#${this.id}`).val();
-                    if (this.validationCallback(this.currentValue)) {
+                    if (this.validationMethods[this.validation](this.currentValue)) {
                         this.validationClass = 'is-valid';
                     } else {
                         this.validationClass = 'is-invalid';
