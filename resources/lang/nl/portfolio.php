@@ -21,17 +21,21 @@ return [
         'title' => 'Contactformulier',
         'email' => [
             'label' => 'Voer het e-mailadres in waar wij u kunnen bereiken.',
-            'icon' => '<i class="fas fa-envelope"></i>',
-            'placeholder' => 'Voer een geldige e-mail in',
+            'icon' => 'fas fa-envelope',
+            'placeholder' => 'user@example.com',
+            'popover_title' => 'Voer een geldige email in',
+            'popover_content' => 'Een e-mailadres moet een enkel @ teken hebben en eindigen op een domein (example.com).<br>Example: user@example.com',
         ],
         'name' => [
             'label' => 'Voer uw naam in',
-            'icon' => '<i class="fas fa-user"></i>',
+            'icon' => 'fas fa-user',
             'placeholder' => 'Voer uw naam in',
+            'popover_title' => 'Voer uw naam in',
+            'popover_content' => 'De naam waar u graag mee angesproken wilt worden.',
         ],
         'message' => [
             'label' => 'Feedback',
-            'icon' => '<i class="fas fa-comment"></i>',
+            'icon' => 'fas fa-comment',
             'placeholder' => 'Voer hier uw bericht in',
         ],
         'submit' => [
