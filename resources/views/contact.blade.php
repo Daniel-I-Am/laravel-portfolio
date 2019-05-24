@@ -9,24 +9,24 @@
                     <div class="content">
                         <form action="{{ route('contact-form.store') }}" method="post">
                             @csrf
-                            <div class="form-group">
-                                <label for="email_input">{{ __('portfolio.contact_form.email.label') }}</label>
-                                <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">{!! __('portfolio.contact_form.email.icon') !!}</div>
-                                    </div>
-                                    <input type="email" class="form-control" id="email_input" placeholder="{{ __('portfolio.contact_form.email.placeholder') }}">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="name_input">{{ __('portfolio.contact_form.name.label') }}</label>
-                                <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">{!! __('portfolio.contact_form.name.icon') !!}</div>
-                                    </div>
-                                    <input type="text" class="form-control" id="name_input" placeholder="{{ __('portfolio.contact_form.name.placeholder') }}">
-                                </div>
-                            </div>
+                            <input-field
+                                id="email_input"
+                                name="email"
+                                placeholder="user@example.com"
+                                popover-title="Voer een geldige email in"
+                                popover-content="Een e-mailadres moet een enkel @ teken hebben.<br>Example: user@example.com"
+                                label="Voer het e-mailadres in waar wij u kunnen bereiken."
+                                icon-class="fas fa-envelope"
+                            ></input-field>
+                            <input-field
+                                id="name_input"
+                                name="name"
+                                placeholder="Voer uw naam in"
+                                popover-title="Voer uw naam in"
+                                popover-content="De naam waar u graag mee angesproken wilt worden."
+                                label="Voer uw naam in"
+                                icon-class="fas fa-user"
+                            ></input-field>
                             <div class="form-group">
                                 <label for="message_input">{{ __('portfolio.contact_form.message.label') }}</label>
                                 <div class="input-group mb-2">
