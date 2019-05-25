@@ -7,7 +7,7 @@
                 <div class="card-item">
                     <h2 class=title>{{ __('portfolio.contact_form.title') }}</h2>
                     <div class="content">
-                        <form action="{{ route('contact-form.store') }}" method="post">
+                        <form action="{{ route('contact-form.store') }}" method="post" id="contact_form">
                             @csrf
                             <input-field
                                 id="email_input"
