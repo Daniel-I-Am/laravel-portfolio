@@ -2314,9 +2314,13 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     return {
+      // vuejs data to store the `is-valid` or `is-invalid` class
       validationClass: '',
+      // Keep track of the user input
       currentValue: null,
+      // Error message to display, null if none
       error_message: null,
+      // A collection of all available methods
       validationMethods: {
         none: function none(value) {
           return true;
@@ -2329,7 +2333,7 @@ __webpack_require__.r(__webpack_exports__);
         email: function email(value) {
           if (value) {
             // 'Basic' JS email validation. Source: https://emailregex.com/ | resource used @ 24-05-2019
-            var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; // Check if the input matches... _that_ monstrosity
 
             if (regex.test(value)) {
               return true;
@@ -2346,21 +2350,19 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   props: {
+    // Core input stuff
+    id: String,
+    name: String,
     type: {
       type: String,
       "default": "text"
     },
-    placeholder: {
-      type: String,
-      "default": null
-    },
-    id: String,
-    name: String,
+    // User-friendly fields
     label: {
       type: String,
       "default": null
     },
-    iconClass: {
+    placeholder: {
       type: String,
       "default": null
     },
@@ -2368,6 +2370,12 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       "default": null
     },
+    // Prepend icon, if it exists
+    iconClass: {
+      type: String,
+      "default": null
+    },
+    // Popover, if it exists
     popoverTitle: {
       type: String,
       "default": null
@@ -2380,6 +2388,7 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       "default": "bottom"
     },
+    // Validation
     shouldValidate: {
       type: Boolean,
       "default": true
@@ -2388,6 +2397,7 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       "default": "required"
     },
+    // Some misc special types of input
     isTextArea: {
       type: Boolean,
       "default": false
@@ -7079,7 +7089,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n@-webkit-keyframes incorrect-input-field-animation {\n0% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n25% {\n        -webkit-transform: rotate(2deg);\n                transform: rotate(2deg);\n}\n50% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n75% {\n        -webkit-transform: rotate(-2deg);\n                transform: rotate(-2deg);\n}\n100% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n}\n@keyframes incorrect-input-field-animation {\n0% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n25% {\n        -webkit-transform: rotate(2deg);\n                transform: rotate(2deg);\n}\n50% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n75% {\n        -webkit-transform: rotate(-2deg);\n                transform: rotate(-2deg);\n}\n100% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n}\n.incorrect-animate {\n    -webkit-animation: incorrect-input-field-animation 300ms linear infinite;\n    animation: incorrect-input-field-animation 300ms linear infinite;\n}\n", ""]);
+exports.push([module.i, "\n@-webkit-keyframes incorrect-input-field-animation {\n0% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n25% {\n        -webkit-transform: rotate(2deg);\n                transform: rotate(2deg);\n}\n75% {\n        -webkit-transform: rotate(-2deg);\n                transform: rotate(-2deg);\n}\n100% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n}\n@keyframes incorrect-input-field-animation {\n0% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n25% {\n        -webkit-transform: rotate(2deg);\n                transform: rotate(2deg);\n}\n75% {\n        -webkit-transform: rotate(-2deg);\n                transform: rotate(-2deg);\n}\n100% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n}\n.incorrect-animate {\n    -webkit-animation: incorrect-input-field-animation 300ms linear infinite;\n    animation: incorrect-input-field-animation 300ms linear infinite;\n}\n", ""]);
 
 // exports
 

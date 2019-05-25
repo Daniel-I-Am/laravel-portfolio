@@ -225,9 +225,6 @@
         25% {
             transform: rotate(2deg);
         }
-        50% {
-            transform: rotate(0deg);
-        }
         75% {
             transform: rotate(-2deg);
         }
