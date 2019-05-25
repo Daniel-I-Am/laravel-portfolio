@@ -37,10 +37,14 @@
     export default {
         data: function() {
             return {
+                // vuejs data to store the `is-valid` or `is-invalid` class
                 validationClass: '',
+                // Keep track of the user input
                 currentValue: null,
+                // Error message to display, null if none
                 error_message: null,
 
+                // A collection of all available methods
                 validationMethods: {
                     none: (value) => {
                         return true;
@@ -55,6 +59,7 @@
                         if (value) {
                             // 'Basic' JS email validation. Source: https://emailregex.com/ | resource used @ 24-05-2019
                             const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                            // Check if the input matches... _that_ monstrosity
                             if (regex.test(value)) {
                                 return true;
                             }
@@ -68,29 +73,35 @@
             }
         },
         props: {
+            // Core input stuff
+            id: String,
+            name: String,
             type: {
                 type: String,
                 default: "text",
             },
-            placeholder: {
-                type: String,
-                default: null,
-            },
-            id: String,
-            name: String,
+
+            // User-friendly fields
             label: {
                 type: String,
                 default: null,
             },
-            iconClass: {
+            placeholder: {
                 type: String,
-                default: null
+                default: null,
             },
             value: {
                 type: String,
                 default: null,
             },
 
+            // Prepend icon, if it exists
+            iconClass: {
+                type: String,
+                default: null
+            },
+
+            // Popover, if it exists
             popoverTitle: {
                 type: String,
                 default: null,
@@ -104,6 +115,7 @@
                 default: "bottom",
             },
 
+            // Validation
             shouldValidate: {
                 type: Boolean,
                 default: true,
@@ -113,6 +125,7 @@
                 default: "required"
             },
 
+            // Some misc special types of input
             isTextArea: {
                 type: Boolean,
                 default: false,
