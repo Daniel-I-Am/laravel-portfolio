@@ -157,7 +157,75 @@
                             this.validationClass = 'is-invalid';
                         }
                     }
+                })
+                .click((e) => {
+                    // If we didn't click the submit button, quit now
+                    if (this.type !== 'submit') return;
+                    // Stop the default submit
+                    e.preventDefault();
+                    // Grab the parent form ID and all the input fields of the form
+                    let formID = $(`#${this.id}`)[0].form.id;
+                    let inputFields = $(`#${formID} :input`);
+
+                    // Validate all fields now
+                    inputFields.each((i, e) => {
+                        e.focus();
+                        e.blur();
+                    });
+
+                    // Wait a fraction of a second... the `onblur` needs to trigger
+                    setTimeout(() => {
+                        // Check if all of them are valid.
+                        // Exclude fields that are
+                        // a) submit buttons
+                        // b) hidden inputs
+                        let invalidList = inputFields.filter((i, e) => {
+                            return !(
+                                $(e).hasClass('is-valid')
+                                || $(e).attr('type') === 'submit'
+                                || $(e).attr('type') === 'hidden'
+                            );
+                        });
+
+                        if (invalidList.length === 0) {
+                            // All fields are successfully validated
+                            $(`#${formID}`).submit();
+                        } else {
+                            // We are missing a field, scroll to the first in the list
+                            invalidList[0].scrollIntoView();
+                            invalidList.addClass('incorrect-animate');
+                            setTimeout(() => {
+                                invalidList.removeClass('incorrect-animate');
+                            }, 500);
+                        }
+                    }, 50);
                 });
         },
     }
 </script>
+
+<style>
+    @keyframes incorrect-input-field-animation {
+        0% {
+            transform: rotate(0deg);
+        }
+        25% {
+            transform: rotate(2deg);
+        }
+        50% {
+            transform: rotate(0deg);
+        }
+        75% {
+            transform: rotate(-2deg);
+        }
+        100% {
+            transform: rotate(0deg);
+        }
+    }
+
+    .incorrect-animate {
+        -webkit-animation: incorrect-input-field-animation 300ms linear infinite;
+        -o-animation: incorrect-input-field-animation 300ms linear infinite;
+        animation: incorrect-input-field-animation 300ms linear infinite;
+    }
+</style>
