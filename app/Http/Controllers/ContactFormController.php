@@ -14,7 +14,11 @@ class ContactFormController extends Controller
      */
     public function index()
     {
-        //
+        $contact_forms = ContactForm::latest()->get();
+
+        return view('contact.index', [
+            'contact_forms' => $contact_forms,
+        ]);
     }
 
     /**
