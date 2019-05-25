@@ -35,7 +35,21 @@ class ContactFormController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated_data = $request->validate([
+            'email' => 'required|email|max:191',
+            'name' => 'required|string|max:255',
+            'message' => 'required|string',
+        ]);
+
+        $contact_form = new ContactForm();
+
+        $contact_form->email = $validated_data['email'];
+        $contact_form->name = $validated_data['name'];
+        $contact_form->message = $validated_data['message'];
+
+        $contact_form->save();
+
+        return redirect(route('contact-form.show', $contact_form->id));
     }
 
     /**
