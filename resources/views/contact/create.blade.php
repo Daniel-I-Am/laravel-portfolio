@@ -18,6 +18,13 @@
                                 label="{{ __('portfolio.contact_form.email.label') }}"
                                 icon-class="{{ __('portfolio.contact_form.email.icon') }}"
                                 validation="email"
+
+                                @if(old('email'))
+                                value="{{ old('email') }}"
+                                @endif
+                                @if(sizeof($errors->default->get('email')) !== 0)
+                                v-bind:error_messages="{{json_encode($errors->default->get('email'))}}"
+                                @endif
                             ></input-field>
                             <input-field
                                 id="name_input"
@@ -27,6 +34,13 @@
                                 popover-content="{!! __('portfolio.contact_form.name.popover_content') !!}"
                                 label="{{ __('portfolio.contact_form.name.label') }}"
                                 icon-class="{{ __('portfolio.contact_form.name.icon') }}"
+
+                                @if(old('name'))
+                                value="{{ old('name') }}"
+                                @endif
+                                @if(sizeof($errors->default->get('name')) !== 0)
+                                v-bind:error_messages="{{json_encode($errors->default->get('name'))}}"
+                                @endif
                             ></input-field>
                             <input-field
                                 id="message_input"
@@ -37,6 +51,13 @@
                                 v-bind:is-text-area="true"
                                 v-bind:text-area-cols="30"
                                 v-bind:text-area-rows="10"
+
+                                @if(old('message'))
+                                value="{{ old('message') }}"
+                                @endif
+                                @if(sizeof($errors->default->get('message')) !== 0)
+                                v-bind:error_messages="{{json_encode($errors->default->get('message'))}}"
+                                @endif
                             ></input-field>
                             <input-field
                                 id="submit_button"

@@ -2,6 +2,8 @@
 
 return [
     'navbar_brand' => 'Portfolio',
+    'no-javascript' => 'Javascript lijkt uitgeschakeld. Deze site werkt misschien niet zoals verwacht.',
+
     
     'home' => 'Home',
     'profile' => 'Profiel',
@@ -18,6 +20,7 @@ return [
 
     'contact_details' => 'Contactgegevens',
     'contact_form' => [
+        'success_message' => 'Invullen formulier geslaagd. We zullen binnenkort contact opnemen.',
         'title' => 'Contactformulier',
         'email' => [
             'label' => 'Voer het e-mailadres in waar wij u kunnen bereiken.',

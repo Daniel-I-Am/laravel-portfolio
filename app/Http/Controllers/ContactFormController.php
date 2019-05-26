@@ -28,6 +28,7 @@ class ContactFormController extends Controller
      */
     public function create()
     {
+        session()->reflash();
         return redirect(route('contact'));
     }
 
@@ -53,7 +54,8 @@ class ContactFormController extends Controller
 
         $contact_form->save();
 
-        return redirect(route('contact-form.show', $contact_form->id));
+        session()->flash('success_message', __('portfolio.contact_form.success_message'));
+        return redirect(route('contact-form.create', $contact_form->id));
     }
 
     /**

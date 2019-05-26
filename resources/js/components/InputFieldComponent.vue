@@ -94,6 +94,10 @@
                 type: String,
                 default: null,
             },
+            error_messages: {
+                type: Array,
+                default: function() {return [];},
+            },
 
             // Prepend icon, if it exists
             iconClass: {
@@ -213,6 +217,16 @@
                         }
                     }, 50);
                 });
+            // Check if any messages came through from the back-end
+            if(this.error_messages.length > 0) {
+                this.validationClass = 'is-invalid';
+                this.error_message = this.error_messages.join("\n");
+                let this_input = $(`#${this.id}`);
+                this_input.addClass('incorrect-animate');
+                setTimeout(() => {
+                    this_input.removeClass('incorrect-animate');
+                }, 500);
+            }
         },
     }
 </script>

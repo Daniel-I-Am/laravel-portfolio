@@ -2370,6 +2370,12 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       "default": null
     },
+    error_messages: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    },
     // Prepend icon, if it exists
     iconClass: {
       type: String,
@@ -2477,7 +2483,17 @@ __webpack_require__.r(__webpack_exports__);
           }, 500);
         }
       }, 50);
-    });
+    }); // Check if any messages came through from the back-end
+
+    if (this.error_messages.length > 0) {
+      this.validationClass = 'is-invalid';
+      this.error_message = this.error_messages.join("\n");
+      var this_input = $("#".concat(this.id));
+      this_input.addClass('incorrect-animate');
+      setTimeout(function () {
+        this_input.removeClass('incorrect-animate');
+      }, 500);
+    }
   }
 });
 
