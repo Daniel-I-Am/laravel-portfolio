@@ -18,6 +18,7 @@
                                 label="{{ __('portfolio.contact_form.email.label') }}"
                                 icon-class="{{ __('portfolio.contact_form.email.icon') }}"
                                 validation="email"
+                                v-bind:required="true"
 
                                 @if(old('email'))
                                 value="{{ old('email') }}"
@@ -34,6 +35,7 @@
                                 popover-content="{!! __('portfolio.contact_form.name.popover_content') !!}"
                                 label="{{ __('portfolio.contact_form.name.label') }}"
                                 icon-class="{{ __('portfolio.contact_form.name.icon') }}"
+                                v-bind:required="true"
 
                                 @if(old('name'))
                                 value="{{ old('name') }}"
@@ -48,6 +50,8 @@
                                 placeholder="{{ __('portfolio.contact_form.message.placeholder') }}"
                                 label="{{ __('portfolio.contact_form.message.label') }}"
                                 icon-class="{{ __('portfolio.contact_form.message.icon') }}"
+                                validation="message"
+                                v-bind:required="true"
                                 v-bind:is-text-area="true"
                                 v-bind:text-area-cols="30"
                                 v-bind:text-area-rows="10"
@@ -59,6 +63,7 @@
                                 v-bind:error_messages="{{json_encode($errors->default->get('message'))}}"
                                 @endif
                             ></input-field>
+                            <p>Velden met een<span class="required-input-field"></span> zijn verplicht.</p>
                             <input-field
                                 id="submit_button"
                                 type="submit"

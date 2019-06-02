@@ -1,6 +1,6 @@
 <template>
     <div class="form-group">
-        <label :for="this.id">{{ this.label }}</label>
+        <label :for="this.id" :class="this.required ? 'required-input-field' : ''">{{ this.label }}<span class="sr-only" v-if="this.required">(required)</span></label>
         <div class="input-group mb-2">
             <div class="input-group-prepend" v-if="this.iconClass">
                 <div class="input-group-text">
@@ -44,6 +44,13 @@
                 // Error message to display, null if none
                 error_message: null,
 
+                // A collection of all return messages
+                validationReturnMessages: {
+                    required: "Veld is verplicht",
+                    email: "E-mail voldoet niet aan formaat: user@example.com",
+                    min10chars: "Veld moet minimaal 10 tekens bevatten",
+                },
+
                 // A collection of all available methods
                 validationMethods: {
                     none: (value) => {
@@ -52,7 +59,7 @@
                     required: (value) => {
                         if (value)
                             return true;
-                        this.error_message = "Veld is verplicht";
+                        this.error_message = this.validationReturnMessages.required;
                         return false;
                     },
                     email: (value) => {
@@ -63,12 +70,20 @@
                             if (regex.test(value)) {
                                 return true;
                             }
-                            this.error_message = "E-mail voldoet niet aan formaat: user@example.com";
+                            this.error_message = this.validationReturnMessages.email;
                             return false;
                         }
-                        this.error_message = "Veld is verplicht";
-                        return false;
+                        return this.validationMethods['required'](value);
                     },
+                    message: (value) => {
+                        if (value) {
+                            if (value.length < 10) {
+                                this.error_message = this.validationReturnMessages.min10chars;
+                                return false;
+                            }
+                        }
+                        return this.validationMethods['required'](value);
+                    }
                 }
             }
         },
@@ -127,6 +142,10 @@
             validation: {
                 type: String,
                 default: "required"
+            },
+            required: {
+                type: Boolean,
+                default: false,
             },
 
             // Some misc special types of input
@@ -251,5 +270,10 @@
         -webkit-animation: incorrect-input-field-animation 300ms linear infinite;
         -o-animation: incorrect-input-field-animation 300ms linear infinite;
         animation: incorrect-input-field-animation 300ms linear infinite;
+    }
+
+    .required-input-field:after {
+        content: ' *';
+        color: red;
     }
 </style>

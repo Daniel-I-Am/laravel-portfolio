@@ -2320,6 +2320,12 @@ __webpack_require__.r(__webpack_exports__);
       currentValue: null,
       // Error message to display, null if none
       error_message: null,
+      // A collection of all return messages
+      validationReturnMessages: {
+        required: "Veld is verplicht",
+        email: "E-mail voldoet niet aan formaat: user@example.com",
+        min10chars: "Veld moet minimaal 10 tekens bevatten"
+      },
       // A collection of all available methods
       validationMethods: {
         none: function none(value) {
@@ -2327,7 +2333,7 @@ __webpack_require__.r(__webpack_exports__);
         },
         required: function required(value) {
           if (value) return true;
-          _this.error_message = "Veld is verplicht";
+          _this.error_message = _this.validationReturnMessages.required;
           return false;
         },
         email: function email(value) {
@@ -2339,12 +2345,21 @@ __webpack_require__.r(__webpack_exports__);
               return true;
             }
 
-            _this.error_message = "E-mail voldoet niet aan formaat: user@example.com";
+            _this.error_message = _this.validationReturnMessages.email;
             return false;
           }
 
-          _this.error_message = "Veld is verplicht";
-          return false;
+          return _this.validationMethods['required'](value);
+        },
+        message: function message(value) {
+          if (value) {
+            if (value.length < 10) {
+              _this.error_message = _this.validationReturnMessages.min10chars;
+              return false;
+            }
+          }
+
+          return _this.validationMethods['required'](value);
         }
       }
     };
@@ -2402,6 +2417,10 @@ __webpack_require__.r(__webpack_exports__);
     validation: {
       type: String,
       "default": "required"
+    },
+    required: {
+      type: Boolean,
+      "default": false
     },
     // Some misc special types of input
     isTextArea: {
@@ -7105,7 +7124,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n@-webkit-keyframes incorrect-input-field-animation {\n0% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n25% {\n        -webkit-transform: rotate(2deg);\n                transform: rotate(2deg);\n}\n75% {\n        -webkit-transform: rotate(-2deg);\n                transform: rotate(-2deg);\n}\n100% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n}\n@keyframes incorrect-input-field-animation {\n0% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n25% {\n        -webkit-transform: rotate(2deg);\n                transform: rotate(2deg);\n}\n75% {\n        -webkit-transform: rotate(-2deg);\n                transform: rotate(-2deg);\n}\n100% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n}\n.incorrect-animate {\n    -webkit-animation: incorrect-input-field-animation 300ms linear infinite;\n    animation: incorrect-input-field-animation 300ms linear infinite;\n}\n", ""]);
+exports.push([module.i, "\n@-webkit-keyframes incorrect-input-field-animation {\n0% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n25% {\n        -webkit-transform: rotate(2deg);\n                transform: rotate(2deg);\n}\n75% {\n        -webkit-transform: rotate(-2deg);\n                transform: rotate(-2deg);\n}\n100% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n}\n@keyframes incorrect-input-field-animation {\n0% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n25% {\n        -webkit-transform: rotate(2deg);\n                transform: rotate(2deg);\n}\n75% {\n        -webkit-transform: rotate(-2deg);\n                transform: rotate(-2deg);\n}\n100% {\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n}\n.incorrect-animate {\n    -webkit-animation: incorrect-input-field-animation 300ms linear infinite;\n    animation: incorrect-input-field-animation 300ms linear infinite;\n}\n.required-input-field:after {\n    content: ' *';\n    color: red;\n}\n", ""]);
 
 // exports
 
@@ -39465,7 +39484,19 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "form-group" }, [
-    _c("label", { attrs: { for: this.id } }, [_vm._v(_vm._s(this.label))]),
+    _c(
+      "label",
+      {
+        class: this.required ? "required-input-field" : "",
+        attrs: { for: this.id }
+      },
+      [
+        _vm._v(_vm._s(this.label)),
+        this.required
+          ? _c("span", { staticClass: "sr-only" }, [_vm._v("(required)")])
+          : _vm._e()
+      ]
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "input-group mb-2" }, [
       this.iconClass
