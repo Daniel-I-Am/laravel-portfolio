@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ContactForm;
+use App\Http\Requests\ContactFormRequest;
 use Illuminate\Http\Request;
 
 class ContactFormController extends Controller
@@ -38,21 +39,9 @@ class ContactFormController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ContactFormRequest $request)
     {
-        $validated_data = $request->validate([
-            'email' => 'required|email|max:191',
-            'name' => 'required|string|max:255',
-            'message' => 'required|string',
-        ]);
-
-        $contact_form = new ContactForm();
-
-        $contact_form->email = $validated_data['email'];
-        $contact_form->name = $validated_data['name'];
-        $contact_form->message = $validated_data['message'];
-
-        $contact_form->save();
+        $contact_form = ContactForm::create($request->validated());
 
         session()->flash('success_message', __('portfolio.contact_form.success_message'));
         return redirect(route('contact-form.create', $contact_form->id));
